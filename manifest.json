@@ -1,0 +1,7 @@
+{
+  "name": "VFG",
+  "id": "970646360375908659",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html"
+}
