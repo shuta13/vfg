@@ -1,8 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import './ui.css';
-
-declare function require(path: string): any;
+import '../assets/styles/ui.css';
+import logo from '../assets/images/logo.svg';
 
 class App extends React.Component {
   //@ts-ignore
@@ -28,7 +27,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <img src={require('./logo.svg')} />
+        <img src={logo} />
         <h2>Rectangle Creator</h2>
         <p>
           Count: <input ref={this.countRef} />
