@@ -1,5 +1,5 @@
 {
-  "name": "VFG",
+  "name": "VFG - VJ plugin for Figma",
   "id": "970646360375908659",
   "api": "1.0.0",
   "main": "dist/code.js",
