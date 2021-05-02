@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import logo from '../assets/images/logo.svg';
-import '../assets/styles/ui.css';
+import '../assets/styles/global.css';
 
 const App: React.FC = () => {
   const countRef = useRef<HTMLInputElement | null>(null);
