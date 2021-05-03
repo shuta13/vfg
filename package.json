@@ -11,7 +11,8 @@
     "clean": "rimraf dist",
     "dev": "yarn clean && webpack --mode=development",
     "build": "yarn clean && webpack --mode=production",
-    "watch": "yarn dev --watch"
+    "watch": "yarn dev --watch",
+    "scaff": "yarn scaffdog generate"
   },
   "dependencies": {
     "react": "^17.0.2",
