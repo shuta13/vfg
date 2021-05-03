@@ -1,1 +1,5 @@
 # vfg
+
+## LICENSE
+
+[MIT](LICENSE)
