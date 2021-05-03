@@ -1,1 +1,47 @@
-.Inspector_wrap {}
+.Inspector_workspace_wrap {
+  font-size: var(--font-size-small);
+  background: var(--gray);
+  padding: 0 0.5rem;
+  padding-top: 0.5rem;
+  height: 6rem;
+  overflow: scroll;
+}
+
+.Inspector_workspace_li {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+}
+
+.Inspector_workspace_name {
+  width: 100%;
+  text-align: left;
+  margin-right: 0.5rem;
+  padding: 0.2rem;
+}
+
+.Inspector_workspace_name:hover {
+  background: var(--dark-gray);
+}
+
+.Inspector_workspace_delete {
+  width: 1rem;
+  background: white;
+}
+
+.Inspector_form {
+  margin-top: 0.5rem;
+  font-size: var(--font-size-small);
+}
+
+.Inspector_form_input {
+  margin-right: 0.5rem;
+}
+
+.Inspector_form_submit {
+  background: var(--green);
+  padding: 0.2rem;
+  color: white;
+  width: 2rem;
+}

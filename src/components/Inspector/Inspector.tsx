@@ -44,30 +44,34 @@ export const Inspector: React.FC = () => {
       <header>
         <h2>Inspector</h2>
       </header>
-      <div>
-        {workspaces ? (
+      <div className="Inspector_workspace_wrap">
+        {workspaces.length > 0 ? (
           <ul>
             {workspaces.map((workspace) => (
-              <li key={workspace.name}>
-                <span>
+              <li key={workspace.name} className="Inspector_workspace_li">
+                <button className="Inspector_workspace_name">
                   {workspace.name}
-                  <button onClick={() => handleOnClickDelete(workspace.name)}>
-                    x
-                  </button>
-                </span>
+                </button>
+                <button
+                  onClick={() => handleOnClickDelete(workspace.name)}
+                  className="Inspector_workspace_delete"
+                >
+                  x
+                </button>
               </li>
             ))}
           </ul>
         ) : (
-          <>no workspaces.</>
+          <span>no workspaces</span>
         )}
       </div>
-      <form onSubmit={handleSubmit(addWorkspace)}>
+      <form onSubmit={handleSubmit(addWorkspace)} className="Inspector_form">
         <input
           {...register('name', { required: true })}
           onChange={handleOnFormInput}
+          className="Inspector_form_input"
         />
-        <input type="submit" value="new" />
+        <input type="submit" value="new" className="Inspector_form_submit" />
         {errors.name && <p>required workspace name</p>}
         {isDuplicated && <p>this name is duplicated</p>}
       </form>
