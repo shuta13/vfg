@@ -34,10 +34,9 @@ export const Inspector: React.FC = () => {
     );
   };
 
-  const handleOnFormInput = () => {
-    // NOTE: reset duplicated error message
-    setIsDuplicated(false);
-  };
+  // const handleOnKeyDown = (event: React.KeyboardEvent<HTMLFormElement>) => {
+  //   if (event.code === 'Enter') event.preventDefault();
+  // };
 
   return (
     <section>
@@ -65,10 +64,13 @@ export const Inspector: React.FC = () => {
           <span>no workspaces</span>
         )}
       </div>
-      <form onSubmit={handleSubmit(addWorkspace)} className="Inspector_form">
+      <form
+        onSubmit={handleSubmit(addWorkspace)}
+        className="Inspector_form"
+        // onKeyDown={handleOnKeyDown}
+      >
         <input
           {...register('name', { required: true })}
-          onChange={handleOnFormInput}
           className="Inspector_form_input"
         />
         <input type="submit" value="new" className="Inspector_form_submit" />
