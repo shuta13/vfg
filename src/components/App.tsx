@@ -1,6 +1,7 @@
-import React from 'react';
-// import logo from '../assets/images/logo.svg';
 import '../assets/styles/global.css';
+import React from 'react';
+import { Inspector } from './Inspector';
+// import logo from '../assets/images/logo.svg';
 // import { DefaultCount } from '../config';
 
 const App: React.FC = () => {
@@ -20,6 +21,9 @@ const App: React.FC = () => {
 
   return (
     <main>
+      <div className="container">
+        <Inspector />
+      </div>
       {/* <img src={logo} />
       <h2>Rectangle Creator</h2>
       <p>
