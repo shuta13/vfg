@@ -2,9 +2,6 @@ import React from 'react';
 // import logo from '../assets/images/logo.svg';
 import '../assets/styles/global.css';
 // import { DefaultCount } from '../config';
-import { Controller } from './Controller';
-import { Output } from './Output';
-import { Uploader } from './Uploader';
 
 const App: React.FC = () => {
   // const countRef = useRef<HTMLInputElement | null>(null);
@@ -23,10 +20,6 @@ const App: React.FC = () => {
 
   return (
     <main>
-      <Output />
-      <Uploader />
-      <Uploader />
-      <Controller />
       {/* <img src={logo} />
       <h2>Rectangle Creator</h2>
       <p>
