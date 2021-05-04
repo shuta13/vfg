@@ -1,4 +1,7 @@
+type MsgType = 'create-rectangles' | 'create-workspace';
+
 export type Msg = {
-  type: 'create-rectangles';
+  type: MsgType;
   count: number;
+  workspaceName: string;
 };

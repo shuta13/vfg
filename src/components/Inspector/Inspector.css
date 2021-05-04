@@ -22,7 +22,7 @@
 }
 
 .Inspector_workspace_name:hover {
-  background: var(--dark-gray);
+  background: var(--dull-gray);
 }
 
 .Inspector_workspace_delete {
@@ -45,4 +45,5 @@
   padding: 0.2rem;
   color: white;
   width: 2rem;
+  font-size: var(--font-size-small);
 }

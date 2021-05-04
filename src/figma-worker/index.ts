@@ -2,7 +2,7 @@
 
 import type { Msg } from '../types';
 import { createRectangles } from './create-rectangles';
-import { noop } from '../utils';
+import { createWorkspace } from './create-workspace';
 
 figma.showUI(__html__);
 
@@ -11,10 +11,12 @@ figma.ui.onmessage = (msg: Msg) => {
     case 'create-rectangles':
       createRectangles(msg);
       break;
+    case 'create-workspace':
+      createWorkspace(msg);
+      break;
     default:
-      noop();
       break;
   }
 
-  figma.closePlugin();
+  // figma.closePlugin();
 };

@@ -23,7 +23,15 @@ export const Inspector: React.FC = () => {
         return prevState;
       } else {
         setIsDuplicated(false);
-        return [{ name: data.name }, ...prevState];
+        // TODO: rect 生成
+        const workspaceName = data.name;
+        parent.postMessage(
+          {
+            pluginMessage: { type: 'create-workspace', workspaceName },
+          },
+          '*'
+        );
+        return [{ name: workspaceName }, ...prevState];
       }
     });
   };
@@ -33,10 +41,6 @@ export const Inspector: React.FC = () => {
       prevState.filter((workspace) => workspace.name !== workspaceName)
     );
   };
-
-  // const handleOnKeyDown = (event: React.KeyboardEvent<HTMLFormElement>) => {
-  //   if (event.code === 'Enter') event.preventDefault();
-  // };
 
   return (
     <section>
@@ -64,18 +68,14 @@ export const Inspector: React.FC = () => {
           <span>no workspaces</span>
         )}
       </div>
-      <form
-        onSubmit={handleSubmit(addWorkspace)}
-        className="Inspector_form"
-        // onKeyDown={handleOnKeyDown}
-      >
+      <form onSubmit={handleSubmit(addWorkspace)} className="Inspector_form">
         <input
           {...register('name', { required: true })}
           className="Inspector_form_input"
         />
         <input type="submit" value="new" className="Inspector_form_submit" />
         {errors.name && <p>required workspace name</p>}
-        {isDuplicated && <p>this name is duplicated</p>}
+        {isDuplicated && !errors.name && <p>this name is duplicated</p>}
       </form>
     </section>
   );
