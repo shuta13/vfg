@@ -23,7 +23,6 @@ export const Inspector: React.FC = () => {
         return prevState;
       } else {
         setIsDuplicated(false);
-        // TODO: rect 生成
         const workspaceName = data.name;
         parent.postMessage(
           {

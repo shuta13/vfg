@@ -10,5 +10,6 @@ export const createWorkspace = (msg: Msg) => {
   nodes.push(workspace);
 
   figma.currentPage.selection = nodes;
+
   figma.viewport.scrollAndZoomIntoView(nodes);
 };
