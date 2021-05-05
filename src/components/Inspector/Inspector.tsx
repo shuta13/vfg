@@ -1,6 +1,12 @@
 import './Inspector.css';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import {
+  selectWorkspace,
+  setWorkspace,
+  deleteWorkspace,
+} from '../../redux/slice';
 
 type Workspace = {
   name: string;
@@ -13,32 +19,29 @@ export const Inspector: React.FC = () => {
     formState: { errors },
   } = useForm<Workspace>();
 
-  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
+  const workspaces = useAppSelector(selectWorkspace);
+  const dispatch = useAppDispatch();
+
   const [isDuplicated, setIsDuplicated] = useState(false);
 
   const addWorkspace = (data: Workspace) => {
-    setWorkspaces((prevState) => {
-      if (prevState.some((workspace) => workspace.name === data.name)) {
-        setIsDuplicated(true);
-        return prevState;
-      } else {
-        setIsDuplicated(false);
-        const workspaceName = data.name;
-        parent.postMessage(
-          {
-            pluginMessage: { type: 'create-workspace', workspaceName },
-          },
-          '*'
-        );
-        return [{ name: workspaceName }, ...prevState];
-      }
-    });
+    if (workspaces.some((workspace) => workspace.name === data.name)) {
+      setIsDuplicated(true);
+    } else {
+      setIsDuplicated(false);
+      const workspaceName = data.name;
+      parent.postMessage(
+        {
+          pluginMessage: { type: 'create-workspace', workspaceName },
+        },
+        '*'
+      );
+      dispatch(setWorkspace({ name: data.name }));
+    }
   };
 
   const handleOnClickDelete = (workspaceName: Workspace['name']) => {
-    setWorkspaces((prevState) =>
-      prevState.filter((workspace) => workspace.name !== workspaceName)
-    );
+    dispatch(deleteWorkspace({ name: workspaceName }));
   };
 
   return (
