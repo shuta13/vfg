@@ -13,7 +13,9 @@ export const createWorkspace = (msg: Msg) => {
   const newNodes = [];
   const workspace = figma.createFrame();
   workspace.name = WorkspaceConstants.namePrefix + msg.workspaceName;
+  workspace.resize(WorkspaceConstants.width, WorkspaceConstants.height);
   workspace.x = lastNodePosition + WorkspaceConstants.margin;
+  workspace.opacity = WorkspaceConstants.opacity;
   figma.currentPage.appendChild(workspace);
 
   newNodes.push(workspace);

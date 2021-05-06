@@ -1,1 +1,1 @@
-export * from './figma-worker';
+export * from './figma-worker-constants';
