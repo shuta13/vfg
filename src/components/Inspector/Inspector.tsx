@@ -41,6 +41,12 @@ export const Inspector: React.FC = () => {
   };
 
   const handleOnClickDelete = (workspaceName: Workspace['name']) => {
+    parent.postMessage(
+      {
+        pluginMessage: { type: 'remove-workspace', workspaceName },
+      },
+      '*'
+    );
     dispatch(deleteWorkspace({ name: workspaceName }));
   };
 

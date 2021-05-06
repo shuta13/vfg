@@ -2,7 +2,7 @@
 
 import type { Msg } from '../types';
 import { createRectangles } from './create-rectangles';
-import { createWorkspace } from './create-workspace';
+import { createWorkspace, removeWorkspace } from './workspace';
 
 figma.showUI(__html__);
 
@@ -22,6 +22,9 @@ figma.ui.onmessage = (msg: Msg) => {
       break;
     case 'create-workspace':
       createWorkspace(msg);
+      break;
+    case 'remove-workspace':
+      removeWorkspace(msg);
       break;
     default:
       break;
