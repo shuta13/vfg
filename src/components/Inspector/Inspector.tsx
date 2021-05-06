@@ -55,7 +55,7 @@ export const Inspector: React.FC = () => {
   return (
     <section>
       <header>
-        <h2>Inspector</h2>
+        <h2>Workspace Inspector</h2>
       </header>
       <div className="Inspector_workspace_wrap">
         {workspaces.length > 0 ? (
