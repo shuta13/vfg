@@ -1,5 +1,5 @@
 import './Inspector.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
@@ -43,6 +43,14 @@ export const Inspector: React.FC = () => {
   const handleOnClickDelete = (workspaceName: Workspace['name']) => {
     dispatch(deleteWorkspace({ name: workspaceName }));
   };
+
+  useEffect(() => {
+    onmessage = (event) => {
+      event.data.pluginMessage.map((msg: { id: string; name: string }) => {
+        dispatch(setWorkspace({ name: msg.name }));
+      });
+    };
+  }, []);
 
   return (
     <section>
