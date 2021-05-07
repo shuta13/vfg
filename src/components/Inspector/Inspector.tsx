@@ -64,6 +64,16 @@ export const Inspector: React.FC = () => {
     dispatch(setSelectedWorkspace({ workspaceName }));
   };
 
+  const renderFormError = () => {
+    if (errors.name) {
+      return <>Required workspace name</>;
+    }
+    if (isDuplicated && !errors.name) {
+      return <>This name is duplicated</>;
+    }
+    return <>Enter workspace name</>;
+  };
+
   useEffect(() => {
     onmessage = (event) => {
       const { workspaceNames, selectionNames } = event.data.pluginMessage;
@@ -113,16 +123,11 @@ export const Inspector: React.FC = () => {
         <input
           {...register('name', { required: true })}
           className="Inspector_form_input"
-          placeholder="Enter workspace name"
+          placeholder="workspace name"
         />
         <input type="submit" value="new" className="Inspector_form_submit" />
       </form>
-      {errors.name && (
-        <p className="Inspector_form_warning">Required workspace name</p>
-      )}
-      {isDuplicated && !errors.name && (
-        <p className="Inspector_form_warning">This name is duplicated</p>
-      )}
+      <p className="Inspector_form_warning">{renderFormError()}</p>
     </section>
   );
 };

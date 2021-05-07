@@ -44,6 +44,7 @@
 
 .MediaUploader_warning {
   font-size: var(--font-size-small);
+  height: 1.5rem;
 }
 
 .MediaUploader_uploaded_delete {
