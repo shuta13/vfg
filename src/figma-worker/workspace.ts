@@ -52,12 +52,3 @@ export const removeWorkspace = (msg: Msg) => {
       node.remove();
     });
 };
-
-export const createPreview = (msg: Msg) => {
-  figma.currentPage.findAll(
-    (node) =>
-      node.type === 'FRAME' &&
-      node.name.includes(PreviewConstants.suffix) &&
-      node.name.includes(msg.workspaceName)
-  );
-};
