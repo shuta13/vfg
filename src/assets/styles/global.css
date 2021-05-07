@@ -5,7 +5,7 @@
   --gray: #eeeeee;
   --dull-gray: #cecece;
   --black: #333333;
-  --green: #58b37e;
+  --green: #5aaa7b;
 }
 
 * {
@@ -60,5 +60,4 @@ input[type='submit'] {
   cursor: pointer;
   outline: none;
   appearance: none;
-  border-radius: 0.4rem;
 }

@@ -43,6 +43,7 @@
   height: 2rem;
   padding: 0.5rem;
   width: 100%;
+  border: solid 1px var(--black);
 }
 
 .Inspector_form_submit {
@@ -51,4 +52,9 @@
   width: 3.5rem;
   height: 2rem;
   font-size: var(--font-size-small);
+}
+
+.Inspector_form_warning {
+  font-size: var(--font-size-small);
+  color: var(--black);
 }

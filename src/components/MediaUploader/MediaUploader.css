@@ -1,1 +1,16 @@
-.MediaUploader_wrap {}
+.MediaUploader_wrap {
+  height: 8rem;
+  border: solid 1px var(--black);
+}
+
+.MediaUploader_Input {
+  height: 100%;
+}
+
+.MediaUploader_indication {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--font-size-small);
+}

@@ -102,9 +102,13 @@ export const Inspector: React.FC = () => {
           className="Inspector_form_input"
         />
         <input type="submit" value="new" className="Inspector_form_submit" />
-        {errors.name && <p>required workspace name</p>}
-        {isDuplicated && !errors.name && <p>this name is duplicated</p>}
       </form>
+      {errors.name && (
+        <p className="Inspector_form_warning">required workspace name</p>
+      )}
+      {isDuplicated && !errors.name && (
+        <p className="Inspector_form_warning">this name is duplicated</p>
+      )}
     </section>
   );
 };
