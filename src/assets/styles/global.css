@@ -29,6 +29,10 @@ html {
   height: 100%;
 }
 
+.container > section {
+  margin-bottom: 0.5rem;
+}
+
 ul {
   list-style: none;
   padding: 0;
@@ -56,5 +60,5 @@ input[type='submit'] {
   cursor: pointer;
   outline: none;
   appearance: none;
-  border-radius: 0.2rem;
+  border-radius: 0.4rem;
 }

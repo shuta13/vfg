@@ -1,3 +1,12 @@
+const PluginUIHeader = {
+  height: 41,
+};
+
+export const PluginUI = {
+  width: 400,
+  height: 480 - PluginUIHeader.height,
+};
+
 export const WorkspaceConstants = {
   suffix: 'Controlls',
   width: 320,

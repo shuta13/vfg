@@ -3,7 +3,7 @@
   background: var(--gray);
   padding: 0 0.5rem;
   padding-top: 0.5rem;
-  height: 6rem;
+  height: 8rem;
   overflow: scroll;
 }
 
@@ -19,6 +19,7 @@
   text-align: left;
   margin-right: 0.5rem;
   padding: 0.2rem;
+  min-height: 2rem;
 }
 
 .Inspector_workspace_name:hover {
@@ -26,24 +27,28 @@
 }
 
 .Inspector_workspace_delete {
-  width: 1rem;
-  height: 1rem;
+  width: 1.5rem;
   background: white;
+  font-size: var(--font-size-medium);
 }
 
 .Inspector_form {
   margin-top: 0.5rem;
   font-size: var(--font-size-small);
+  display: flex;
 }
 
 .Inspector_form_input {
   margin-right: 0.5rem;
+  height: 2rem;
+  padding: 0.5rem;
+  width: 100%;
 }
 
 .Inspector_form_submit {
   background: var(--green);
-  padding: 0.2rem;
   color: white;
-  width: 2rem;
+  width: 3.5rem;
+  height: 2rem;
   font-size: var(--font-size-small);
 }

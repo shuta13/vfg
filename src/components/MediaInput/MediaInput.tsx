@@ -3,6 +3,10 @@ import React from 'react';
 
 export const MediaInput: React.FC = () => {
   return (
-    <section></section>
+    <section>
+      <header>
+        <h1>Media</h1>
+      </header>
+    </section>
   );
 };

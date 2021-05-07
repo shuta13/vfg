@@ -70,7 +70,7 @@ export const Inspector: React.FC = () => {
   return (
     <section>
       <header>
-        <h2>Workspace Inspector</h2>
+        <h1>Workspace Inspector</h1>
       </header>
       <div className="Inspector_workspace_wrap">
         {inspectorValues.length > 0 ? (
@@ -87,7 +87,7 @@ export const Inspector: React.FC = () => {
                   onClick={() => handleOnClickDelete(value.workspaceName)}
                   className="Inspector_workspace_delete"
                 >
-                  x
+                  ×
                 </button>
               </li>
             ))}
