@@ -14,11 +14,12 @@
   padding-bottom: 0.5rem;
 }
 
-.Inspector_workspace_name {
+.Inspector_workspace_name,
+.Inspector_workspace_name--selected {
   width: 100%;
   text-align: left;
   margin-right: 0.5rem;
-  padding: 0.2rem;
+  padding: 0.5rem;
   min-height: 2rem;
 }
 
@@ -26,10 +27,17 @@
   background: var(--dull-gray);
 }
 
+.Inspector_workspace_name--selected {
+  background: var(--dull-gray);
+}
+
 .Inspector_workspace_delete {
   width: 1.5rem;
-  background: white;
   font-size: var(--font-size-medium);
+}
+
+.Inspector_workspace_delete:hover {
+  background: var(--dull-gray);
 }
 
 .Inspector_form {

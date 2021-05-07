@@ -23,6 +23,7 @@ export const Inspector: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [isDuplicated, setIsDuplicated] = useState(false);
+  const [selectedWorkspace, setSelectedWorkspace] = useState('');
 
   const addWorkspace = (data: Workspace) => {
     if (inspectorValues.some((value) => value.workspaceName === data.name)) {
@@ -37,6 +38,7 @@ export const Inspector: React.FC = () => {
         '*'
       );
       dispatch(setWorkspaceName({ workspaceName: data.name }));
+      setSelectedWorkspace(workspaceName);
     }
   };
 
@@ -48,6 +50,7 @@ export const Inspector: React.FC = () => {
       '*'
     );
     dispatch(deleteWorkspaceName({ workspaceName }));
+    setSelectedWorkspace('');
   };
 
   const handleOnClickFocus = (workspaceName: Workspace['name']) => {
@@ -57,6 +60,7 @@ export const Inspector: React.FC = () => {
       },
       '*'
     );
+    setSelectedWorkspace(workspaceName);
   };
 
   useEffect(() => {
@@ -78,7 +82,11 @@ export const Inspector: React.FC = () => {
             {inspectorValues.map((value) => (
               <li key={value.workspaceName} className="Inspector_workspace_li">
                 <button
-                  className="Inspector_workspace_name"
+                  className={
+                    value.workspaceName === selectedWorkspace
+                      ? 'Inspector_workspace_name--selected'
+                      : 'Inspector_workspace_name'
+                  }
                   onClick={() => handleOnClickFocus(value.workspaceName)}
                 >
                   {value.workspaceName}
@@ -93,13 +101,14 @@ export const Inspector: React.FC = () => {
             ))}
           </ul>
         ) : (
-          <span>no workspaces</span>
+          <span>No workspaces</span>
         )}
       </div>
       <form onSubmit={handleSubmit(addWorkspace)} className="Inspector_form">
         <input
           {...register('name', { required: true })}
           className="Inspector_form_input"
+          placeholder="Enter workspace name"
         />
         <input type="submit" value="new" className="Inspector_form_submit" />
       </form>

@@ -4,8 +4,10 @@
   --font-size-small: 0.8rem;
   --gray: #eeeeee;
   --dull-gray: #cecece;
+  --dark-gray: #999999;
   --black: #333333;
-  --green: #5aaa7b;
+  --blue: #73a0c4;
+  --green: #73c48b;
 }
 
 * {
