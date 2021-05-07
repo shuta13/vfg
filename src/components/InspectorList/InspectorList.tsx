@@ -4,9 +4,10 @@ import React from 'react';
 type Props = {
   currentNames: string[];
   selectedName: string;
+  workspaceName?: string;
   /* eslint-disable no-unused-vars */
   handleOnClickFocus: (currentName: string) => void;
-  handleOnClickDelete: (currentName: string) => void;
+  handleOnClickDelete: (currentName: string, workspaceName?: string) => void;
   /* eslint-enable no-unused-vars */
 };
 
@@ -16,6 +17,7 @@ export const InspectorList: React.FC<Props> = (props) => {
     selectedName,
     handleOnClickFocus,
     handleOnClickDelete,
+    workspaceName,
   } = props;
   return (
     <ul>
@@ -32,7 +34,7 @@ export const InspectorList: React.FC<Props> = (props) => {
             {currentName}
           </button>
           <button
-            onClick={() => handleOnClickDelete(currentName)}
+            onClick={() => handleOnClickDelete(currentName, workspaceName)}
             className="InspectorList_workspace_delete"
           >
             ×

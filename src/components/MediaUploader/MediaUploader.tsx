@@ -72,12 +72,13 @@ export const MediaUploader: React.FC = () => {
     dispatch(setSelectedFileName({ uploadedFileName: fileName }));
   };
 
-  const handleOnClickDelete = (fileName: string) => {
+  const handleOnClickDelete = (fileName: string, workspaceName?: string) => {
     parent.postMessage(
       {
         pluginMessage: {
           type: 'remove-media-input',
           uploadedFileName: fileName,
+          workspaceName: workspaceName ?? '',
         },
       },
       '*'
@@ -140,6 +141,7 @@ export const MediaUploader: React.FC = () => {
             selectedName={selectedFileName}
             handleOnClickFocus={handleOnClickFocus}
             handleOnClickDelete={handleOnClickDelete}
+            workspaceName={selectedWorkspace}
           />
         ) : (
           <p className="MediaUploader_indication">No media</p>

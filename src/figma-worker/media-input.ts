@@ -41,6 +41,7 @@ export const createMediaInput = (msg: Msg) => {
       mediaRect.x = (WorkspaceConstants.width / 4) * index;
       // mediaRect.fills = [{ type: 'IMAGE', scaleMode: 'FILL', imageHash: '' }];
       mediaRect.setPluginData('type', MediaInputConstants.name);
+      mediaRect.setPluginData('workspaceName', msg.workspaceName);
       mediaInput.appendChild(mediaRect);
     });
 
@@ -57,7 +58,9 @@ export const removeMediaInput = (msg: Msg) => {
   figma.currentPage
     .findAll(
       (node) =>
-        node.type === 'RECTANGLE' && node.name.includes(msg.uploadedFileName)
+        node.type === 'RECTANGLE' &&
+        node.getPluginData('workspaceName') === msg.workspaceName &&
+        node.getPluginData('type') === MediaInputConstants.name
     )
     .forEach((node) => {
       node.remove();
