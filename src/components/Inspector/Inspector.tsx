@@ -89,7 +89,9 @@ export const Inspector: React.FC = () => {
       selectionNames.map((selectionName: string) =>
         dispatch(setSelectedWorkspace({ workspaceName: selectionName }))
       );
-      dispatch(setUploadedFileNames({ uploadedFileNames: mediaInputNames }));
+      mediaInputNames.forEach((mediaInputName: string) => {
+        dispatch(setUploadedFileNames({ uploadedFileName: mediaInputName }));
+      });
     };
   }, []);
 

@@ -6,7 +6,7 @@ export type InspectorValue = {
 };
 
 export type MediaInputValue = {
-  uploadedFileNames: string[];
+  uploadedFileName: string;
 };
 
 export type InspectorState = {
@@ -40,7 +40,15 @@ export const inspectorSlice = createSlice({
       state.selectedWorkspace = action.payload.workspaceName;
     },
     setUploadedFileNames: (state, action: PayloadAction<MediaInputValue>) => {
-      state.uploadedFileNames = action.payload.uploadedFileNames;
+      state.uploadedFileNames = [
+        ...new Set([
+          ...state.uploadedFileNames,
+          action.payload.uploadedFileName,
+        ]),
+      ];
+    },
+    resetUploadedFileNames: (state) => {
+      state.uploadedFileNames = [];
     },
   },
 });
@@ -51,6 +59,7 @@ export const {
   deleteWorkspaceName,
   setSelectedWorkspace,
   setUploadedFileNames,
+  resetUploadedFileNames,
 } = inspectorSlice.actions;
 
 export const selectWorkspace = (state: RootState) => ({

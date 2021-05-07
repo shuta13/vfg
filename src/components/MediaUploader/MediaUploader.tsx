@@ -1,5 +1,5 @@
 import './MediaUploader.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 import { useAppSelector } from '../../redux/hooks';
@@ -33,23 +33,31 @@ export const MediaUploader: React.FC = () => {
 
   const dispatch = useDispatch();
 
+  const [hasDuplicatedFileName, setHasDuplicatedFileName] = useState(false);
+
   useEffect(() => {
-    if (acceptedFiles.length > 0)
-      dispatch(
-        setUploadedFileNames({
-          uploadedFileNames: acceptedFiles.map((file) => file.name),
-        })
-      );
+    if (acceptedFiles.length > 0) {
+      acceptedFiles.forEach((acceptedFile) => {
+        if (uploadedFileNames.includes(acceptedFile.name)) {
+          setHasDuplicatedFileName(true);
+        } else {
+          dispatch(
+            setUploadedFileNames({
+              uploadedFileName: acceptedFile.name,
+            })
+          );
+          setHasDuplicatedFileName(false);
+        }
+      });
+    }
   }, [acceptedFiles]);
 
   const handleOnClickDelete = (fileName: string) => {
-    dispatch(
-      setUploadedFileNames({
-        uploadedFileNames: acceptedFiles
-          .filter((file) => file.name !== fileName)
-          .map((file) => file.name),
-      })
-    );
+    acceptedFiles
+      .filter((file) => file.name !== fileName)
+      .forEach((file) => {
+        dispatch(setUploadedFileNames({ uploadedFileName: file.name }));
+      });
   };
 
   const handleOnClickUpload = () => {
@@ -142,6 +150,11 @@ export const MediaUploader: React.FC = () => {
             ))}
           </p>
         ))}
+      {hasDuplicatedFileName && (
+        <p className="MediaUploader_warning">
+          Uploaded files have duplicated ones
+        </p>
+      )}
     </section>
   );
 };
