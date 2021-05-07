@@ -1,5 +1,6 @@
-import { Msg } from '../../types';
-import { PreviewConstants, WorkspaceConstants } from '../../config';
+import { Msg } from '../types';
+import { WorkspaceConstants } from '../config';
+import { createPreview } from './internal';
 
 export const createWorkspace = (msg: Msg) => {
   const nodesPositionX = figma.currentPage.children.map(
@@ -12,23 +13,16 @@ export const createWorkspace = (msg: Msg) => {
 
   const newNodes = [];
 
-  // workspace
+  // create workspace frame
   const workspace = figma.createFrame();
   workspace.name = `[${msg.workspaceName}] ${WorkspaceConstants.suffix}`;
   workspace.resize(WorkspaceConstants.width, WorkspaceConstants.height);
   workspace.x = lastNodePosition + WorkspaceConstants.margin;
-
-  // preview
-  const preview = figma.createFrame();
-  preview.name = `[${msg.workspaceName}] ${PreviewConstants.suffix}`;
-  preview.resize(PreviewConstants.width, PreviewConstants.height);
-  preview.x = lastNodePosition + WorkspaceConstants.margin;
-  preview.y = WorkspaceConstants.height + WorkspaceConstants.margin;
-
   figma.currentPage.appendChild(workspace);
-  figma.currentPage.appendChild(preview);
-
   newNodes.push(workspace);
+
+  const preview = createPreview(msg.workspaceName, lastNodePosition);
+  figma.currentPage.appendChild(preview);
   newNodes.push(preview);
 
   figma.currentPage.selection = newNodes;

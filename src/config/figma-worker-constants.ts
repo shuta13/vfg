@@ -9,4 +9,4 @@ export const PreviewConstants = {
   suffix: 'Preview',
   width: WorkspaceConstants.width,
   height: WorkspaceConstants.height / 4,
-};
+} as const;

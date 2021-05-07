@@ -1,12 +1,8 @@
 /// <reference path="../../node_modules/@figma/plugin-typings/index.d.ts" />
 
 import type { Msg } from '../types';
-import {
-  initialize,
-  createWorkspace,
-  focusWorkspace,
-  removeWorkspace,
-} from './internal';
+import { initialize } from './helper';
+import { createWorkspace, focusWorkspace, removeWorkspace } from './workspace';
 
 figma.showUI(__html__);
 
