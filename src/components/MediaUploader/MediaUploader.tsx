@@ -23,7 +23,9 @@ export const MediaUploader: React.FC = () => {
       return null;
     },
   });
-  const { inspectorValues } = useAppSelector(selectWorkspace);
+  const { inspectorValues, selectedWorkspace } = useAppSelector(
+    selectWorkspace
+  );
 
   const [uploadedFiles, setUploadFiles] = useState<File[]>([]);
 
@@ -35,6 +37,19 @@ export const MediaUploader: React.FC = () => {
   const handleOnClickDelete = (fileName: string) => {
     setUploadFiles((prevState) =>
       prevState.filter((state) => state.name !== fileName)
+    );
+  };
+
+  const handleOnClickUpload = () => {
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'create-media-input',
+          workspaceName: selectedWorkspace,
+          uploadedFileNames: uploadedFiles.map((file) => file.name),
+        },
+      },
+      '*'
     );
   };
 
@@ -101,6 +116,7 @@ export const MediaUploader: React.FC = () => {
             : 'MediaUploader_upload'
         }
         disabled={!(uploadedFiles.length > 0)}
+        onClick={handleOnClickUpload}
       >
         upload
       </button>

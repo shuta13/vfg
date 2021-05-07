@@ -1,7 +1,11 @@
-type MsgType = 'create-workspace' | 'remove-workspace' | 'focus-workspace';
+type MsgType =
+  | 'create-workspace'
+  | 'remove-workspace'
+  | 'focus-workspace'
+  | 'create-media-input';
 
 export type Msg = {
   type: MsgType;
-  count: number;
   workspaceName: string;
+  uploadedFileNames: string[];
 };
