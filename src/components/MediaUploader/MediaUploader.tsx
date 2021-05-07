@@ -84,7 +84,16 @@ export const MediaUploader: React.FC = () => {
           <p className="MediaUploader_indication">No media</p>
         </div>
       )}
-      <button className="MediaUploader_upload">upload</button>
+      <button
+        className={
+          !(uploadedFiles.length > 0)
+            ? 'MediaUploader_upload--disabled'
+            : 'MediaUploader_upload'
+        }
+        disabled={!(uploadedFiles.length > 0)}
+      >
+        upload
+      </button>
       {fileRejections.length > 0 &&
         fileRejections.map((rejection, index) => (
           <p className="MediaUploader_warning" key={index}>
