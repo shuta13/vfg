@@ -9,7 +9,7 @@ export const MediaUploader: React.FC = () => {
     console.log(acceptedFiles);
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-  const inspectorValues = useAppSelector(selectWorkspace);
+  const { inspectorValues } = useAppSelector(selectWorkspace);
 
   return (
     <section>

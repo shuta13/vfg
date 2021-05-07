@@ -6,6 +6,7 @@ import {
   selectWorkspace,
   setWorkspaceName,
   deleteWorkspaceName,
+  setSelectedWorkspace,
 } from '../../redux/slice';
 
 type Workspace = {
@@ -19,11 +20,12 @@ export const Inspector: React.FC = () => {
     formState: { errors },
   } = useForm<Workspace>();
 
-  const inspectorValues = useAppSelector(selectWorkspace);
+  const { inspectorValues, selectedWorkspace } = useAppSelector(
+    selectWorkspace
+  );
   const dispatch = useAppDispatch();
 
   const [isDuplicated, setIsDuplicated] = useState(false);
-  const [selectedWorkspace, setSelectedWorkspace] = useState('');
 
   const addWorkspace = (data: Workspace) => {
     if (inspectorValues.some((value) => value.workspaceName === data.name)) {
@@ -38,7 +40,7 @@ export const Inspector: React.FC = () => {
         '*'
       );
       dispatch(setWorkspaceName({ workspaceName: data.name }));
-      setSelectedWorkspace(workspaceName);
+      dispatch(setSelectedWorkspace({ workspaceName }));
     }
   };
 
@@ -50,7 +52,6 @@ export const Inspector: React.FC = () => {
       '*'
     );
     dispatch(deleteWorkspaceName({ workspaceName }));
-    setSelectedWorkspace('');
   };
 
   const handleOnClickFocus = (workspaceName: Workspace['name']) => {
@@ -60,14 +61,18 @@ export const Inspector: React.FC = () => {
       },
       '*'
     );
-    setSelectedWorkspace(workspaceName);
+    dispatch(setSelectedWorkspace({ workspaceName }));
   };
 
   useEffect(() => {
     onmessage = (event) => {
-      event.data.pluginMessage.map((msg: { id: string; name: string }) => {
+      const { workspaceNames, selectionNames } = event.data.pluginMessage;
+      workspaceNames.map((msg: { name: string }) => {
         dispatch(setWorkspaceName({ workspaceName: msg.name }));
       });
+      selectionNames.map((selectionName: string) =>
+        dispatch(setSelectedWorkspace({ workspaceName: selectionName }))
+      );
     };
   }, []);
 
