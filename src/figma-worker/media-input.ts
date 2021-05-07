@@ -45,6 +45,8 @@ export const createMediaInput = (msg: Msg) => {
     figma.currentPage.appendChild(mediaInput);
     newNodes.push(mediaInput);
   } else {
-    figma.notify('Select the workspace where you want to add the media input');
+    figma.notify(
+      'Select the workspace where you want to add the media input in Workspace Inspector'
+    );
   }
 };

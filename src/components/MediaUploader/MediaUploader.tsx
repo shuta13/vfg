@@ -1,10 +1,17 @@
 import './MediaUploader.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 import { useAppSelector } from '../../redux/hooks';
-import { selectWorkspace } from '../../redux/slice';
+import { selectWorkspace, setUploadedFileNames } from '../../redux/slice';
 
 export const MediaUploader: React.FC = () => {
+  const {
+    inspectorValues,
+    selectedWorkspace,
+    uploadedFileNames,
+  } = useAppSelector(selectWorkspace);
+
   const {
     getRootProps,
     getInputProps,
@@ -23,20 +30,25 @@ export const MediaUploader: React.FC = () => {
       return null;
     },
   });
-  const { inspectorValues, selectedWorkspace } = useAppSelector(
-    selectWorkspace
-  );
 
-  const [uploadedFiles, setUploadFiles] = useState<File[]>([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (acceptedFiles.length > 0)
-      setUploadFiles((prevState) => [...acceptedFiles, ...prevState]);
+      dispatch(
+        setUploadedFileNames({
+          uploadedFileNames: acceptedFiles.map((file) => file.name),
+        })
+      );
   }, [acceptedFiles]);
 
   const handleOnClickDelete = (fileName: string) => {
-    setUploadFiles((prevState) =>
-      prevState.filter((state) => state.name !== fileName)
+    dispatch(
+      setUploadedFileNames({
+        uploadedFileNames: acceptedFiles
+          .filter((file) => file.name !== fileName)
+          .map((file) => file.name),
+      })
     );
   };
 
@@ -46,7 +58,7 @@ export const MediaUploader: React.FC = () => {
         pluginMessage: {
           type: 'create-media-input',
           workspaceName: selectedWorkspace,
-          uploadedFileNames: uploadedFiles.map((file) => file.name),
+          uploadedFileNames: uploadedFileNames,
         },
       },
       '*'
@@ -88,15 +100,15 @@ export const MediaUploader: React.FC = () => {
         </div>
       )}
       <h2>Inbox</h2>
-      {uploadedFiles.length > 0 ? (
+      {uploadedFileNames.length > 0 ? (
         <ul>
           <div className="MediaUploader_uploaded_wrap_list">
-            {uploadedFiles.map((file) => (
-              <li className="MediaUploader_uploaded_list" key={file.size}>
-                <span>{file.name}</span>
+            {uploadedFileNames.map((fileName) => (
+              <li className="MediaUploader_uploaded_list" key={fileName}>
+                <span>{fileName}</span>
                 <button
                   className="MediaUploader_uploaded_delete"
-                  onClick={() => handleOnClickDelete(file.name)}
+                  onClick={() => handleOnClickDelete(fileName)}
                 >
                   ×
                 </button>
@@ -111,11 +123,11 @@ export const MediaUploader: React.FC = () => {
       )}
       <button
         className={
-          !(uploadedFiles.length > 0)
+          !(uploadedFileNames.length > 0)
             ? 'MediaUploader_upload--disabled'
             : 'MediaUploader_upload'
         }
-        disabled={!(uploadedFiles.length > 0)}
+        disabled={!(uploadedFileNames.length > 0)}
         onClick={handleOnClickUpload}
       >
         upload

@@ -52,6 +52,7 @@ export const Inspector: React.FC = () => {
       '*'
     );
     dispatch(deleteWorkspaceName({ workspaceName }));
+    dispatch(setSelectedWorkspace({ workspaceName: '' }));
   };
 
   const handleOnClickFocus = (workspaceName: Workspace['name']) => {
