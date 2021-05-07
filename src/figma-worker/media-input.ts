@@ -39,6 +39,8 @@ export const createMediaInput = (msg: Msg) => {
       mediaRect.name = `[${msg.workspaceName}] ${fileName}`;
       mediaRect.resize(PreviewConstants.width / 4, PreviewConstants.height / 4);
       mediaRect.x = (WorkspaceConstants.width / 4) * index;
+      // mediaRect.fills = [{ type: 'IMAGE', scaleMode: 'FILL', imageHash: '' }];
+      mediaRect.setPluginData('type', MediaInputConstants.name);
       mediaInput.appendChild(mediaRect);
     });
 

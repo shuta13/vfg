@@ -1,17 +1,25 @@
+import { MediaInputConstants, WorkspaceConstants } from '../../config';
+
 const formatWorkspaceName = (workspaceName: string) =>
   workspaceName.split(']')[0].replace('[', '');
 
+const formatMediaInputName = (mediaInputName: string) =>
+  mediaInputName.split(' ')[1];
+
 export const initialize = () => {
-  // Get frame as workspace from figma ui
-  // @see: https://qiita.com/seya/items/cb1a1a5350311549d41f
-  const componentNodes = figma.root.findAll((node) => node.type === 'FRAME');
+  const workspaceFrameNodes = figma.root.findAll(
+    (node) => node.getPluginData('type') === WorkspaceConstants.suffix
+  );
   // Shape, remove duplicate workspace names
-  const componentNames = [
-    ...new Set(componentNodes.map((node) => formatWorkspaceName(node.name))),
+  const workspaceFrameNames = [
+    ...new Set(
+      workspaceFrameNodes.map((node) => formatWorkspaceName(node.name))
+    ),
   ];
-  const workspaceNames = componentNames.map((componentName) => ({
-    name: componentName,
+  const workspaceNames = workspaceFrameNames.map((frameName) => ({
+    name: frameName,
   }));
+  // Set selected nodes
   const selectionNames = [
     ...new Set(
       figma.currentPage.selection.map((selection) =>
@@ -19,5 +27,14 @@ export const initialize = () => {
       )
     ),
   ];
-  figma.ui.postMessage({ workspaceNames, selectionNames });
+
+  const mediaInputFrameNodes = figma.root.findAll(
+    (node) => node.getPluginData('type') === MediaInputConstants.name
+  );
+  const mediaInputNames = [
+    ...new Set(
+      mediaInputFrameNodes.map((node) => formatMediaInputName(node.name))
+    ),
+  ];
+  figma.ui.postMessage({ workspaceNames, selectionNames, mediaInputNames });
 };

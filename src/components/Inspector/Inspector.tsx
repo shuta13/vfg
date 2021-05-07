@@ -7,6 +7,7 @@ import {
   setWorkspaceName,
   deleteWorkspaceName,
   setSelectedWorkspace,
+  setUploadedFileNames,
 } from '../../redux/slice';
 
 type Workspace = {
@@ -77,13 +78,18 @@ export const Inspector: React.FC = () => {
 
   useEffect(() => {
     onmessage = (event) => {
-      const { workspaceNames, selectionNames } = event.data.pluginMessage;
+      const {
+        workspaceNames,
+        selectionNames,
+        mediaInputNames,
+      } = event.data.pluginMessage;
       workspaceNames.map((msg: { name: string }) => {
         dispatch(setWorkspaceName({ workspaceName: msg.name }));
       });
       selectionNames.map((selectionName: string) =>
         dispatch(setSelectedWorkspace({ workspaceName: selectionName }))
       );
+      dispatch(setUploadedFileNames({ uploadedFileNames: mediaInputNames }));
     };
   }, []);
 

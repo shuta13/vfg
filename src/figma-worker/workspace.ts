@@ -18,6 +18,7 @@ export const createWorkspace = (msg: Msg) => {
   workspace.name = `[${msg.workspaceName}] ${WorkspaceConstants.suffix}`;
   workspace.resize(WorkspaceConstants.width, WorkspaceConstants.height);
   workspace.x = lastNodePosition + WorkspaceConstants.margin;
+  workspace.setPluginData('type', WorkspaceConstants.suffix);
   figma.currentPage.appendChild(workspace);
   newNodes.push(workspace);
 

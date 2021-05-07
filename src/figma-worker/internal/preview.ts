@@ -9,5 +9,6 @@ export const createPreview = (
   preview.resize(PreviewConstants.width, PreviewConstants.height);
   preview.x = lastNodePosition + WorkspaceConstants.margin;
   preview.y = WorkspaceConstants.height + WorkspaceConstants.margin;
+  preview.setPluginData('type', PreviewConstants.suffix);
   return preview;
 };
