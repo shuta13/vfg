@@ -1,5 +1,5 @@
 .MediaUploader_wrap {
-  height: 8rem;
+  height: 4rem;
   border: solid 1px var(--black);
   padding: 0.5rem;
 }
@@ -9,11 +9,23 @@
 }
 
 .MediaUploader_indication {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-size: var(--font-size-small);
+}
+
+.MediaUploader_uploaded_wrap_list {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  height: 8rem;
+  overflow: scroll;
+  background: var(--gray);
+}
+
+.MediaUploader_uploaded_list {
+  font-size: var(--font-size-small);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 
 .MediaUploader_upload {
@@ -22,4 +34,17 @@
   margin-top: 0.5rem;
   background: var(--blue);
   color: white;
+}
+
+.MediaUploader_warning {
+  font-size: var(--font-size-small);
+}
+
+.MediaUploader_uploaded_delete {
+  width: 1rem;
+  z-index: 10;
+}
+
+.MediaUploader_uploaded_delete:hover {
+  background: var(--dull-gray);
 }
