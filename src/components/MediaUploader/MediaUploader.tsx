@@ -51,9 +51,18 @@ export const MediaUploader: React.FC = () => {
               Drop files here ...
             </strong>
           ) : (
-            <strong className="MediaUploader_indication">
-              Drag and Drop files here, or click to select files (mp4, mov)
-            </strong>
+            <>
+              <p>
+                <strong className="MediaUploader_indication">
+                  Drag and Drop files here
+                </strong>
+              </p>
+              <p>
+                <strong className="MediaUploader_indication">
+                  Or click to select files (mp4, mov)
+                </strong>
+              </p>
+            </>
           )}
         </div>
       ) : (
@@ -63,6 +72,7 @@ export const MediaUploader: React.FC = () => {
           </strong>
         </div>
       )}
+      <h2>Inbox</h2>
       {uploadedFiles.length > 0 ? (
         <ul>
           <div className="MediaUploader_uploaded_wrap_list">
