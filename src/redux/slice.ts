@@ -1,40 +1,40 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 
-export type WorkspaceValue = { name: string };
+export type InspectorValue = { workspaceName: string };
 
-export type workspaceState = {
-  values: WorkspaceValue[];
+export type InspectorState = {
+  values: InspectorValue[];
 };
 
-const initialState: workspaceState = {
+const initialState: InspectorState = {
   values: [],
 };
 
-export const workspacesSlice = createSlice({
-  name: 'workspaces',
+export const inspectorSlice = createSlice({
+  name: 'inspector',
   initialState,
   reducers: {
-    setWorkspace: (state, action: PayloadAction<WorkspaceValue>) => {
-      state.values.push({ name: action.payload.name });
+    setWorkspaceName: (state, action: PayloadAction<InspectorValue>) => {
+      state.values.push({ workspaceName: action.payload.workspaceName });
     },
-    resetWorkspace: (state) => {
+    resetWorkspaceNames: (state) => {
       state.values = [];
     },
-    deleteWorkspace: (state, action: PayloadAction<WorkspaceValue>) => {
+    deleteWorkspaceName: (state, action: PayloadAction<InspectorValue>) => {
       state.values = state.values.filter(
-        (value) => value.name !== action.payload.name
+        (value) => value.workspaceName !== action.payload.workspaceName
       );
     },
   },
 });
 
 export const {
-  setWorkspace,
-  resetWorkspace,
-  deleteWorkspace,
-} = workspacesSlice.actions;
+  setWorkspaceName,
+  resetWorkspaceNames,
+  deleteWorkspaceName,
+} = inspectorSlice.actions;
 
-export const selectWorkspace = (state: RootState) => state.workspaces.values;
+export const selectWorkspace = (state: RootState) => state.inspector.values;
 
-export default workspacesSlice.reducer;
+export default inspectorSlice.reducer;

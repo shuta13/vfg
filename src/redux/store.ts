@@ -1,9 +1,9 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import workspacesReducer from './slice';
+import inspectorReducer from './slice';
 
 export const store = configureStore({
   reducer: {
-    workspaces: workspacesReducer,
+    inspector: inspectorReducer,
   },
 });
 

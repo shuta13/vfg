@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
   selectWorkspace,
-  setWorkspace,
-  deleteWorkspace,
+  setWorkspaceName,
+  deleteWorkspaceName,
 } from '../../redux/slice';
 
 type Workspace = {
@@ -19,13 +19,13 @@ export const Inspector: React.FC = () => {
     formState: { errors },
   } = useForm<Workspace>();
 
-  const workspaces = useAppSelector(selectWorkspace);
+  const inspectorValues = useAppSelector(selectWorkspace);
   const dispatch = useAppDispatch();
 
   const [isDuplicated, setIsDuplicated] = useState(false);
 
   const addWorkspace = (data: Workspace) => {
-    if (workspaces.some((workspace) => workspace.name === data.name)) {
+    if (inspectorValues.some((value) => value.workspaceName === data.name)) {
       setIsDuplicated(true);
     } else {
       setIsDuplicated(false);
@@ -36,7 +36,7 @@ export const Inspector: React.FC = () => {
         },
         '*'
       );
-      dispatch(setWorkspace({ name: data.name }));
+      dispatch(setWorkspaceName({ workspaceName: data.name }));
     }
   };
 
@@ -47,7 +47,7 @@ export const Inspector: React.FC = () => {
       },
       '*'
     );
-    dispatch(deleteWorkspace({ name: workspaceName }));
+    dispatch(deleteWorkspaceName({ workspaceName }));
   };
 
   const handleOnClickFocus = (workspaceName: Workspace['name']) => {
@@ -62,7 +62,7 @@ export const Inspector: React.FC = () => {
   useEffect(() => {
     onmessage = (event) => {
       event.data.pluginMessage.map((msg: { id: string; name: string }) => {
-        dispatch(setWorkspace({ name: msg.name }));
+        dispatch(setWorkspaceName({ workspaceName: msg.name }));
       });
     };
   }, []);
@@ -73,18 +73,18 @@ export const Inspector: React.FC = () => {
         <h2>Workspace Inspector</h2>
       </header>
       <div className="Inspector_workspace_wrap">
-        {workspaces.length > 0 ? (
+        {inspectorValues.length > 0 ? (
           <ul>
-            {workspaces.map((workspace) => (
-              <li key={workspace.name} className="Inspector_workspace_li">
+            {inspectorValues.map((value) => (
+              <li key={value.workspaceName} className="Inspector_workspace_li">
                 <button
                   className="Inspector_workspace_name"
-                  onClick={() => handleOnClickFocus(workspace.name)}
+                  onClick={() => handleOnClickFocus(value.workspaceName)}
                 >
-                  {workspace.name}
+                  {value.workspaceName}
                 </button>
                 <button
-                  onClick={() => handleOnClickDelete(workspace.name)}
+                  onClick={() => handleOnClickDelete(value.workspaceName)}
                   className="Inspector_workspace_delete"
                 >
                   x
