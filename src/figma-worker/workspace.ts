@@ -39,13 +39,7 @@ export const removeWorkspace = (msg: Msg) => {
   figma.currentPage
     .findAll(
       (node) =>
-        node.type === 'FRAME' &&
-        (node.name.includes(
-          `[${msg.workspaceName}] ${WorkspaceConstants.suffix}`
-        ) ||
-          node.name.includes(
-            `[${msg.workspaceName}] ${PreviewConstants.suffix}`
-          ))
+        node.type === 'FRAME' && node.name.includes(`[${msg.workspaceName}]`)
     )
     .forEach((node) => {
       node.remove();
@@ -55,11 +49,7 @@ export const removeWorkspace = (msg: Msg) => {
 export const focusWorkspace = (msg: Msg) => {
   const selected = figma.currentPage.findAll(
     (node) =>
-      node.type === 'FRAME' &&
-      (node.name.includes(
-        `[${msg.workspaceName}] ${WorkspaceConstants.suffix}`
-      ) ||
-        node.name.includes(`[${msg.workspaceName}] ${PreviewConstants.suffix}`))
+      node.type === 'FRAME' && node.name.includes(`[${msg.workspaceName}]`)
   );
   figma.currentPage.selection = selected;
   figma.viewport.scrollAndZoomIntoView(selected);
