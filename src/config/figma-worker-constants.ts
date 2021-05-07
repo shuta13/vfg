@@ -1,5 +1,5 @@
 export const WorkspaceConstants = {
-  suffix: 'Workspace',
+  suffix: 'Controlls',
   width: 320,
   height: 720,
   margin: 16,

@@ -1,5 +1,5 @@
-import { Msg } from '../types';
-import { PreviewConstants, WorkspaceConstants } from '../config';
+import { Msg } from '../../types';
+import { PreviewConstants, WorkspaceConstants } from '../../config';
 
 export const createWorkspace = (msg: Msg) => {
   const nodesPositionX = figma.currentPage.children.map(
