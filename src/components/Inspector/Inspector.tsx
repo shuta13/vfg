@@ -3,12 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
-  selectWorkspace,
+  selectInspector,
   setWorkspaceName,
   deleteWorkspaceName,
   setSelectedWorkspace,
   setUploadedFileNames,
 } from '../../redux/slice';
+import { InspectorList } from '../InspectorList';
 
 type Workspace = {
   name: string;
@@ -22,7 +23,7 @@ export const Inspector: React.FC = () => {
   } = useForm<Workspace>();
 
   const { inspectorValues, selectedWorkspace } = useAppSelector(
-    selectWorkspace
+    selectInspector
   );
   const dispatch = useAppDispatch();
 
@@ -102,28 +103,12 @@ export const Inspector: React.FC = () => {
       </header>
       <div className="Inspector_workspace_wrap">
         {inspectorValues.length > 0 ? (
-          <ul>
-            {inspectorValues.map((value) => (
-              <li key={value.workspaceName} className="Inspector_workspace_li">
-                <button
-                  className={
-                    value.workspaceName === selectedWorkspace
-                      ? 'Inspector_workspace_name--selected'
-                      : 'Inspector_workspace_name'
-                  }
-                  onClick={() => handleOnClickFocus(value.workspaceName)}
-                >
-                  {value.workspaceName}
-                </button>
-                <button
-                  onClick={() => handleOnClickDelete(value.workspaceName)}
-                  className="Inspector_workspace_delete"
-                >
-                  ×
-                </button>
-              </li>
-            ))}
-          </ul>
+          <InspectorList
+            currentNames={inspectorValues.map((value) => value.workspaceName)}
+            selectedName={selectedWorkspace}
+            handleOnClickFocus={handleOnClickFocus}
+            handleOnClickDelete={handleOnClickDelete}
+          />
         ) : (
           <span>No workspaces</span>
         )}

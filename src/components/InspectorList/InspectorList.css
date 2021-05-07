@@ -1,0 +1,32 @@
+.InspectorList_workspace_list {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+}
+
+.InspectorList_workspace_name,
+.InspectorList_workspace_name--selected {
+  width: 100%;
+  text-align: left;
+  margin-right: 0.5rem;
+  padding: 0.5rem;
+  min-height: 2rem;
+}
+
+.InspectorList_workspace_name:hover {
+  background: var(--dull-gray);
+}
+
+.InspectorList_workspace_name--selected {
+  background: var(--dull-gray);
+}
+
+.InspectorList_workspace_delete {
+  width: 1.5rem;
+  font-size: var(--font-size-medium);
+}
+
+.InspectorList_workspace_delete:hover {
+  background: var(--dull-gray);
+}

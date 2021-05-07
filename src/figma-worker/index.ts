@@ -3,7 +3,11 @@
 import { PluginUI } from '../config';
 import type { Msg } from '../types';
 import { initialize } from './helper';
-import { createMediaInput } from './media-input';
+import {
+  createMediaInput,
+  focusMediaInput,
+  removeMediaInput,
+} from './media-input';
 import { createWorkspace, focusWorkspace, removeWorkspace } from './workspace';
 
 figma.showUI(__html__);
@@ -24,6 +28,12 @@ figma.ui.onmessage = (msg: Msg) => {
       break;
     case 'create-media-input':
       createMediaInput(msg);
+      break;
+    case 'focus-media-input':
+      focusMediaInput(msg);
+      break;
+    case 'remove-media-input':
+      removeMediaInput(msg);
       break;
     default:
       break;

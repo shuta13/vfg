@@ -52,3 +52,22 @@ export const createMediaInput = (msg: Msg) => {
     );
   }
 };
+
+export const removeMediaInput = (msg: Msg) => {
+  figma.currentPage
+    .findAll(
+      (node) =>
+        node.type === 'RECTANGLE' && node.name.includes(msg.uploadedFileName)
+    )
+    .forEach((node) => {
+      node.remove();
+    });
+};
+
+export const focusMediaInput = (msg: Msg) => {
+  const selected = figma.currentPage.findAll(
+    (node) =>
+      node.type === 'RECTANGLE' && node.name.includes(msg.uploadedFileName)
+  );
+  figma.currentPage.selection = selected;
+};

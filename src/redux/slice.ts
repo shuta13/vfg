@@ -13,12 +13,14 @@ export type InspectorState = {
   values: InspectorValue[];
   selectedWorkspace: string;
   uploadedFileNames: string[];
+  selectedFileName: string;
 };
 
 const initialState: InspectorState = {
   values: [],
   selectedWorkspace: '',
   uploadedFileNames: [],
+  selectedFileName: '',
 };
 
 export const inspectorSlice = createSlice({
@@ -50,6 +52,14 @@ export const inspectorSlice = createSlice({
     resetUploadedFileNames: (state) => {
       state.uploadedFileNames = [];
     },
+    deleteUploadedFileName: (state, action: PayloadAction<MediaInputValue>) => {
+      state.uploadedFileNames = state.uploadedFileNames.filter(
+        (fileName) => fileName !== action.payload.uploadedFileName
+      );
+    },
+    setSelectedFileName: (state, action: PayloadAction<MediaInputValue>) => {
+      state.selectedFileName = action.payload.uploadedFileName;
+    },
   },
 });
 
@@ -60,12 +70,15 @@ export const {
   setSelectedWorkspace,
   setUploadedFileNames,
   resetUploadedFileNames,
+  deleteUploadedFileName,
+  setSelectedFileName,
 } = inspectorSlice.actions;
 
-export const selectWorkspace = (state: RootState) => ({
+export const selectInspector = (state: RootState) => ({
   inspectorValues: state.inspector.values,
   selectedWorkspace: state.inspector.selectedWorkspace,
   uploadedFileNames: state.inspector.uploadedFileNames,
+  selectedFileName: state.inspector.selectedFileName,
 });
 
 export default inspectorSlice.reducer;

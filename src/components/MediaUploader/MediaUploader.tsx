@@ -3,14 +3,21 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 import { useAppSelector } from '../../redux/hooks';
-import { selectWorkspace, setUploadedFileNames } from '../../redux/slice';
+import {
+  deleteUploadedFileName,
+  selectInspector,
+  setUploadedFileNames,
+  setSelectedFileName,
+} from '../../redux/slice';
+import { InspectorList } from '../InspectorList';
 
 export const MediaUploader: React.FC = () => {
   const {
     inspectorValues,
     selectedWorkspace,
     uploadedFileNames,
-  } = useAppSelector(selectWorkspace);
+    selectedFileName,
+  } = useAppSelector(selectInspector);
 
   const {
     getRootProps,
@@ -52,12 +59,30 @@ export const MediaUploader: React.FC = () => {
     }
   }, [acceptedFiles]);
 
+  const handleOnClickFocus = (fileName: string) => {
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'focus-media-input',
+          uploadedFileName: fileName,
+        },
+      },
+      '*'
+    );
+    dispatch(setSelectedFileName({ uploadedFileName: fileName }));
+  };
+
   const handleOnClickDelete = (fileName: string) => {
-    acceptedFiles
-      .filter((file) => file.name !== fileName)
-      .forEach((file) => {
-        dispatch(setUploadedFileNames({ uploadedFileName: file.name }));
-      });
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'remove-media-input',
+          uploadedFileName: fileName,
+        },
+      },
+      '*'
+    );
+    dispatch(deleteUploadedFileName({ uploadedFileName: fileName }));
   };
 
   const handleOnClickUpload = () => {
@@ -108,27 +133,18 @@ export const MediaUploader: React.FC = () => {
         </div>
       )}
       <h2>Inbox</h2>
-      {uploadedFileNames.length > 0 ? (
-        <ul>
-          <div className="MediaUploader_uploaded_wrap_list">
-            {uploadedFileNames.map((fileName) => (
-              <li className="MediaUploader_uploaded_list" key={fileName}>
-                <span>{fileName}</span>
-                <button
-                  className="MediaUploader_uploaded_delete"
-                  onClick={() => handleOnClickDelete(fileName)}
-                >
-                  ×
-                </button>
-              </li>
-            ))}
-          </div>
-        </ul>
-      ) : (
-        <div className="MediaUploader_uploaded_wrap_list">
+      <div className="MediaUploader_uploaded_wrap_list">
+        {uploadedFileNames.length > 0 ? (
+          <InspectorList
+            currentNames={uploadedFileNames}
+            selectedName={selectedFileName}
+            handleOnClickFocus={handleOnClickFocus}
+            handleOnClickDelete={handleOnClickDelete}
+          />
+        ) : (
           <p className="MediaUploader_indication">No media</p>
-        </div>
-      )}
+        )}
+      </div>
       <button
         className={
           !(uploadedFileNames.length > 0)
