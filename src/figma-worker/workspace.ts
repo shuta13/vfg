@@ -36,19 +36,31 @@ export const createWorkspace = (msg: Msg) => {
 };
 
 export const removeWorkspace = (msg: Msg) => {
-  const workspaceRegExp = new RegExp(
-    `^(?=.*${WorkspaceConstants.suffix})(?=.*${msg.workspaceName})`
-  );
-  const previewRegExp = new RegExp(
-    `^(?=.*${PreviewConstants.suffix})(?=.*${msg.workspaceName})`
-  );
   figma.currentPage
     .findAll(
       (node) =>
         node.type === 'FRAME' &&
-        (workspaceRegExp.test(node.name) || previewRegExp.test(node.name))
+        (node.name.includes(
+          `[${msg.workspaceName}] ${WorkspaceConstants.suffix}`
+        ) ||
+          node.name.includes(
+            `[${msg.workspaceName}] ${PreviewConstants.suffix}`
+          ))
     )
     .forEach((node) => {
       node.remove();
     });
+};
+
+export const focusWorkspace = (msg: Msg) => {
+  const selected = figma.currentPage.findAll(
+    (node) =>
+      node.type === 'FRAME' &&
+      (node.name.includes(
+        `[${msg.workspaceName}] ${WorkspaceConstants.suffix}`
+      ) ||
+        node.name.includes(`[${msg.workspaceName}] ${PreviewConstants.suffix}`))
+  );
+  figma.currentPage.selection = selected;
+  figma.viewport.scrollAndZoomIntoView(selected);
 };

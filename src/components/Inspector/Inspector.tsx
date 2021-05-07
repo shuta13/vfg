@@ -50,6 +50,15 @@ export const Inspector: React.FC = () => {
     dispatch(deleteWorkspace({ name: workspaceName }));
   };
 
+  const handleOnClickFocus = (workspaceName: Workspace['name']) => {
+    parent.postMessage(
+      {
+        pluginMessage: { type: 'focus-workspace', workspaceName },
+      },
+      '*'
+    );
+  };
+
   useEffect(() => {
     onmessage = (event) => {
       event.data.pluginMessage.map((msg: { id: string; name: string }) => {
@@ -68,7 +77,10 @@ export const Inspector: React.FC = () => {
           <ul>
             {workspaces.map((workspace) => (
               <li key={workspace.name} className="Inspector_workspace_li">
-                <button className="Inspector_workspace_name">
+                <button
+                  className="Inspector_workspace_name"
+                  onClick={() => handleOnClickFocus(workspace.name)}
+                >
                   {workspace.name}
                 </button>
                 <button

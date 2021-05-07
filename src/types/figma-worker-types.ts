@@ -1,4 +1,8 @@
-type MsgType = 'create-rectangles' | 'create-workspace' | 'remove-workspace';
+type MsgType =
+  | 'create-rectangles'
+  | 'create-workspace'
+  | 'remove-workspace'
+  | 'focus-workspace';
 
 export type Msg = {
   type: MsgType;

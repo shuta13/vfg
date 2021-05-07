@@ -2,18 +2,12 @@
 
 import type { Msg } from '../types';
 import { createRectangles } from './create-rectangles';
-import { createWorkspace, removeWorkspace } from './workspace';
+import { initialize } from './initialize';
+import { createWorkspace, focusWorkspace, removeWorkspace } from './workspace';
 
 figma.showUI(__html__);
 
-// get frame as workspace from figma ui
-// @see: https://qiita.com/seya/items/cb1a1a5350311549d41f
-const componentNodes = figma.root.findAll((node) => node.type === 'FRAME');
-const componentsData = componentNodes.map((node) => ({
-  id: node.id,
-  name: node.name,
-}));
-figma.ui.postMessage(componentsData);
+initialize();
 
 figma.ui.onmessage = (msg: Msg) => {
   switch (msg.type) {
@@ -25,6 +19,9 @@ figma.ui.onmessage = (msg: Msg) => {
       break;
     case 'remove-workspace':
       removeWorkspace(msg);
+      break;
+    case 'focus-workspace':
+      focusWorkspace(msg);
       break;
     default:
       break;
