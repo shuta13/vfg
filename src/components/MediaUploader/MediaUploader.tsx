@@ -1,7 +1,7 @@
-import './MediaInput.css';
+import './MediaUploader.css';
 import React from 'react';
 
-export const MediaInput: React.FC = () => {
+export const MediaUploader: React.FC = () => {
   return (
     <section>
       <header>
