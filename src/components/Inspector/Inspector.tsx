@@ -125,7 +125,7 @@ export const Inspector: React.FC = () => {
             handleOnClickDelete={handleOnClickDelete}
           />
         ) : (
-          <span>No workspaces</span>
+          <span className="Inspector_indication">No workspaces</span>
         )}
       </div>
       <form onSubmit={handleSubmit(addWorkspace)} className="Inspector_form">

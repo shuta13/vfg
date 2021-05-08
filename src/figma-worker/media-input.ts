@@ -10,7 +10,9 @@ const checkExistence = (workspaceName: string) => {
     .findAll(
       (node) =>
         node.type === 'FRAME' &&
-        node.name.includes(`[${workspaceName}] ${MediaInputConstants.name}`)
+        node.getPluginData('type') === MediaInputConstants.name &&
+        node.getPluginData('workspaceName') === workspaceName
+      // node.name.includes(`[${workspaceName}] ${MediaInputConstants.name}`)
     )
     .forEach((node) => {
       node.remove();
@@ -18,7 +20,6 @@ const checkExistence = (workspaceName: string) => {
 };
 
 export const createMediaInput = (msg: Msg) => {
-  console.log(msg);
   if (msg.workspaceName !== '') {
     checkExistence(msg.workspaceName);
 
@@ -30,6 +31,8 @@ export const createMediaInput = (msg: Msg) => {
     mediaInput.x = figma.currentPage.findAll((node) =>
       node.name.includes(msg.workspaceName)
     )[0].x;
+    mediaInput.setPluginData('type', MediaInputConstants.name);
+    mediaInput.setPluginData('workspaceName', msg.workspaceName);
     mediaInput.y =
       WorkspaceConstants.height +
       PreviewConstants.height +

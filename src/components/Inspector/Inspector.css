@@ -1,5 +1,5 @@
 .Inspector_workspace_wrap {
-  font-size: var(--font-size-small);
+  /* font-size: var(--font-size-small); */
   background: var(--gray);
   padding: 0 0.5rem;
   padding-top: 0.5rem;
@@ -12,6 +12,11 @@
   display: flex;
   justify-content: space-between;
   padding-bottom: 0.5rem;
+}
+
+.Inspector_indication {
+  color: var(--dark-gray);
+  font-size: var(--font-size-small);
 }
 
 .Inspector_workspace_name,

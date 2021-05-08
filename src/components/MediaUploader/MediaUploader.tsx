@@ -80,6 +80,32 @@ export const MediaUploader: React.FC = () => {
     setUploadedFileNames([]);
   };
 
+  const renderInputFilesError = () => {
+    if (hasDuplicatedFileName) {
+      return (
+        <p className="MediaUploader_warning">Uploaded files have duplicated</p>
+      );
+    }
+
+    if (!(inspectorValue.workspaceNames.length > 0)) {
+      return (
+        <p className="MediaUploader_warning">
+          Create a workspace and select files
+        </p>
+      );
+    }
+
+    if (inspectorValue.selectedWorkspace === '') {
+      return (
+        <p className="MediaUploader_warning">
+          Choose workspace in Workspace Inspector
+        </p>
+      );
+    }
+
+    return <p className="MediaUploader_warning">Select files</p>;
+  };
+
   return (
     <section>
       <header>
@@ -89,29 +115,23 @@ export const MediaUploader: React.FC = () => {
         <div {...getRootProps()} className="MediaUploader_wrap">
           <input {...getInputProps()} />
           {isDragActive ? (
-            <strong className="MediaUploader_indication">
-              Drop files here ...
-            </strong>
+            <p className="MediaUploader_indication">Drop files here ...</p>
           ) : (
             <>
-              <p>
-                <strong className="MediaUploader_indication">
-                  Drag and Drop files here
-                </strong>
+              <p className="MediaUploader_indication">
+                Drag and Drop selected files here
               </p>
-              <p>
-                <strong className="MediaUploader_indication">
-                  Or click to select files (mp4, mov)
-                </strong>
+              <p className="MediaUploader_indication">
+                Or click to select files (mp4, mov)
               </p>
             </>
           )}
         </div>
       ) : (
         <div className="MediaUploader_wrap">
-          <strong className="MediaUploader_indication">
+          <p className="MediaUploader_indication">
             Unable to upload media, create workspaces
-          </strong>
+          </p>
         </div>
       )}
       <div className="MediaUploader_uploaded_wrap_list">
@@ -129,22 +149,14 @@ export const MediaUploader: React.FC = () => {
       </div>
       <VFGButton
         type="normal"
-        disabled={!(uploadedFileNames.length > 0)}
+        disabled={
+          !(uploadedFileNames.length > 0) ||
+          inspectorValue.selectedWorkspace === ''
+        }
         handleOnClick={handleOnClickUpload}
         text="upload"
         bgColor="blue"
       />
-      {/* <button
-        className={
-          !(uploadedFileNames.length > 0)
-            ? 'MediaUploader_upload--disabled'
-            : 'MediaUploader_upload'
-        }
-        disabled={!(uploadedFileNames.length > 0)}
-        onClick={handleOnClickUpload}
-      >
-        upload
-      </button> */}
       {fileRejections.length > 0 &&
         fileRejections.map((rejection, index) => (
           <p className="MediaUploader_warning" key={index}>
@@ -155,7 +167,8 @@ export const MediaUploader: React.FC = () => {
             ))}
           </p>
         ))}
-      {hasDuplicatedFileName ? (
+      {renderInputFilesError()}
+      {/* {hasDuplicatedFileName ? (
         <p className="MediaUploader_warning">
           Uploaded files have duplicated ones
         </p>
@@ -163,7 +176,7 @@ export const MediaUploader: React.FC = () => {
         <p className="MediaUploader_warning">
           Choose workspace and select files
         </p>
-      )}
+      )} */}
     </section>
   );
 };

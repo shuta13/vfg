@@ -10,7 +10,7 @@ export const Preview: React.FC = () => {
       <div className="Preview_wrap">
         <p className="Preview_indication">No media</p>
       </div>
-      <p className="Preview_indication">
+      <p className="Preview_warning">
         Select media you want to show in Preview
       </p>
     </section>

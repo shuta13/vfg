@@ -39,7 +39,10 @@ export const initialize = () => {
   }[] = [];
   workspaceHasMediaInputNames.forEach((name) => {
     mediaInputFrameNodes.forEach((node) => {
-      if (formatWorkspaceName(node.name) === name) {
+      if (
+        formatWorkspaceName(node.name) === name &&
+        node.getPluginData('fileName')
+      ) {
         mediaInputData.push({
           workspaceName: name,
           uploadedFileName: formatMediaInputName(node.name),

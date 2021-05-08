@@ -12,6 +12,7 @@
 .MediaUploader_indication,
 .MediaUploader_indication--uploading {
   font-size: var(--font-size-small);
+  color: var(--dark-gray);
 }
 
 .MediaUploader_uploaded_wrap_list {
