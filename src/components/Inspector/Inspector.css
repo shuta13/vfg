@@ -50,16 +50,8 @@
   margin-right: 0.5rem;
   height: 2rem;
   padding: 0.5rem;
-  width: 100%;
+  width: 56rem;
   border: solid 1px var(--black);
-}
-
-.Inspector_form_submit {
-  background: var(--green);
-  color: white;
-  width: 3.5rem;
-  height: 2rem;
-  font-size: var(--font-size-small);
 }
 
 .Inspector_form_warning {

@@ -10,7 +10,8 @@ import {
 } from '../../redux/slice';
 import { InspectorList } from '../InspectorList';
 import { MessageEventTarget } from '../../types';
-import { wrappedPostMessage } from '../../utils';
+import { noop, wrappedPostMessage } from '../../utils';
+import { VFGButton } from '../VFGButton';
 
 type Workspace = {
   name: string;
@@ -133,7 +134,13 @@ export const Inspector: React.FC = () => {
           className="Inspector_form_input"
           placeholder="workspace name"
         />
-        <input type="submit" value="new" className="Inspector_form_submit" />
+        <VFGButton
+          type="submit"
+          text="new"
+          bgColor="green"
+          disabled={false}
+          handleOnClick={noop}
+        />
       </form>
       <p className="Inspector_form_warning">{renderFormError()}</p>
     </section>

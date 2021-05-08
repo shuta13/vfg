@@ -8,12 +8,11 @@ export const Preview: React.FC = () => {
         <h1>Preview</h1>
       </header>
       <div className="Preview_wrap">
-        <p>
-          <span className="Preview_indication">
-            Select Rectangle you want to show in the preview from MediaInput
-          </span>
-        </p>
+        <p className="Preview_indication">No media</p>
       </div>
+      <p className="Preview_indication">
+        Select media you want to show in Preview
+      </p>
     </section>
   );
 };

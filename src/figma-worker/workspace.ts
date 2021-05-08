@@ -19,6 +19,7 @@ export const createWorkspace = (msg: Msg) => {
   workspace.resize(WorkspaceConstants.width, WorkspaceConstants.height);
   workspace.x = lastNodePosition + WorkspaceConstants.margin;
   workspace.setPluginData('type', WorkspaceConstants.suffix);
+  workspace.setPluginData('workspaceName', msg.workspaceName);
   figma.currentPage.appendChild(workspace);
   newNodes.push(workspace);
 
@@ -34,7 +35,8 @@ export const removeWorkspace = (msg: Msg) => {
   figma.currentPage
     .findAll(
       (node) =>
-        node.type === 'FRAME' && node.name.includes(`[${msg.workspaceName}]`)
+        node.type === 'FRAME' &&
+        node.getPluginData('workspaceName') === msg.workspaceName
     )
     .forEach((node) => {
       node.remove();
@@ -44,7 +46,8 @@ export const removeWorkspace = (msg: Msg) => {
 export const focusWorkspace = (msg: Msg) => {
   const selected = figma.currentPage.findAll(
     (node) =>
-      node.type === 'FRAME' && node.name.includes(`[${msg.workspaceName}]`)
+      node.type === 'FRAME' &&
+      node.getPluginData('workspaceName') === msg.workspaceName
   );
   figma.currentPage.selection = selected;
   figma.viewport.scrollAndZoomIntoView(selected);

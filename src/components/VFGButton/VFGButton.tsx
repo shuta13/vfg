@@ -30,7 +30,7 @@ export const VFGButton: React.FC<Props> = (props) => {
         type="submit"
         value={text}
         className="VFGButton"
-        style={{ background: Color.button[bgColor ? 'disabled' : bgColor] }}
+        style={{ background: Color.button[disabled ? 'disabled' : bgColor] }}
       />
     );
   }

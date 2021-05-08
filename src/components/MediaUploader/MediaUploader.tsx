@@ -124,7 +124,7 @@ export const MediaUploader: React.FC = () => {
             workspaceName={inspectorValue.selectedWorkspace}
           />
         ) : (
-          <p className="MediaUploader_indication">No file selected.</p>
+          <p className="MediaUploader_indication">No file selected</p>
         )}
       </div>
       <VFGButton
