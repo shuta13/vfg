@@ -7,9 +7,10 @@ import {
   setWorkspaceName,
   deleteWorkspaceName,
   setSelectedWorkspace,
-  setUploadedFileNames,
 } from '../../redux/slice';
 import { InspectorList } from '../InspectorList';
+import { MessageEventTarget } from '../../types';
+import { postMessage } from '../../utils';
 
 type Workspace = {
   name: string;
@@ -37,9 +38,13 @@ export const Inspector: React.FC = () => {
     } else {
       setIsDuplicated(false);
       const workspaceName = data.name;
-      parent.postMessage(
+      postMessage(
         {
-          pluginMessage: { type: 'create-workspace', workspaceName },
+          pluginMessage: {
+            type: 'create-workspace',
+            workspaceName,
+            uploadedFileNames: [],
+          },
         },
         '*'
       );
@@ -49,9 +54,13 @@ export const Inspector: React.FC = () => {
   };
 
   const handleOnClickDelete = (workspaceName: Workspace['name']) => {
-    parent.postMessage(
+    postMessage(
       {
-        pluginMessage: { type: 'remove-workspace', workspaceName },
+        pluginMessage: {
+          type: 'remove-workspace',
+          workspaceName,
+          uploadedFileNames: [],
+        },
       },
       '*'
     );
@@ -60,9 +69,13 @@ export const Inspector: React.FC = () => {
   };
 
   const handleOnClickFocus = (workspaceName: Workspace['name']) => {
-    parent.postMessage(
+    postMessage(
       {
-        pluginMessage: { type: 'focus-workspace', workspaceName },
+        pluginMessage: {
+          type: 'focus-workspace',
+          workspaceName,
+          uploadedFileNames: [],
+        },
       },
       '*'
     );
@@ -80,21 +93,20 @@ export const Inspector: React.FC = () => {
   };
 
   useEffect(() => {
-    onmessage = (event) => {
+    // initialize
+    onmessage = (event: MessageEvent<MessageEventTarget>) => {
       const {
         workspaceNames,
         selectionNames,
-        mediaInputNames,
+        mediaInputData,
       } = event.data.pluginMessage;
-      workspaceNames.map((msg: { name: string }) => {
-        dispatch(setWorkspaceName({ workspaceName: msg.name }));
+      workspaceNames.map((workspaceName) => {
+        dispatch(setWorkspaceName({ workspaceName }));
       });
-      selectionNames.map((selectionName: string) =>
+      selectionNames.map((selectionName) =>
         dispatch(setSelectedWorkspace({ workspaceName: selectionName }))
       );
-      mediaInputNames.forEach((mediaInputName: string) => {
-        dispatch(setUploadedFileNames({ uploadedFileName: mediaInputName }));
-      });
+      console.log(mediaInputData);
     };
   }, []);
 

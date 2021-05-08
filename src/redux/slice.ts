@@ -3,29 +3,21 @@ import { RootState } from './store';
 
 export type InspectorValue = {
   workspaceNames: string[];
-  uploadedFileNames: string[];
   selectedWorkspace: string;
-  selectedFileName: string;
-};
-
-export type WorkspacePayload = {
-  workspaceName: InspectorValue['workspaceNames'][number];
-};
-
-export type MediaInputPayload = {
-  uploadedFileName: InspectorValue['uploadedFileNames'][number];
 };
 
 export type InspectorState = {
   value: InspectorValue;
 };
 
+export type WorkspacePayload = {
+  workspaceName: InspectorValue['workspaceNames'][number];
+};
+
 const initialState: InspectorState = {
   value: {
     workspaceNames: [],
-    uploadedFileNames: [],
     selectedWorkspace: '',
-    selectedFileName: '',
   },
 };
 
@@ -47,28 +39,6 @@ export const inspectorSlice = createSlice({
     setSelectedWorkspace: (state, action: PayloadAction<WorkspacePayload>) => {
       state.value.selectedWorkspace = action.payload.workspaceName;
     },
-    setUploadedFileNames: (state, action: PayloadAction<MediaInputPayload>) => {
-      state.value.uploadedFileNames = [
-        ...new Set([
-          ...state.value.uploadedFileNames,
-          action.payload.uploadedFileName,
-        ]),
-      ];
-    },
-    resetUploadedFileNames: (state) => {
-      state.value.uploadedFileNames = [];
-    },
-    deleteUploadedFileName: (
-      state,
-      action: PayloadAction<MediaInputPayload>
-    ) => {
-      state.value.uploadedFileNames = state.value.uploadedFileNames.filter(
-        (fileName) => fileName !== action.payload.uploadedFileName
-      );
-    },
-    setSelectedFileName: (state, action: PayloadAction<MediaInputPayload>) => {
-      state.value.selectedFileName = action.payload.uploadedFileName;
-    },
   },
 });
 
@@ -77,10 +47,6 @@ export const {
   resetWorkspaceNames,
   deleteWorkspaceName,
   setSelectedWorkspace,
-  setUploadedFileNames,
-  resetUploadedFileNames,
-  deleteUploadedFileName,
-  setSelectedFileName,
 } = inspectorSlice.actions;
 
 export const selectInspector = (state: RootState) => ({

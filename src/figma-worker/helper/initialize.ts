@@ -11,14 +11,11 @@ export const initialize = () => {
     (node) => node.getPluginData('type') === WorkspaceConstants.suffix
   );
   // Shape, remove duplicate workspace names
-  const workspaceFrameNames = [
+  const workspaceNames = [
     ...new Set(
       workspaceFrameNodes.map((node) => formatWorkspaceName(node.name))
     ),
   ];
-  const workspaceNames = workspaceFrameNames.map((frameName) => ({
-    name: frameName,
-  }));
   // Set selected nodes
   const selectionNames = [
     ...new Set(
@@ -31,10 +28,24 @@ export const initialize = () => {
   const mediaInputFrameNodes = figma.root.findAll(
     (node) => node.getPluginData('type') === MediaInputConstants.name
   );
-  const mediaInputNames = [
+  const workspaceHasMediaInputNames = [
     ...new Set(
-      mediaInputFrameNodes.map((node) => formatMediaInputName(node.name))
+      mediaInputFrameNodes.map((node) => formatWorkspaceName(node.name))
     ),
   ];
-  figma.ui.postMessage({ workspaceNames, selectionNames, mediaInputNames });
+  const mediaInputData: {
+    workspaceName: string;
+    uploadedFileName: string;
+  }[] = [];
+  workspaceHasMediaInputNames.forEach((name) => {
+    mediaInputFrameNodes.forEach((node) => {
+      if (formatWorkspaceName(node.name) === name) {
+        mediaInputData.push({
+          workspaceName: name,
+          uploadedFileName: formatMediaInputName(node.name),
+        });
+      }
+    });
+  });
+  figma.ui.postMessage({ workspaceNames, selectionNames, mediaInputData });
 };

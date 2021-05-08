@@ -3,7 +3,7 @@ const PluginUIHeader = {
 } as const;
 
 export const PluginUI = {
-  width: 400,
+  width: 320,
   height: 600 - PluginUIHeader.height,
 } as const;
 

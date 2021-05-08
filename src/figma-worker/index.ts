@@ -5,8 +5,7 @@ import type { Msg } from '../types';
 import { initialize } from './helper';
 import {
   createMediaInput,
-  focusMediaInput,
-  removeMediaInput,
+  // removeMediaInput,
 } from './media-input';
 import { createWorkspace, focusWorkspace, removeWorkspace } from './workspace';
 
@@ -29,12 +28,9 @@ figma.ui.onmessage = (msg: Msg) => {
     case 'create-media-input':
       createMediaInput(msg);
       break;
-    case 'focus-media-input':
-      focusMediaInput(msg);
-      break;
-    case 'remove-media-input':
-      removeMediaInput(msg);
-      break;
+    // case 'remove-media-input':
+    //   removeMediaInput(msg);
+    //   break;
     default:
       break;
   }

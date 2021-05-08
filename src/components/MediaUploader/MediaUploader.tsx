@@ -1,15 +1,10 @@
 import './MediaUploader.css';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 import { useAppSelector } from '../../redux/hooks';
-import {
-  deleteUploadedFileName,
-  selectInspector,
-  setUploadedFileNames,
-  setSelectedFileName,
-} from '../../redux/slice';
+import { selectInspector } from '../../redux/slice';
 import { InspectorList } from '../InspectorList';
+import { noop } from '../../utils';
 
 export const MediaUploader: React.FC = () => {
   const { inspectorValue } = useAppSelector(selectInspector);
@@ -33,66 +28,55 @@ export const MediaUploader: React.FC = () => {
     },
   });
 
-  const dispatch = useDispatch();
-
   const [hasDuplicatedFileName, setHasDuplicatedFileName] = useState(false);
+  const [uploadedFileNames, setUploadedFileNames] = useState<string[]>([]);
 
   useEffect(() => {
     if (acceptedFiles.length > 0) {
       acceptedFiles.forEach((acceptedFile) => {
-        if (inspectorValue.uploadedFileNames.includes(acceptedFile.name)) {
+        if (uploadedFileNames.includes(acceptedFile.name)) {
           setHasDuplicatedFileName(true);
         } else {
-          dispatch(
-            setUploadedFileNames({
-              uploadedFileName: acceptedFile.name,
-            })
-          );
+          setUploadedFileNames((prevState) => [
+            ...prevState,
+            acceptedFile.name,
+          ]);
           setHasDuplicatedFileName(false);
         }
       });
     }
   }, [acceptedFiles]);
 
-  const handleOnClickFocus = (fileName: string) => {
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'focus-media-input',
-          uploadedFileName: fileName,
-        },
-      },
-      '*'
+  const handleOnClickDelete = (fileName: string) => {
+    setUploadedFileNames((prevState) =>
+      prevState.filter((p) => p !== fileName)
     );
-    dispatch(setSelectedFileName({ uploadedFileName: fileName }));
-  };
-
-  const handleOnClickDelete = (fileName: string, workspaceName?: string) => {
-    parent.postMessage(
-      {
-        pluginMessage: {
-          type: 'remove-media-input',
-          workspaceName: workspaceName ?? '',
-          uploadedFileName: fileName,
-        },
-      },
-      '*'
-    );
-    workspaceName &&
-      dispatch(deleteUploadedFileName({ uploadedFileName: fileName }));
+    // parent.postMessage(
+    //   {
+    //     pluginMessage: {
+    //       type: 'remove-media-input',
+    //       workspaceName: workspaceName ?? '',
+    //       uploadedFileName: fileName,
+    //     },
+    //   },
+    //   '*'
+    // );
+    // workspaceName &&
+    // dispatch(deleteUploadedFileName({ uploadedFileName: fileName }));
   };
 
   const handleOnClickUpload = () => {
-    parent.postMessage(
+    postMessage(
       {
         pluginMessage: {
           type: 'create-media-input',
           workspaceName: inspectorValue.selectedWorkspace,
-          uploadedFileNames: inspectorValue.uploadedFileNames,
+          uploadedFileNames: uploadedFileNames,
         },
       },
       '*'
     );
+    setUploadedFileNames([]);
   };
 
   return (
@@ -129,27 +113,26 @@ export const MediaUploader: React.FC = () => {
           </strong>
         </div>
       )}
-      <h2>Inbox</h2>
       <div className="MediaUploader_uploaded_wrap_list">
-        {inspectorValue.uploadedFileNames.length > 0 ? (
+        {uploadedFileNames.length > 0 ? (
           <InspectorList
-            currentNames={inspectorValue.uploadedFileNames}
-            selectedName={inspectorValue.selectedFileName}
-            handleOnClickFocus={handleOnClickFocus}
+            currentNames={uploadedFileNames}
+            selectedName={''}
+            handleOnClickFocus={noop}
             handleOnClickDelete={handleOnClickDelete}
             workspaceName={inspectorValue.selectedWorkspace}
           />
         ) : (
-          <p className="MediaUploader_indication">No media</p>
+          <p className="MediaUploader_indication">No file selected.</p>
         )}
       </div>
       <button
         className={
-          !(inspectorValue.uploadedFileNames.length > 0)
+          !(uploadedFileNames.length > 0)
             ? 'MediaUploader_upload--disabled'
             : 'MediaUploader_upload'
         }
-        disabled={!(inspectorValue.uploadedFileNames.length > 0)}
+        disabled={!(uploadedFileNames.length > 0)}
         onClick={handleOnClickUpload}
       >
         upload

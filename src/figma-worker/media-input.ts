@@ -56,7 +56,6 @@ export const createMediaInput = (msg: Msg) => {
 };
 
 export const removeMediaInput = (msg: Msg) => {
-  // console.log(msg);
   if (msg.workspaceName === '') {
     figma.notify(
       'Select the workspace where you want to remove the media input in Workspace Inspector'
@@ -74,12 +73,4 @@ export const removeMediaInput = (msg: Msg) => {
         node.remove();
       });
   }
-};
-
-export const focusMediaInput = (msg: Msg) => {
-  const selected = figma.currentPage.findAll(
-    (node) =>
-      node.type === 'RECTANGLE' && node.name.includes(msg.uploadedFileName)
-  );
-  figma.currentPage.selection = selected;
 };
