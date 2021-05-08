@@ -15,7 +15,6 @@ export const MediaUploader: React.FC = () => {
   const {
     inspectorValue,
     selectedWorkspace,
-    uploadedFileNames,
     selectedFileName,
   } = useAppSelector(selectInspector);
 
@@ -45,7 +44,7 @@ export const MediaUploader: React.FC = () => {
   useEffect(() => {
     if (acceptedFiles.length > 0) {
       acceptedFiles.forEach((acceptedFile) => {
-        if (uploadedFileNames.includes(acceptedFile.name)) {
+        if (inspectorValue.uploadedFileNames.includes(acceptedFile.name)) {
           setHasDuplicatedFileName(true);
         } else {
           dispatch(
@@ -92,7 +91,7 @@ export const MediaUploader: React.FC = () => {
         pluginMessage: {
           type: 'create-media-input',
           workspaceName: selectedWorkspace,
-          uploadedFileNames: uploadedFileNames,
+          uploadedFileNames: inspectorValue.uploadedFileNames,
         },
       },
       '*'
@@ -104,7 +103,7 @@ export const MediaUploader: React.FC = () => {
       <header>
         <h1>Media</h1>
       </header>
-      {inspectorValue.uploadedFileNames.length > 0 ? (
+      {inspectorValue.workspaceNames.length > 0 ? (
         <div {...getRootProps()} className="MediaUploader_wrap">
           <input {...getInputProps()} />
           {isDragActive ? (
@@ -135,9 +134,9 @@ export const MediaUploader: React.FC = () => {
       )}
       <h2>Inbox</h2>
       <div className="MediaUploader_uploaded_wrap_list">
-        {uploadedFileNames.length > 0 ? (
+        {inspectorValue.uploadedFileNames.length > 0 ? (
           <InspectorList
-            currentNames={uploadedFileNames}
+            currentNames={inspectorValue.uploadedFileNames}
             selectedName={selectedFileName}
             handleOnClickFocus={handleOnClickFocus}
             handleOnClickDelete={handleOnClickDelete}
@@ -149,11 +148,11 @@ export const MediaUploader: React.FC = () => {
       </div>
       <button
         className={
-          !(uploadedFileNames.length > 0)
+          !(inspectorValue.uploadedFileNames.length > 0)
             ? 'MediaUploader_upload--disabled'
             : 'MediaUploader_upload'
         }
-        disabled={!(uploadedFileNames.length > 0)}
+        disabled={!(inspectorValue.uploadedFileNames.length > 0)}
         onClick={handleOnClickUpload}
       >
         upload

@@ -10,21 +10,19 @@ export type WorkspacePayload = {
   workspaceName: InspectorValue['workspaceNames'][number];
 };
 
-export type MediaInputValue = {
-  uploadedFileName: string;
+export type MediaInputPayload = {
+  uploadedFileName: InspectorValue['uploadedFileNames'][number];
 };
 
 export type InspectorState = {
   value: InspectorValue;
   selectedWorkspace: string;
-  uploadedFileNames: string[];
   selectedFileName: string;
 };
 
 const initialState: InspectorState = {
   value: { workspaceNames: [], uploadedFileNames: [] },
   selectedWorkspace: '',
-  uploadedFileNames: [],
   selectedFileName: '',
 };
 
@@ -46,23 +44,26 @@ export const inspectorSlice = createSlice({
     setSelectedWorkspace: (state, action: PayloadAction<WorkspacePayload>) => {
       state.selectedWorkspace = action.payload.workspaceName;
     },
-    setUploadedFileNames: (state, action: PayloadAction<MediaInputValue>) => {
-      state.uploadedFileNames = [
+    setUploadedFileNames: (state, action: PayloadAction<MediaInputPayload>) => {
+      state.value.uploadedFileNames = [
         ...new Set([
-          ...state.uploadedFileNames,
+          ...state.value.uploadedFileNames,
           action.payload.uploadedFileName,
         ]),
       ];
     },
     resetUploadedFileNames: (state) => {
-      state.uploadedFileNames = [];
+      state.value.uploadedFileNames = [];
     },
-    deleteUploadedFileName: (state, action: PayloadAction<MediaInputValue>) => {
-      state.uploadedFileNames = state.uploadedFileNames.filter(
+    deleteUploadedFileName: (
+      state,
+      action: PayloadAction<MediaInputPayload>
+    ) => {
+      state.value.uploadedFileNames = state.value.uploadedFileNames.filter(
         (fileName) => fileName !== action.payload.uploadedFileName
       );
     },
-    setSelectedFileName: (state, action: PayloadAction<MediaInputValue>) => {
+    setSelectedFileName: (state, action: PayloadAction<MediaInputPayload>) => {
       state.selectedFileName = action.payload.uploadedFileName;
     },
   },
@@ -82,7 +83,6 @@ export const {
 export const selectInspector = (state: RootState) => ({
   inspectorValue: state.inspector.value,
   selectedWorkspace: state.inspector.selectedWorkspace,
-  uploadedFileNames: state.inspector.uploadedFileNames,
   selectedFileName: state.inspector.selectedFileName,
 });
 
