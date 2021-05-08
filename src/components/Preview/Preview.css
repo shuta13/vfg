@@ -1,0 +1,9 @@
+.Preview_wrap {
+  padding: 0.5rem;
+  height: 4rem;
+  background: var(--gray);
+}
+
+.Preview_indication {
+  font-size: var(--font-size-small);
+}
