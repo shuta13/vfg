@@ -26,6 +26,7 @@ figma.ui.onmessage = (msg: Msg) => {
       focusWorkspace(msg);
       break;
     case 'create-media-input':
+      console.log('うごいてるよ〜');
       createMediaInput(msg);
       break;
     // case 'remove-media-input':

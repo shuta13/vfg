@@ -4,7 +4,8 @@ import { useDropzone } from 'react-dropzone';
 import { useAppSelector } from '../../redux/hooks';
 import { selectInspector } from '../../redux/slice';
 import { InspectorList } from '../InspectorList';
-import { noop } from '../../utils';
+import { noop, wrappedPostMessage } from '../../utils';
+import { VFGButton } from '../VFGButton';
 
 export const MediaUploader: React.FC = () => {
   const { inspectorValue } = useAppSelector(selectInspector);
@@ -51,7 +52,7 @@ export const MediaUploader: React.FC = () => {
     setUploadedFileNames((prevState) =>
       prevState.filter((p) => p !== fileName)
     );
-    // parent.postMessage(
+    // parent.wrappedPostMessage(
     //   {
     //     pluginMessage: {
     //       type: 'remove-media-input',
@@ -66,7 +67,7 @@ export const MediaUploader: React.FC = () => {
   };
 
   const handleOnClickUpload = () => {
-    postMessage(
+    wrappedPostMessage(
       {
         pluginMessage: {
           type: 'create-media-input',
@@ -126,7 +127,14 @@ export const MediaUploader: React.FC = () => {
           <p className="MediaUploader_indication">No file selected.</p>
         )}
       </div>
-      <button
+      <VFGButton
+        type="normal"
+        disabled={!(uploadedFileNames.length > 0)}
+        handleOnClick={handleOnClickUpload}
+        text="upload"
+        bgColor="blue"
+      />
+      {/* <button
         className={
           !(uploadedFileNames.length > 0)
             ? 'MediaUploader_upload--disabled'
@@ -136,7 +144,7 @@ export const MediaUploader: React.FC = () => {
         onClick={handleOnClickUpload}
       >
         upload
-      </button>
+      </button> */}
       {fileRejections.length > 0 &&
         fileRejections.map((rejection, index) => (
           <p className="MediaUploader_warning" key={index}>
@@ -147,9 +155,13 @@ export const MediaUploader: React.FC = () => {
             ))}
           </p>
         ))}
-      {hasDuplicatedFileName && (
+      {hasDuplicatedFileName ? (
         <p className="MediaUploader_warning">
           Uploaded files have duplicated ones
+        </p>
+      ) : (
+        <p className="MediaUploader_warning">
+          Choose workspace and select files
         </p>
       )}
     </section>

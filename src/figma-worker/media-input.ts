@@ -18,6 +18,7 @@ const checkExistence = (workspaceName: string) => {
 };
 
 export const createMediaInput = (msg: Msg) => {
+  console.log(msg);
   if (msg.workspaceName !== '') {
     checkExistence(msg.workspaceName);
 

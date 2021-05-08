@@ -19,6 +19,7 @@
   height: 8rem;
   overflow: scroll;
   background: var(--gray);
+  margin-bottom: 0.5rem;
 }
 
 .MediaUploader_uploaded_list {

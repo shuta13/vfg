@@ -1,6 +1,6 @@
 import type { PostMessage } from '../types';
 
-export const postMessage = <T extends PostMessage>(
+export const wrappedPostMessage = <T extends PostMessage>(
   message: T,
   targetOrigin: string,
   // eslint-disable-next-line no-undef

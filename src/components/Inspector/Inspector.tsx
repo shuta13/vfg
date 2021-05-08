@@ -10,7 +10,7 @@ import {
 } from '../../redux/slice';
 import { InspectorList } from '../InspectorList';
 import { MessageEventTarget } from '../../types';
-import { postMessage } from '../../utils';
+import { wrappedPostMessage } from '../../utils';
 
 type Workspace = {
   name: string;
@@ -38,7 +38,7 @@ export const Inspector: React.FC = () => {
     } else {
       setIsDuplicated(false);
       const workspaceName = data.name;
-      postMessage(
+      wrappedPostMessage(
         {
           pluginMessage: {
             type: 'create-workspace',
@@ -54,7 +54,7 @@ export const Inspector: React.FC = () => {
   };
 
   const handleOnClickDelete = (workspaceName: Workspace['name']) => {
-    postMessage(
+    wrappedPostMessage(
       {
         pluginMessage: {
           type: 'remove-workspace',
@@ -69,7 +69,7 @@ export const Inspector: React.FC = () => {
   };
 
   const handleOnClickFocus = (workspaceName: Workspace['name']) => {
-    postMessage(
+    wrappedPostMessage(
       {
         pluginMessage: {
           type: 'focus-workspace',
@@ -100,10 +100,10 @@ export const Inspector: React.FC = () => {
         selectionNames,
         mediaInputData,
       } = event.data.pluginMessage;
-      workspaceNames.map((workspaceName) => {
+      workspaceNames?.map((workspaceName) => {
         dispatch(setWorkspaceName({ workspaceName }));
       });
-      selectionNames.map((selectionName) =>
+      selectionNames?.map((selectionName) =>
         dispatch(setSelectedWorkspace({ workspaceName: selectionName }))
       );
       console.log(mediaInputData);

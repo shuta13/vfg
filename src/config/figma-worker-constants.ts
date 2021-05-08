@@ -4,7 +4,7 @@ const PluginUIHeader = {
 
 export const PluginUI = {
   width: 320,
-  height: 656 - PluginUIHeader.height,
+  height: 680 - PluginUIHeader.height,
 } as const;
 
 export const WorkspaceConstants = {
