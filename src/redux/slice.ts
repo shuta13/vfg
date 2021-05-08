@@ -2,7 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 
 export type InspectorValue = {
-  workspaceName: string;
+  workspaceNames: string[];
+  uploadedFileNames: string[];
+};
+
+export type WorkspacePayload = {
+  workspaceName: InspectorValue['workspaceNames'][number];
 };
 
 export type MediaInputValue = {
@@ -10,14 +15,14 @@ export type MediaInputValue = {
 };
 
 export type InspectorState = {
-  values: InspectorValue[];
+  value: InspectorValue;
   selectedWorkspace: string;
   uploadedFileNames: string[];
   selectedFileName: string;
 };
 
 const initialState: InspectorState = {
-  values: [],
+  value: { workspaceNames: [], uploadedFileNames: [] },
   selectedWorkspace: '',
   uploadedFileNames: [],
   selectedFileName: '',
@@ -27,18 +32,18 @@ export const inspectorSlice = createSlice({
   name: 'inspector',
   initialState,
   reducers: {
-    setWorkspaceName: (state, action: PayloadAction<InspectorValue>) => {
-      state.values.push({ workspaceName: action.payload.workspaceName });
+    setWorkspaceName: (state, action: PayloadAction<WorkspacePayload>) => {
+      state.value.workspaceNames.push(action.payload.workspaceName);
     },
     resetWorkspaceNames: (state) => {
-      state.values = [];
+      state.value.workspaceNames = [];
     },
-    deleteWorkspaceName: (state, action: PayloadAction<InspectorValue>) => {
-      state.values = state.values.filter(
-        (value) => value.workspaceName !== action.payload.workspaceName
+    deleteWorkspaceName: (state, action: PayloadAction<WorkspacePayload>) => {
+      state.value.workspaceNames = state.value.workspaceNames.filter(
+        (workspaceName) => workspaceName !== action.payload.workspaceName
       );
     },
-    setSelectedWorkspace: (state, action: PayloadAction<InspectorValue>) => {
+    setSelectedWorkspace: (state, action: PayloadAction<WorkspacePayload>) => {
       state.selectedWorkspace = action.payload.workspaceName;
     },
     setUploadedFileNames: (state, action: PayloadAction<MediaInputValue>) => {
@@ -75,7 +80,7 @@ export const {
 } = inspectorSlice.actions;
 
 export const selectInspector = (state: RootState) => ({
-  inspectorValues: state.inspector.values,
+  inspectorValue: state.inspector.value,
   selectedWorkspace: state.inspector.selectedWorkspace,
   uploadedFileNames: state.inspector.uploadedFileNames,
   selectedFileName: state.inspector.selectedFileName,

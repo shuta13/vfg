@@ -13,7 +13,7 @@ import { InspectorList } from '../InspectorList';
 
 export const MediaUploader: React.FC = () => {
   const {
-    inspectorValues,
+    inspectorValue,
     selectedWorkspace,
     uploadedFileNames,
     selectedFileName,
@@ -104,7 +104,7 @@ export const MediaUploader: React.FC = () => {
       <header>
         <h1>Media</h1>
       </header>
-      {inspectorValues.length > 0 ? (
+      {inspectorValue.uploadedFileNames.length > 0 ? (
         <div {...getRootProps()} className="MediaUploader_wrap">
           <input {...getInputProps()} />
           {isDragActive ? (
