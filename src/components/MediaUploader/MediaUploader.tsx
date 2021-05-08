@@ -12,11 +12,7 @@ import {
 import { InspectorList } from '../InspectorList';
 
 export const MediaUploader: React.FC = () => {
-  const {
-    inspectorValue,
-    selectedWorkspace,
-    selectedFileName,
-  } = useAppSelector(selectInspector);
+  const { inspectorValue } = useAppSelector(selectInspector);
 
   const {
     getRootProps,
@@ -90,7 +86,7 @@ export const MediaUploader: React.FC = () => {
       {
         pluginMessage: {
           type: 'create-media-input',
-          workspaceName: selectedWorkspace,
+          workspaceName: inspectorValue.selectedWorkspace,
           uploadedFileNames: inspectorValue.uploadedFileNames,
         },
       },
@@ -137,10 +133,10 @@ export const MediaUploader: React.FC = () => {
         {inspectorValue.uploadedFileNames.length > 0 ? (
           <InspectorList
             currentNames={inspectorValue.uploadedFileNames}
-            selectedName={selectedFileName}
+            selectedName={inspectorValue.selectedFileName}
             handleOnClickFocus={handleOnClickFocus}
             handleOnClickDelete={handleOnClickDelete}
-            workspaceName={selectedWorkspace}
+            workspaceName={inspectorValue.selectedWorkspace}
           />
         ) : (
           <p className="MediaUploader_indication">No media</p>

@@ -4,6 +4,8 @@ import { RootState } from './store';
 export type InspectorValue = {
   workspaceNames: string[];
   uploadedFileNames: string[];
+  selectedWorkspace: string;
+  selectedFileName: string;
 };
 
 export type WorkspacePayload = {
@@ -16,14 +18,15 @@ export type MediaInputPayload = {
 
 export type InspectorState = {
   value: InspectorValue;
-  selectedWorkspace: string;
-  selectedFileName: string;
 };
 
 const initialState: InspectorState = {
-  value: { workspaceNames: [], uploadedFileNames: [] },
-  selectedWorkspace: '',
-  selectedFileName: '',
+  value: {
+    workspaceNames: [],
+    uploadedFileNames: [],
+    selectedWorkspace: '',
+    selectedFileName: '',
+  },
 };
 
 export const inspectorSlice = createSlice({
@@ -42,7 +45,7 @@ export const inspectorSlice = createSlice({
       );
     },
     setSelectedWorkspace: (state, action: PayloadAction<WorkspacePayload>) => {
-      state.selectedWorkspace = action.payload.workspaceName;
+      state.value.selectedWorkspace = action.payload.workspaceName;
     },
     setUploadedFileNames: (state, action: PayloadAction<MediaInputPayload>) => {
       state.value.uploadedFileNames = [
@@ -64,7 +67,7 @@ export const inspectorSlice = createSlice({
       );
     },
     setSelectedFileName: (state, action: PayloadAction<MediaInputPayload>) => {
-      state.selectedFileName = action.payload.uploadedFileName;
+      state.value.selectedFileName = action.payload.uploadedFileName;
     },
   },
 });
@@ -82,8 +85,6 @@ export const {
 
 export const selectInspector = (state: RootState) => ({
   inspectorValue: state.inspector.value,
-  selectedWorkspace: state.inspector.selectedWorkspace,
-  selectedFileName: state.inspector.selectedFileName,
 });
 
 export default inspectorSlice.reducer;

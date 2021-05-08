@@ -22,7 +22,7 @@ export const Inspector: React.FC = () => {
     formState: { errors },
   } = useForm<Workspace>();
 
-  const { inspectorValue, selectedWorkspace } = useAppSelector(selectInspector);
+  const { inspectorValue } = useAppSelector(selectInspector);
   const dispatch = useAppDispatch();
 
   const [isDuplicated, setIsDuplicated] = useState(false);
@@ -107,7 +107,7 @@ export const Inspector: React.FC = () => {
         {inspectorValue.workspaceNames.length > 0 ? (
           <InspectorList
             currentNames={inspectorValue.workspaceNames}
-            selectedName={selectedWorkspace}
+            selectedName={inspectorValue.selectedWorkspace}
             handleOnClickFocus={handleOnClickFocus}
             handleOnClickDelete={handleOnClickDelete}
           />
