@@ -1,4 +1,4 @@
-import type { MsgType } from './figma-worker-types';
+import type { Msg } from './figma-worker-types';
 
 export type MessageEventTarget = {
   pluginMessage: {
@@ -12,9 +12,5 @@ export type MessageEventTarget = {
 };
 
 export type PostMessage = {
-  pluginMessage: {
-    type: MsgType;
-    workspaceName: string;
-    uploadedFileNames: string[];
-  };
+  pluginMessage: Omit<Msg, 'uploadedFileName'>;
 };

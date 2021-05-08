@@ -1,4 +1,4 @@
-import { PostMessage } from '../types';
+import type { PostMessage } from '../types';
 
 export const postMessage = <T extends PostMessage>(
   message: T,
