@@ -42,6 +42,7 @@ export const createMediaInput = (msg: Msg) => {
       // mediaRect.fills = [{ type: 'IMAGE', scaleMode: 'FILL', imageHash: '' }];
       mediaRect.setPluginData('type', MediaInputConstants.name);
       mediaRect.setPluginData('workspaceName', msg.workspaceName);
+      mediaRect.setPluginData('fileName', fileName);
       mediaInput.appendChild(mediaRect);
     });
 
@@ -55,16 +56,24 @@ export const createMediaInput = (msg: Msg) => {
 };
 
 export const removeMediaInput = (msg: Msg) => {
-  figma.currentPage
-    .findAll(
-      (node) =>
-        node.type === 'RECTANGLE' &&
-        node.getPluginData('workspaceName') === msg.workspaceName &&
-        node.getPluginData('type') === MediaInputConstants.name
-    )
-    .forEach((node) => {
-      node.remove();
-    });
+  // console.log(msg);
+  if (msg.workspaceName === '') {
+    figma.notify(
+      'Select the workspace where you want to remove the media input in Workspace Inspector'
+    );
+  } else {
+    figma.currentPage
+      .findAll(
+        (node) =>
+          node.type === 'RECTANGLE' &&
+          node.getPluginData('workspaceName') === msg.workspaceName &&
+          node.getPluginData('type') === MediaInputConstants.name &&
+          node.getPluginData('fileName') === msg.uploadedFileName
+      )
+      .forEach((node) => {
+        node.remove();
+      });
+  }
 };
 
 export const focusMediaInput = (msg: Msg) => {

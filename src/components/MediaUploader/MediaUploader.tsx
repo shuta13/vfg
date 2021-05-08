@@ -72,13 +72,14 @@ export const MediaUploader: React.FC = () => {
       {
         pluginMessage: {
           type: 'remove-media-input',
-          uploadedFileName: fileName,
           workspaceName: workspaceName ?? '',
+          uploadedFileName: fileName,
         },
       },
       '*'
     );
-    dispatch(deleteUploadedFileName({ uploadedFileName: fileName }));
+    workspaceName &&
+      dispatch(deleteUploadedFileName({ uploadedFileName: fileName }));
   };
 
   const handleOnClickUpload = () => {
