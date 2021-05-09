@@ -33,8 +33,8 @@ export const createWorkspace = (msg: Msg) => {
 
   // create empty media input
   const mediaInput = createEmptyFrame({
-    name: `[${msg.workspaceName}] ${MediaInputConstants.name}`,
-    type: MediaInputConstants.name,
+    name: `[${msg.workspaceName}] ${MediaInputConstants.suffix}`,
+    type: MediaInputConstants.suffix,
     size: {
       width: MediaInputConstants.width,
       height: MediaInputConstants.height,

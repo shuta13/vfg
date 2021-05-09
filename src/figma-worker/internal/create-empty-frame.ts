@@ -2,7 +2,7 @@ import { MediaInputConstants, PreviewConstants } from '../../config';
 
 type Args = {
   name: string;
-  type: typeof PreviewConstants.suffix | typeof MediaInputConstants.name;
+  type: typeof PreviewConstants.suffix | typeof MediaInputConstants.suffix;
   size: { width: number; height: number };
   nodePosition: { x: number; y: number };
   workspaceName: string;

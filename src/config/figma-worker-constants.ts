@@ -20,7 +20,13 @@ export const PreviewConstants = {
 } as const;
 
 export const MediaInputConstants = {
-  name: 'MediaInput',
+  suffix: 'MediaInput',
   width: WorkspaceConstants.width,
   height: WorkspaceConstants.height / 4,
+  maxInnerNumber: 4,
 } as const;
+
+export const MediaInputItemConstants = {
+  width: MediaInputConstants.width / MediaInputConstants.maxInnerNumber,
+  height: MediaInputConstants.height / MediaInputConstants.maxInnerNumber,
+};

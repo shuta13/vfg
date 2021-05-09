@@ -1,5 +1,6 @@
 import {
   MediaInputConstants,
+  MediaInputItemConstants,
   PreviewConstants,
   WorkspaceConstants,
 } from '../config';
@@ -10,7 +11,7 @@ const checkExistence = (workspaceName: string) => {
   const mediaInputFrame = figma.currentPage.findOne(
     (node) =>
       node.type === 'FRAME' &&
-      node.getPluginData('type') === MediaInputConstants.name &&
+      node.getPluginData('type') === MediaInputConstants.suffix &&
       node.getPluginData('workspaceName') === workspaceName
   );
   mediaInputFrame?.remove();
@@ -23,8 +24,8 @@ export const createMediaInput = (msg: Msg) => {
     const newNodes = [];
 
     const mediaInput = createEmptyFrame({
-      name: `[${msg.workspaceName}] ${MediaInputConstants.name}`,
-      type: MediaInputConstants.name,
+      name: `[${msg.workspaceName}] ${MediaInputConstants.suffix}`,
+      type: MediaInputConstants.suffix,
       size: {
         width: MediaInputConstants.width,
         height: MediaInputConstants.height,
@@ -42,10 +43,18 @@ export const createMediaInput = (msg: Msg) => {
     msg.uploadedFileNames.forEach((fileName, index) => {
       const mediaRect = figma.createRectangle();
       mediaRect.name = `[${msg.workspaceName}] ${fileName}`;
-      mediaRect.resize(PreviewConstants.width / 4, PreviewConstants.height / 4);
-      mediaRect.x = (WorkspaceConstants.width / 4) * index;
+      mediaRect.resize(
+        MediaInputItemConstants.width,
+        MediaInputItemConstants.height
+      );
+      mediaRect.x =
+        MediaInputItemConstants.width *
+        (index % MediaInputConstants.maxInnerNumber);
+      mediaRect.y =
+        MediaInputItemConstants.height *
+        Math.floor(index / MediaInputConstants.maxInnerNumber);
       // mediaRect.fills = [{ type: 'IMAGE', scaleMode: 'FILL', imageHash: '' }];
-      mediaRect.setPluginData('type', MediaInputConstants.name);
+      mediaRect.setPluginData('type', MediaInputConstants.suffix);
       mediaRect.setPluginData('workspaceName', msg.workspaceName);
       mediaRect.setPluginData('fileName', fileName);
       mediaInput.appendChild(mediaRect);
@@ -74,7 +83,7 @@ export const removeMediaInput = (msg: Msg) => {
         (node) =>
           node.type === 'RECTANGLE' &&
           node.getPluginData('workspaceName') === msg.workspaceName &&
-          node.getPluginData('type') === MediaInputConstants.name &&
+          node.getPluginData('type') === MediaInputConstants.suffix &&
           node.getPluginData('fileName') === msg.uploadedFileName
       )
       .forEach((node) => {

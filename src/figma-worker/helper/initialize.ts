@@ -20,7 +20,7 @@ export const initialize = () => {
   ];
 
   const mediaInputFrameNodes = figma.root.findAll(
-    (node) => node.getPluginData('type') === MediaInputConstants.name
+    (node) => node.getPluginData('type') === MediaInputConstants.suffix
   );
   const workspaceHasMediaInputNames = [
     ...new Set(
