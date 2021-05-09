@@ -3,7 +3,8 @@ export type MsgType =
   | 'remove-workspace'
   | 'focus-workspace'
   | 'create-media-input'
-  | 'remove-media-input-item';
+  | 'remove-media-input-item'
+  | 'update-preview';
 
 export type Msg = {
   type: MsgType;

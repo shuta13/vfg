@@ -8,7 +8,7 @@ type Args = {
   workspaceName: string;
 };
 
-export const createEmptyFrame = (args: Args) => {
+export const createSkeletonFrame = (args: Args) => {
   const { name, type, size, nodePosition, workspaceName } = args;
 
   const empty = figma.createFrame();

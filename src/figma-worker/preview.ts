@@ -1,15 +1,35 @@
-import { PreviewConstants, WorkspaceConstants } from '../config';
+import { PreviewConstants } from '../config';
+import { Msg } from '../types';
+import { createSkeletonFrame } from './internal';
 
-export const createPreview = (
-  workspaceName: string,
-  lastNodePosition: number
-) => {
-  const preview = figma.createFrame();
-  preview.name = `[${workspaceName}] ${PreviewConstants.suffix}`;
-  preview.resize(PreviewConstants.width, PreviewConstants.height);
-  preview.x = lastNodePosition + WorkspaceConstants.margin;
-  preview.y = WorkspaceConstants.height + WorkspaceConstants.margin;
-  preview.setPluginData('type', PreviewConstants.suffix);
-  preview.setPluginData('workspaceName', workspaceName);
-  return preview;
+const checkExistence = (workspaceName: string) => {
+  const mediaInputFrame = figma.currentPage.findOne(
+    (node) =>
+      node.type === 'FRAME' &&
+      node.getPluginData('type') === PreviewConstants.suffix &&
+      node.getPluginData('workspaceName') === workspaceName
+  );
+  mediaInputFrame?.remove();
+};
+
+export const updatePreview = (msg: Msg) => {
+  checkExistence(msg.workspaceName);
+
+  const newNodes = [];
+
+  const preview = createSkeletonFrame({
+    name: `[${msg.workspaceName}] ${PreviewConstants.suffix} - ${msg.uploadedFileName}`,
+    type: PreviewConstants.suffix,
+    size: { width: PreviewConstants.width, height: PreviewConstants.height },
+    nodePosition: {
+      x:
+        figma.currentPage.findOne(
+          (node) => node.getPluginData('workspaceName') === msg.workspaceName
+        )?.x ?? 0,
+      y: 0,
+    },
+    workspaceName: msg.workspaceName,
+  });
+  figma.currentPage.appendChild(preview);
+  newNodes.push(preview);
 };

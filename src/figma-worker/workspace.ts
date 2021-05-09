@@ -5,7 +5,7 @@ import {
   PreviewConstants,
   WorkspaceConstants,
 } from '../config';
-import { createEmptyFrame } from './internal';
+import { createSkeletonFrame } from './internal';
 
 export const createWorkspace = (msg: Msg) => {
   const nodesPositionX = figma.currentPage.children.map(
@@ -19,7 +19,7 @@ export const createWorkspace = (msg: Msg) => {
   const newNodes = [];
 
   // create empty preview
-  const preview = createEmptyFrame({
+  const preview = createSkeletonFrame({
     name: `[${msg.workspaceName}] ${PreviewConstants.suffix}`,
     type: PreviewConstants.suffix,
     size: { width: PreviewConstants.width, height: PreviewConstants.height },
@@ -33,7 +33,7 @@ export const createWorkspace = (msg: Msg) => {
   newNodes.push(preview);
 
   // create empty media input
-  const mediaInput = createEmptyFrame({
+  const mediaInput = createSkeletonFrame({
     name: `[${msg.workspaceName}] ${MediaInputConstants.suffix}`,
     type: MediaInputConstants.suffix,
     size: {

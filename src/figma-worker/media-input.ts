@@ -5,7 +5,7 @@ import {
   WorkspaceConstants,
 } from '../config';
 import { MessageEventTarget, Msg } from '../types';
-import { createEmptyFrame } from './internal';
+import { createSkeletonFrame } from './internal';
 
 const checkExistence = (workspaceName: string) => {
   const mediaInputFrame = figma.currentPage.findOne(
@@ -23,7 +23,7 @@ export const createMediaInput = (msg: Msg) => {
 
     const newNodes = [];
 
-    const mediaInput = createEmptyFrame({
+    const mediaInput = createSkeletonFrame({
       name: `[${msg.workspaceName}] ${MediaInputConstants.suffix}`,
       type: MediaInputConstants.suffix,
       size: {
@@ -39,6 +39,8 @@ export const createMediaInput = (msg: Msg) => {
       },
       workspaceName: msg.workspaceName,
     });
+
+    const mediaInputItems: MessageEventTarget['pluginMessage']['mediaInputItems'] = [];
 
     msg.uploadedFileNames.forEach((fileName, index) => {
       const mediaRect = figma.createRectangle();
@@ -58,10 +60,19 @@ export const createMediaInput = (msg: Msg) => {
       mediaRect.setPluginData('workspaceName', msg.workspaceName);
       mediaRect.setPluginData('fileName', fileName);
       mediaInput.appendChild(mediaRect);
+
+      mediaInputItems.push({
+        workspaceName: msg.workspaceName,
+        uploadedFileName: fileName,
+      });
     });
 
     figma.currentPage.appendChild(mediaInput);
     newNodes.push(mediaInput);
+
+    figma.ui.postMessage({
+      mediaInputItems,
+    });
   } else {
     figma.notify(
       'Select the workspace where you want to add the media input in Workspace Inspector'

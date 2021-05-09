@@ -22,6 +22,16 @@ export const Preview: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
 
   const handleOnClickFocus = (fileName: string) => {
+    wrappedPostMessage(
+      {
+        pluginMessage: {
+          type: 'update-preview',
+          workspaceName: inspectorValue.selectedWorkspace,
+          uploadedFileName: fileName,
+        },
+      },
+      '*'
+    );
     dispatch(setSelectedFileNameForPreview({ fileName }));
   };
 

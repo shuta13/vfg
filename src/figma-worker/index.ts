@@ -4,6 +4,7 @@ import { PluginUI } from '../config';
 import type { Msg } from '../types';
 import { initialize } from './helper';
 import { createMediaInput, removeMediaInputItem } from './media-input';
+import { updatePreview } from './preview';
 import { createWorkspace, focusWorkspace, removeWorkspace } from './workspace';
 
 figma.showUI(__html__);
@@ -27,6 +28,9 @@ figma.ui.onmessage = (msg: Msg) => {
       break;
     case 'remove-media-input-item':
       removeMediaInputItem(msg);
+      break;
+    case 'update-preview':
+      updatePreview(msg);
       break;
     default:
       break;
