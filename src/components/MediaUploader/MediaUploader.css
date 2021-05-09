@@ -1,3 +1,10 @@
+.MediaUploader_summary {
+  font-size: var(--font-size-small);
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  padding: 0.2rem;
+}
+
 .MediaUploader_wrap {
   height: 5rem;
   border: solid 1px var(--black);

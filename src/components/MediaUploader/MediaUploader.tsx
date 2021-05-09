@@ -107,10 +107,10 @@ export const MediaUploader: React.FC = () => {
   };
 
   return (
-    <section>
-      <header>
-        <h1>Media</h1>
-      </header>
+    <details open>
+      <summary className="MediaUploader_summary">
+        <strong>Media</strong>
+      </summary>
       {inspectorValue.workspaceNames.length > 0 ? (
         <div {...getRootProps()} className="MediaUploader_wrap">
           <input {...getInputProps()} />
@@ -168,15 +168,6 @@ export const MediaUploader: React.FC = () => {
           </p>
         ))}
       {renderInputFilesError()}
-      {/* {hasDuplicatedFileName ? (
-        <p className="MediaUploader_warning">
-          Uploaded files have duplicated ones
-        </p>
-      ) : (
-        <p className="MediaUploader_warning">
-          Choose workspace and select files
-        </p>
-      )} */}
-    </section>
+    </details>
   );
 };

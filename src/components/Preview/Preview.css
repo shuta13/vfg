@@ -1,3 +1,10 @@
+.Preview_summary {
+  margin-bottom: 0.5rem;
+  font-size: var(--font-size-small);
+  cursor: pointer;
+  padding: 0.2rem;
+}
+
 .Preview_wrap {
   padding: 0.5rem;
   height: 8rem;

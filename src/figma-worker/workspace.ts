@@ -32,6 +32,7 @@ export const createWorkspace = (msg: Msg) => {
 };
 
 export const removeWorkspace = (msg: Msg) => {
+  // Remove all workspace item
   figma.currentPage
     .findAll(
       (node) =>

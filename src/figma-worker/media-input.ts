@@ -6,17 +6,13 @@ import {
 import { Msg } from '../types';
 
 const checkExistence = (workspaceName: string) => {
-  figma.currentPage
-    .findAll(
-      (node) =>
-        node.type === 'FRAME' &&
-        node.getPluginData('type') === MediaInputConstants.name &&
-        node.getPluginData('workspaceName') === workspaceName
-      // node.name.includes(`[${workspaceName}] ${MediaInputConstants.name}`)
-    )
-    .forEach((node) => {
-      node.remove();
-    });
+  const mediaInputFrame = figma.currentPage.findOne(
+    (node) =>
+      node.type === 'FRAME' &&
+      node.getPluginData('type') === MediaInputConstants.name &&
+      node.getPluginData('workspaceName') === workspaceName
+  );
+  mediaInputFrame?.remove();
 };
 
 export const createMediaInput = (msg: Msg) => {
@@ -59,6 +55,9 @@ export const createMediaInput = (msg: Msg) => {
   }
 };
 
+/**
+ * @deprecated
+ */
 export const removeMediaInput = (msg: Msg) => {
   if (msg.workspaceName === '') {
     figma.notify(
