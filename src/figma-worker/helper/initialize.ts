@@ -1,4 +1,5 @@
-import { MediaInputConstants } from '../../config';
+// import { MediaInputItemConstants } from '../../config';
+import type { MessageEventTarget } from '../../types';
 
 export const initialize = () => {
   const workspaceFrameNodes = figma.root.findAll(
@@ -19,30 +20,31 @@ export const initialize = () => {
     ),
   ];
 
-  const mediaInputFrameNodes = figma.root.findAll(
-    (node) => node.getPluginData('type') === MediaInputConstants.suffix
-  );
-  const workspaceHasMediaInputNames = [
-    ...new Set(
-      mediaInputFrameNodes.map((node) => node.getPluginData('workspaceName'))
-    ),
-  ];
-  const mediaInputData: {
-    workspaceName: string;
-    uploadedFileName: string;
-  }[] = [];
-  workspaceHasMediaInputNames.forEach((name) => {
-    mediaInputFrameNodes.forEach((node) => {
-      if (
-        node.getPluginData('workspaceName') === name &&
-        node.getPluginData('fileName')
-      ) {
-        mediaInputData.push({
-          workspaceName: name,
-          uploadedFileName: node.getPluginData('fileName'),
-        });
-      }
-    });
-  });
-  figma.ui.postMessage({ workspaceNames, selectionNames, mediaInputData });
+  // const mediaInputFrameNodes = figma.root.findAll(
+  //   (node) => node.getPluginData('type') === MediaInputItemConstants.suffix
+  // );
+  // const workspaceHasMediaInputNames = [
+  //   ...new Set(
+  //     mediaInputFrameNodes.map((node) => node.getPluginData('workspaceName'))
+  //   ),
+  // ];
+  // const mediaInputItems: MessageEventTarget['pluginMessage']['mediaInputItems'] = [];
+  // workspaceHasMediaInputNames.forEach((name) => {
+  //   mediaInputFrameNodes.forEach((node) => {
+  //     if (
+  //       node.getPluginData('workspaceName') === name &&
+  //       node.getPluginData('fileName')
+  //     ) {
+  //       mediaInputItems.push({
+  //         workspaceName: name,
+  //         uploadedFileName: node.getPluginData('fileName'),
+  //       });
+  //     }
+  //   });
+  // });
+  figma.ui.postMessage(({
+    workspaceNames,
+    selectionNames,
+    // mediaInputItems,
+  } as unknown) as MessageEventTarget);
 };

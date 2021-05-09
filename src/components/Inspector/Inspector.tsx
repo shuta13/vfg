@@ -1,5 +1,5 @@
 import './Inspector.css';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
@@ -9,7 +9,6 @@ import {
   setSelectedWorkspace,
 } from '../../redux/slice';
 import { InspectorList } from '../InspectorList';
-import { MessageEventTarget } from '../../types';
 import { noop, wrappedPostMessage } from '../../utils';
 import { VFGButton } from '../VFGButton';
 
@@ -92,24 +91,6 @@ export const Inspector: React.FC = () => {
     }
     return <>Enter workspace name</>;
   };
-
-  useEffect(() => {
-    // initialize
-    onmessage = (event: MessageEvent<MessageEventTarget>) => {
-      const {
-        workspaceNames,
-        selectionNames,
-        mediaInputData,
-      } = event.data.pluginMessage;
-      workspaceNames?.map((workspaceName) => {
-        dispatch(setWorkspaceName({ workspaceName }));
-      });
-      selectionNames?.map((selectionName) =>
-        dispatch(setSelectedWorkspace({ workspaceName: selectionName }))
-      );
-      console.log(mediaInputData);
-    };
-  }, []);
 
   return (
     <section>

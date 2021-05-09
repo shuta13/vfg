@@ -27,6 +27,7 @@ export const MediaInputConstants = {
 } as const;
 
 export const MediaInputItemConstants = {
+  suffix: 'MediaInputItem',
   width: MediaInputConstants.width / MediaInputConstants.maxInnerNumber,
   height: MediaInputConstants.height / MediaInputConstants.maxInnerNumber,
 };

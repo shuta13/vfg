@@ -54,7 +54,7 @@ export const createMediaInput = (msg: Msg) => {
         MediaInputItemConstants.height *
         Math.floor(index / MediaInputConstants.maxInnerNumber);
       // mediaRect.fills = [{ type: 'IMAGE', scaleMode: 'FILL', imageHash: '' }];
-      mediaRect.setPluginData('type', MediaInputConstants.suffix);
+      mediaRect.setPluginData('type', MediaInputItemConstants.suffix);
       mediaRect.setPluginData('workspaceName', msg.workspaceName);
       mediaRect.setPluginData('fileName', fileName);
       mediaInput.appendChild(mediaRect);

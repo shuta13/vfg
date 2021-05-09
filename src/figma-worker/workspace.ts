@@ -1,6 +1,7 @@
-import { Msg } from '../types';
+import { MessageEventTarget, Msg } from '../types';
 import {
   MediaInputConstants,
+  MediaInputItemConstants,
   PreviewConstants,
   WorkspaceConstants,
 } from '../config';
@@ -69,6 +70,22 @@ export const removeWorkspace = (msg: Msg) => {
 };
 
 export const focusWorkspace = (msg: Msg) => {
+  const mediaInputFrameNodes = figma.root.findAll(
+    (node) => node.getPluginData('type') === MediaInputItemConstants.suffix
+  );
+  const mediaInputItems: MessageEventTarget['pluginMessage']['mediaInputItems'] = [];
+  mediaInputFrameNodes.forEach((node) => {
+    if (node.getPluginData('workspaceName') === msg.workspaceName) {
+      mediaInputItems.push({
+        workspaceName: msg.workspaceName,
+        uploadedFileName: node.getPluginData('fileName'),
+      });
+    }
+  });
+  figma.ui.postMessage({
+    mediaInputItems,
+  });
+
   const selected = figma.currentPage.findAll(
     (node) =>
       node.type === 'FRAME' &&

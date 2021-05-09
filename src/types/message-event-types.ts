@@ -4,10 +4,10 @@ export type MessageEventTarget = {
   pluginMessage: {
     workspaceNames?: string[];
     selectionNames?: string[];
-    mediaInputData?: {
+    mediaInputItems?: {
       workspaceName: string;
       uploadedFileName: string;
-    };
+    }[];
   };
 };
 
