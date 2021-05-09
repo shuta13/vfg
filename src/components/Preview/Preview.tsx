@@ -2,6 +2,12 @@ import './Preview.css';
 import React from 'react';
 import type { MessageEventTarget } from '../../types';
 import { InspectorList } from '../InspectorList';
+import {
+  selectInspector,
+  setSelectedFileNameForPreview,
+} from '../../redux/slice';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { wrappedPostMessage } from '../../utils';
 
 type Props = {
   mediaInputItems: NonNullable<
@@ -11,6 +17,28 @@ type Props = {
 
 export const Preview: React.FC<Props> = (props) => {
   const { mediaInputItems } = props;
+
+  const { inspectorValue } = useAppSelector(selectInspector);
+  const dispatch = useAppDispatch();
+
+  const handleOnClickFocus = (fileName: string) => {
+    dispatch(setSelectedFileNameForPreview({ fileName }));
+  };
+
+  const handleOnClickDelete = (fileName: string) => {
+    wrappedPostMessage(
+      {
+        pluginMessage: {
+          type: 'remove-media-input-item',
+          workspaceName: inspectorValue.selectedWorkspace,
+          uploadedFileName: fileName,
+        },
+      },
+      '*'
+    );
+    dispatch(setSelectedFileNameForPreview({ fileName: '' }));
+  };
+
   return (
     <details open>
       <summary className="Preview_summary">
@@ -20,17 +48,23 @@ export const Preview: React.FC<Props> = (props) => {
         {mediaInputItems?.length > 0 ? (
           <InspectorList
             currentNames={mediaInputItems.map((item) => item.uploadedFileName)}
-            selectedName={''}
-            handleOnClickFocus={() => {}}
-            handleOnClickDelete={() => {}}
+            selectedName={inspectorValue.selectedFileNameForPreview}
+            handleOnClickFocus={handleOnClickFocus}
+            handleOnClickDelete={handleOnClickDelete}
           />
         ) : (
           <p className="Preview_indication">No media</p>
         )}
       </div>
-      <p className="Preview_warning">
-        Select media you want to show in Preview
-      </p>
+      {inspectorValue.selectedWorkspace ? (
+        <p className="Preview_warning">
+          Select media you want to show in Preview
+        </p>
+      ) : (
+        <p className="Preview_warning">
+          Choose workspace in Workspace Inspector
+        </p>
+      )}
     </details>
   );
 };

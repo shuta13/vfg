@@ -4,7 +4,7 @@ import {
   PreviewConstants,
   WorkspaceConstants,
 } from '../config';
-import { Msg } from '../types';
+import { MessageEventTarget, Msg } from '../types';
 import { createEmptyFrame } from './internal';
 
 const checkExistence = (workspaceName: string) => {
@@ -69,25 +69,36 @@ export const createMediaInput = (msg: Msg) => {
   }
 };
 
-/**
- * @deprecated
- */
-export const removeMediaInput = (msg: Msg) => {
+export const removeMediaInputItem = (msg: Msg) => {
   if (msg.workspaceName === '') {
     figma.notify(
       'Select the workspace where you want to remove the media input in Workspace Inspector'
     );
   } else {
     figma.currentPage
-      .findAll(
+      .findOne(
         (node) =>
           node.type === 'RECTANGLE' &&
           node.getPluginData('workspaceName') === msg.workspaceName &&
-          node.getPluginData('type') === MediaInputConstants.suffix &&
+          node.getPluginData('type') === MediaInputItemConstants.suffix &&
           node.getPluginData('fileName') === msg.uploadedFileName
       )
-      .forEach((node) => {
-        node.remove();
-      });
+      ?.remove();
+
+    const mediaInputFrameNodes = figma.root.findAll(
+      (node) => node.getPluginData('type') === MediaInputItemConstants.suffix
+    );
+    const mediaInputItems: MessageEventTarget['pluginMessage']['mediaInputItems'] = [];
+    mediaInputFrameNodes.forEach((node) => {
+      if (node.getPluginData('workspaceName') === msg.workspaceName) {
+        mediaInputItems.push({
+          workspaceName: msg.workspaceName,
+          uploadedFileName: node.getPluginData('fileName'),
+        });
+      }
+    });
+    figma.ui.postMessage({
+      mediaInputItems,
+    });
   }
 };

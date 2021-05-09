@@ -8,9 +8,10 @@ export type MessageEventTarget = {
       workspaceName: string;
       uploadedFileName: string;
     }[];
+    uploadedFileName?: string;
   };
 };
 
 export type PostMessage = {
-  pluginMessage: Omit<Msg, 'uploadedFileName'>;
+  pluginMessage: Partial<Msg>;
 };

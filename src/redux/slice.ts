@@ -4,6 +4,7 @@ import { RootState } from './store';
 export type InspectorValue = {
   workspaceNames: string[];
   selectedWorkspace: string;
+  selectedFileNameForPreview: string;
 };
 
 export type InspectorState = {
@@ -14,10 +15,15 @@ export type WorkspacePayload = {
   workspaceName: InspectorValue['workspaceNames'][number];
 };
 
+export type PreviewPayload = {
+  fileName: InspectorValue['selectedFileNameForPreview'];
+};
+
 const initialState: InspectorState = {
   value: {
     workspaceNames: [],
     selectedWorkspace: '',
+    selectedFileNameForPreview: '',
   },
 };
 
@@ -39,6 +45,12 @@ export const inspectorSlice = createSlice({
     setSelectedWorkspace: (state, action: PayloadAction<WorkspacePayload>) => {
       state.value.selectedWorkspace = action.payload.workspaceName;
     },
+    setSelectedFileNameForPreview: (
+      state,
+      action: PayloadAction<PreviewPayload>
+    ) => {
+      state.value.selectedFileNameForPreview = action.payload.fileName;
+    },
   },
 });
 
@@ -47,6 +59,7 @@ export const {
   resetWorkspaceNames,
   deleteWorkspaceName,
   setSelectedWorkspace,
+  setSelectedFileNameForPreview,
 } = inspectorSlice.actions;
 
 export const selectInspector = (state: RootState) => ({
