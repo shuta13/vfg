@@ -1,4 +1,4 @@
-import { PreviewConstants, WorkspaceConstants } from '../../config';
+import { PreviewConstants, WorkspaceConstants } from '../config';
 
 export const createPreview = (
   workspaceName: string,

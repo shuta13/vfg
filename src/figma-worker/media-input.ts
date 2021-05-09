@@ -4,6 +4,7 @@ import {
   WorkspaceConstants,
 } from '../config';
 import { Msg } from '../types';
+import { createEmptyFrame } from './internal';
 
 const checkExistence = (workspaceName: string) => {
   const mediaInputFrame = figma.currentPage.findOne(
@@ -21,18 +22,22 @@ export const createMediaInput = (msg: Msg) => {
 
     const newNodes = [];
 
-    const mediaInput = figma.createFrame();
-    mediaInput.name = `[${msg.workspaceName}] ${MediaInputConstants.name}`;
-    mediaInput.resize(MediaInputConstants.width, MediaInputConstants.height);
-    mediaInput.x = figma.currentPage.findAll((node) =>
-      node.name.includes(msg.workspaceName)
-    )[0].x;
-    mediaInput.setPluginData('type', MediaInputConstants.name);
-    mediaInput.setPluginData('workspaceName', msg.workspaceName);
-    mediaInput.y =
-      WorkspaceConstants.height +
-      PreviewConstants.height +
-      WorkspaceConstants.margin * 2;
+    const mediaInput = createEmptyFrame({
+      name: `[${msg.workspaceName}] ${MediaInputConstants.name}`,
+      type: MediaInputConstants.name,
+      size: {
+        width: MediaInputConstants.width,
+        height: MediaInputConstants.height,
+      },
+      nodePosition: {
+        x:
+          figma.currentPage.findOne(
+            (node) => node.getPluginData('workspaceName') === msg.workspaceName
+          )?.x ?? 0,
+        y: PreviewConstants.height + WorkspaceConstants.margin,
+      },
+      workspaceName: msg.workspaceName,
+    });
 
     msg.uploadedFileNames.forEach((fileName, index) => {
       const mediaRect = figma.createRectangle();

@@ -8,7 +8,6 @@ export const PluginUI = {
 } as const;
 
 export const WorkspaceConstants = {
-  suffix: 'Controlls',
   width: 320,
   height: 720,
   margin: 16,

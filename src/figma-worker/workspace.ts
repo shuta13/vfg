@@ -1,31 +1,55 @@
 import { Msg } from '../types';
-import { WorkspaceConstants } from '../config';
-import { createPreview } from './internal';
+import {
+  MediaInputConstants,
+  PreviewConstants,
+  WorkspaceConstants,
+} from '../config';
+import { createEmptyFrame } from './internal';
 
 export const createWorkspace = (msg: Msg) => {
   const nodesPositionX = figma.currentPage.children.map(
     (child) => child.x + child.width
   );
-  const lastNodePosition =
+  const lastNodePositionX =
     nodesPositionX.length > 0
       ? nodesPositionX.reduce((prev, cur) => Math.max(prev, cur))
       : 0;
 
   const newNodes = [];
 
-  // create workspace frame
-  const workspace = figma.createFrame();
-  workspace.name = `[${msg.workspaceName}] ${WorkspaceConstants.suffix}`;
-  workspace.resize(WorkspaceConstants.width, WorkspaceConstants.height);
-  workspace.x = lastNodePosition + WorkspaceConstants.margin;
-  workspace.setPluginData('type', WorkspaceConstants.suffix);
-  workspace.setPluginData('workspaceName', msg.workspaceName);
-  figma.currentPage.appendChild(workspace);
-  newNodes.push(workspace);
-
-  const preview = createPreview(msg.workspaceName, lastNodePosition);
+  // create empty preview
+  const preview = createEmptyFrame({
+    name: `[${msg.workspaceName}] ${PreviewConstants.suffix}`,
+    type: PreviewConstants.suffix,
+    size: { width: PreviewConstants.width, height: PreviewConstants.height },
+    nodePosition: {
+      x: lastNodePositionX + WorkspaceConstants.margin,
+      y: 0,
+    },
+    workspaceName: msg.workspaceName,
+  });
   figma.currentPage.appendChild(preview);
   newNodes.push(preview);
+
+  // create empty media input
+  const mediaInput = createEmptyFrame({
+    name: `[${msg.workspaceName}] ${MediaInputConstants.name}`,
+    type: MediaInputConstants.name,
+    size: {
+      width: MediaInputConstants.width,
+      height: MediaInputConstants.height,
+    },
+    nodePosition: {
+      x:
+        figma.currentPage.findOne(
+          (node) => node.getPluginData('workspaceName') === msg.workspaceName
+        )?.x ?? 0,
+      y: PreviewConstants.height + WorkspaceConstants.margin,
+    },
+    workspaceName: msg.workspaceName,
+  });
+  figma.currentPage.appendChild(mediaInput);
+  newNodes.push(mediaInput);
 
   figma.currentPage.selection = newNodes;
   figma.viewport.scrollAndZoomIntoView(newNodes);

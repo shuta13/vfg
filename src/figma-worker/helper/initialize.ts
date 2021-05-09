@@ -1,8 +1,8 @@
-import { MediaInputConstants, WorkspaceConstants } from '../../config';
+import { MediaInputConstants } from '../../config';
 
 export const initialize = () => {
   const workspaceFrameNodes = figma.root.findAll(
-    (node) => node.getPluginData('type') === WorkspaceConstants.suffix
+    (node) => node.type === 'FRAME'
   );
   // Shape, remove duplicate workspace names
   const workspaceNames = [
