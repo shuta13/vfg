@@ -1,11 +1,5 @@
 import { MediaInputConstants, WorkspaceConstants } from '../../config';
 
-const formatWorkspaceName = (workspaceName: string) =>
-  workspaceName.split(']')[0].replace('[', '');
-
-const formatMediaInputName = (mediaInputName: string) =>
-  mediaInputName.split(' ')[1];
-
 export const initialize = () => {
   const workspaceFrameNodes = figma.root.findAll(
     (node) => node.getPluginData('type') === WorkspaceConstants.suffix
@@ -13,14 +7,14 @@ export const initialize = () => {
   // Shape, remove duplicate workspace names
   const workspaceNames = [
     ...new Set(
-      workspaceFrameNodes.map((node) => formatWorkspaceName(node.name))
+      workspaceFrameNodes.map((node) => node.getPluginData('workspaceName'))
     ),
   ];
   // Set selected nodes
   const selectionNames = [
     ...new Set(
       figma.currentPage.selection.map((selection) =>
-        formatWorkspaceName(selection.name)
+        selection.getPluginData('workspaceName')
       )
     ),
   ];
@@ -30,7 +24,7 @@ export const initialize = () => {
   );
   const workspaceHasMediaInputNames = [
     ...new Set(
-      mediaInputFrameNodes.map((node) => formatWorkspaceName(node.name))
+      mediaInputFrameNodes.map((node) => node.getPluginData('workspaceName'))
     ),
   ];
   const mediaInputData: {
@@ -40,12 +34,12 @@ export const initialize = () => {
   workspaceHasMediaInputNames.forEach((name) => {
     mediaInputFrameNodes.forEach((node) => {
       if (
-        formatWorkspaceName(node.name) === name &&
+        node.getPluginData('workspaceName') === name &&
         node.getPluginData('fileName')
       ) {
         mediaInputData.push({
           workspaceName: name,
-          uploadedFileName: formatMediaInputName(node.name),
+          uploadedFileName: node.getPluginData('fileName'),
         });
       }
     });
