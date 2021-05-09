@@ -18,7 +18,7 @@ export const updatePreview = (msg: Msg) => {
   const newNodes = [];
 
   const preview = createSkeletonFrame({
-    name: `[${msg.workspaceName}] ${PreviewConstants.suffix} - ${msg.uploadedFileName}`,
+    name: `[${msg.workspaceName}] ${PreviewConstants.suffix}`,
     type: PreviewConstants.suffix,
     size: { width: PreviewConstants.width, height: PreviewConstants.height },
     nodePosition: {
@@ -30,6 +30,15 @@ export const updatePreview = (msg: Msg) => {
     },
     workspaceName: msg.workspaceName,
   });
+
+  const previewRect = figma.createRectangle();
+  previewRect.name = `[${msg.workspaceName}] ${msg.uploadedFileName}`;
+  previewRect.resize(PreviewConstants.width, PreviewConstants.height);
+  previewRect.setPluginData('type', PreviewConstants.suffix);
+  previewRect.setPluginData('workspaceName', msg.workspaceName);
+  previewRect.setPluginData('fileName', msg.uploadedFileName);
+  preview.appendChild(previewRect);
+
   figma.currentPage.appendChild(preview);
   newNodes.push(preview);
 };
