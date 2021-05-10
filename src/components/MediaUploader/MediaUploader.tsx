@@ -107,7 +107,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
         className="MediaUploader_summary"
         onClick={() => setIsDetailsOpen((prevState) => !prevState)}
       >
-        <strong>Media Uploader</strong>
+        <strong>Media</strong>
       </summary>
       {isDetailsOpen && (
         <>

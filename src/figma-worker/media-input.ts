@@ -23,6 +23,13 @@ export const createMediaInput = (msg: Msg) => {
 
     const newNodes = [];
 
+    const { x, y } = figma.currentPage.findOne(
+      (node) =>
+        node.type === 'FRAME' &&
+        node.getPluginData('type') === PreviewConstants.suffix &&
+        node.getPluginData('workspaceName') === msg.workspaceName
+    ) ?? { x: 0, y: 0 };
+
     const mediaInput = createSkeletonFrame({
       name: `[${msg.workspaceName}] ${MediaInputConstants.suffix}`,
       type: MediaInputConstants.suffix,
@@ -31,11 +38,8 @@ export const createMediaInput = (msg: Msg) => {
         height: MediaInputConstants.height,
       },
       nodePosition: {
-        x:
-          figma.currentPage.findOne(
-            (node) => node.getPluginData('workspaceName') === msg.workspaceName
-          )?.x ?? 0,
-        y: PreviewConstants.height + WorkspaceConstants.margin,
+        x,
+        y: y + MediaInputConstants.height + WorkspaceConstants.margin,
       },
       workspaceName: msg.workspaceName,
     });

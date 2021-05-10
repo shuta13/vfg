@@ -74,7 +74,7 @@ export const Preview: React.FC<Props> = (props) => {
         className="Preview_summary"
         onClick={() => setIsDetailsOpen((prevState) => !prevState)}
       >
-        <strong>Media Input</strong>
+        <strong>Preview Input</strong>
       </summary>
       {isDetailsOpen && (
         <>
