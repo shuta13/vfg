@@ -34,19 +34,22 @@ export const updatePreview = (msg: Msg) => {
       node.getPluginData('workspaceName') === msg.workspaceName
   ) ?? { x: 0, y: 0 };
 
-  if (mediaInputItems.length > 0) {
-    const newNodes = [];
+  const preview = createSkeletonFrame({
+    name: `[${msg.workspaceName}] ${PreviewConstants.suffix}`,
+    type: PreviewConstants.suffix,
+    size: { width: PreviewConstants.width, height: PreviewConstants.height },
+    nodePosition: {
+      x,
+      y: y - (MediaInputConstants.height + WorkspaceConstants.margin),
+    },
+    workspaceName: msg.workspaceName,
+  });
 
-    const preview = createSkeletonFrame({
-      name: `[${msg.workspaceName}] ${PreviewConstants.suffix}`,
-      type: PreviewConstants.suffix,
-      size: { width: PreviewConstants.width, height: PreviewConstants.height },
-      nodePosition: {
-        x,
-        y: y - (MediaInputConstants.height + WorkspaceConstants.margin),
-      },
-      workspaceName: msg.workspaceName,
-    });
+  if (
+    mediaInputItems.length > 0 &&
+    mediaInputItems.length === msg.currentMediaInputItemLength
+  ) {
+    const newNodes = [];
 
     const previewRect = figma.createRectangle();
     previewRect.name = `[${msg.workspaceName}] ${msg.uploadedFileName}`;
@@ -61,17 +64,6 @@ export const updatePreview = (msg: Msg) => {
 
     figma.currentPage.selection = newNodes;
   } else {
-    const preview = createSkeletonFrame({
-      name: `[${msg.workspaceName}] ${PreviewConstants.suffix}`,
-      type: PreviewConstants.suffix,
-      size: { width: PreviewConstants.width, height: PreviewConstants.height },
-      nodePosition: {
-        x,
-        y: y - (MediaInputConstants.height + WorkspaceConstants.margin),
-      },
-      workspaceName: msg.workspaceName,
-    });
-
     figma.currentPage.appendChild(preview);
 
     figma.notify(

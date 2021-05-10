@@ -48,6 +48,7 @@ export const Preview: React.FC<Props> = (props) => {
           type: 'update-preview',
           workspaceName: inspectorValue.selectedWorkspace,
           uploadedFileName: fileName,
+          currentMediaInputItemLength: inspectorValue.mediaInputItems.length,
         },
       },
       '*'

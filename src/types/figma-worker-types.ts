@@ -10,11 +10,12 @@ export type MsgType =
 
 export type Msg = {
   type: MsgType;
-  workspaceName: string;
-  uploadedFileNames: string[];
-  uploadedFileName: string;
   pluginUISize: {
     width: number;
     height: number;
   };
+  workspaceName: string;
+  uploadedFileNames: string[];
+  uploadedFileName: string;
+  currentMediaInputItemLength: number;
 };
