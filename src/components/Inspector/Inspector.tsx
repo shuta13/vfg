@@ -7,6 +7,8 @@ import {
   setWorkspaceName,
   deleteWorkspaceName,
   setSelectedWorkspace,
+  setSelectedFileNameForPreview,
+  resetMediaInputItems,
 } from '../../redux/slice';
 import { InspectorList } from '../InspectorList';
 import { noop, wrappedPostMessage } from '../../utils';
@@ -50,6 +52,7 @@ export const Inspector: React.FC = () => {
       );
       dispatch(setWorkspaceName({ workspaceName: data.name }));
       dispatch(setSelectedWorkspace({ workspaceName }));
+      dispatch(resetMediaInputItems());
     }
   };
 
@@ -66,9 +69,20 @@ export const Inspector: React.FC = () => {
     );
     dispatch(deleteWorkspaceName({ workspaceName }));
     dispatch(setSelectedWorkspace({ workspaceName: '' }));
+    dispatch(setSelectedFileNameForPreview({ uploadedFileName: '' }));
   };
 
-  const handleOnClickFocus = (workspaceName: Workspace['name']) => {
+  const handleOnClickFocus = (
+    workspaceName: Workspace['name'],
+    selectedFileNameForPreview?: string
+  ) => {
+    dispatch(
+      setSelectedFileNameForPreview({
+        uploadedFileName: selectedFileNameForPreview ?? '',
+      })
+    );
+    dispatch(resetMediaInputItems());
+    dispatch(setSelectedWorkspace({ workspaceName }));
     wrappedPostMessage(
       {
         pluginMessage: {
@@ -79,7 +93,6 @@ export const Inspector: React.FC = () => {
       },
       '*'
     );
-    dispatch(setSelectedWorkspace({ workspaceName }));
   };
 
   const renderFormError = () => {

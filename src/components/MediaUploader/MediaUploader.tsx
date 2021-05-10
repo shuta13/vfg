@@ -1,8 +1,11 @@
 import './MediaUploader.css';
 import React, { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { useAppSelector } from '../../redux/hooks';
-import { selectInspector } from '../../redux/slice';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import {
+  selectInspector,
+  setSelectedFileNameForPreview,
+} from '../../redux/slice';
 import { InspectorList } from '../InspectorList';
 import { noop, wrappedPostMessage } from '../../utils';
 import { VFGButton } from '../VFGButton';
@@ -16,6 +19,8 @@ type Props = {
 export const MediaUploader: React.FC<Props> = (props) => {
   const { isDetailsOpen, setIsDetailsOpen } = props;
   const { inspectorValue } = useAppSelector(selectInspector);
+
+  const dispatch = useAppDispatch();
 
   const {
     getRootProps,
@@ -73,6 +78,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
       '*'
     );
     setUploadedFileNames([]);
+    dispatch(setSelectedFileNameForPreview({ uploadedFileName: '' }));
   };
 
   const renderInputFilesError = () => {

@@ -9,6 +9,7 @@ export type MessageEventTarget = {
       uploadedFileName: string;
     }[];
     uploadedFileName?: string;
+    selectedFileNameForPreview?: string;
   };
 };
 

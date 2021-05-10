@@ -39,7 +39,7 @@ export const createMediaInput = (msg: Msg) => {
       },
       nodePosition: {
         x,
-        y: y + MediaInputConstants.height + WorkspaceConstants.margin,
+        y: y + PreviewConstants.height + WorkspaceConstants.margin,
       },
       workspaceName: msg.workspaceName,
     });

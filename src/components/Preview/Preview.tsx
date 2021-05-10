@@ -51,7 +51,7 @@ export const Preview: React.FC<Props> = (props) => {
       },
       '*'
     );
-    dispatch(setSelectedFileNameForPreview({ fileName }));
+    dispatch(setSelectedFileNameForPreview({ uploadedFileName: fileName }));
   };
 
   const handleOnClickDelete = (fileName: string) => {
@@ -65,7 +65,7 @@ export const Preview: React.FC<Props> = (props) => {
       },
       '*'
     );
-    dispatch(setSelectedFileNameForPreview({ fileName: '' }));
+    dispatch(setSelectedFileNameForPreview({ uploadedFileName: '' }));
   };
 
   return (

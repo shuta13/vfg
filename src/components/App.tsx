@@ -4,17 +4,21 @@ import { Inspector } from './Inspector';
 import { MediaUploader } from './MediaUploader';
 import { Preview } from './Preview';
 import type { MessageEventTarget } from '../types';
-import { useAppDispatch } from '../redux/hooks';
-import { setSelectedWorkspace, setWorkspaceName } from '../redux/slice';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import {
+  setSelectedWorkspace,
+  setWorkspaceName,
+  setMediaInputItem,
+  selectInspector,
+  setSelectedFileNameForPreview,
+} from '../redux/slice';
 import { PluginUI, PluginUIHeader } from '../config';
 import { wrappedPostMessage } from '../utils';
 
 const App: React.FC = () => {
-  const dispatch = useAppDispatch();
+  const { inspectorValue } = useAppSelector(selectInspector);
 
-  const [mediaInputItems, setMediaInputItems] = useState<
-    NonNullable<MessageEventTarget['pluginMessage']['mediaInputItems']>
-  >([]);
+  const dispatch = useAppDispatch();
 
   const [isMediaUploaderOpen, setIsMediaUploaderOpen] = useState(true);
   const [isPreviewOpen, setIsPreviewOpen] = useState(true);
@@ -58,14 +62,23 @@ const App: React.FC = () => {
         workspaceNames,
         selectionNames,
         mediaInputItems,
+        selectedFileNameForPreview,
       } = event.data.pluginMessage;
-      workspaceNames?.map((workspaceName) => {
+      workspaceNames?.forEach((workspaceName) => {
         dispatch(setWorkspaceName({ workspaceName }));
       });
-      selectionNames?.map((selectionName) =>
-        dispatch(setSelectedWorkspace({ workspaceName: selectionName }))
-      );
-      mediaInputItems && setMediaInputItems(mediaInputItems);
+      selectionNames?.forEach((selectionName) => {
+        dispatch(setSelectedWorkspace({ workspaceName: selectionName }));
+      });
+      mediaInputItems?.forEach((mediaInputItem) => {
+        dispatch(setMediaInputItem({ mediaInputItem }));
+      });
+      selectedFileNameForPreview &&
+        dispatch(
+          setSelectedFileNameForPreview({
+            uploadedFileName: selectedFileNameForPreview,
+          })
+        );
     };
   }, []);
 
@@ -78,7 +91,7 @@ const App: React.FC = () => {
           setIsDetailsOpen={setIsMediaUploaderOpen}
         />
         <Preview
-          mediaInputItems={mediaInputItems}
+          mediaInputItems={inspectorValue.mediaInputItems}
           isDetailsOpen={isPreviewOpen}
           setIsDetailsOpen={setIsPreviewOpen}
         />

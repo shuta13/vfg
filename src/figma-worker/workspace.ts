@@ -82,8 +82,20 @@ export const focusWorkspace = (msg: Msg) => {
       });
     }
   });
+
+  const selectedFileNameForPreview =
+    figma.currentPage
+      .findOne(
+        (node) =>
+          node.type === 'RECTANGLE' &&
+          node.getPluginData('type') === PreviewConstants.suffix &&
+          node.getPluginData('workspaceName') === msg.workspaceName
+      )
+      ?.getPluginData('fileName') ?? '';
+
   figma.ui.postMessage({
     mediaInputItems,
+    selectedFileNameForPreview,
   });
 
   const selected = figma.currentPage.findAll(

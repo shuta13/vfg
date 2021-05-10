@@ -6,7 +6,10 @@ type Props = {
   selectedName: string;
   workspaceName?: string;
   /* eslint-disable no-unused-vars */
-  handleOnClickFocus: (currentName: string) => void;
+  handleOnClickFocus: (
+    currentName: string,
+    selectedFileNameForPreview?: string
+  ) => void;
   handleOnClickDelete: (currentName: string, workspaceName?: string) => void;
   /* eslint-enable no-unused-vars */
 };
@@ -29,7 +32,7 @@ export const InspectorList: React.FC<Props> = (props) => {
                 ? 'InspectorList_workspace_name--selected'
                 : 'InspectorList_workspace_name'
             }
-            onClick={() => handleOnClickFocus(currentName)}
+            onClick={() => handleOnClickFocus(currentName, selectedName)}
           >
             {currentName}
           </button>
