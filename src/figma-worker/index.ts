@@ -4,7 +4,7 @@ import { PluginUI } from '../config';
 import type { Msg } from '../types';
 import { initialize } from './helper';
 import { createMediaInput, removeMediaInputItem } from './media-input';
-import { updatePreview } from './preview';
+import { removePreview, updatePreview } from './preview';
 import { resizePluginUI } from './resize-plugin-ui';
 import { createWorkspace, focusWorkspace, removeWorkspace } from './workspace';
 
@@ -35,6 +35,9 @@ figma.ui.onmessage = (msg: Msg) => {
       break;
     case 'resize-plugin-ui':
       resizePluginUI(msg);
+      break;
+    case 'remove-preview':
+      removePreview(msg);
       break;
     default:
       break;

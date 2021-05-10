@@ -52,3 +52,15 @@ export const updatePreview = (msg: Msg) => {
 
   figma.currentPage.selection = newNodes;
 };
+
+export const removePreview = (msg: Msg) => {
+  figma.currentPage
+    .findOne(
+      (node) =>
+        node.type === 'RECTANGLE' &&
+        node.getPluginData('type') === PreviewConstants.suffix &&
+        node.getPluginData('workspaceName') === msg.workspaceName &&
+        node.getPluginData('fileName') === msg.uploadedFileName
+    )
+    ?.remove();
+};

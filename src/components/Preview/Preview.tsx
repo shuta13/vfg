@@ -66,11 +66,20 @@ export const Preview: React.FC<Props> = (props) => {
         ],
       })
     );
-    dispatch(setSelectedFileNameForPreview({ uploadedFileName: '' }));
     wrappedPostMessage(
       {
         pluginMessage: {
           type: 'remove-media-input-item',
+          workspaceName: inspectorValue.selectedWorkspace,
+          uploadedFileName: fileName,
+        },
+      },
+      '*'
+    );
+    wrappedPostMessage(
+      {
+        pluginMessage: {
+          type: 'remove-preview',
           workspaceName: inspectorValue.selectedWorkspace,
           uploadedFileName: fileName,
         },
