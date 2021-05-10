@@ -25,6 +25,7 @@ export const Inspector: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<Workspace>();
 
   const { inspectorValue } = useAppSelector(selectInspector);
@@ -55,6 +56,7 @@ export const Inspector: React.FC = () => {
       dispatch(setWorkspaceName({ workspaceName: data.name }));
       dispatch(setSelectedWorkspace({ workspaceName }));
       dispatch(resetMediaInputItems());
+      reset({ name: '' });
     }
   };
 
