@@ -26,7 +26,7 @@ const App: React.FC = () => {
     }
 
     if (!isPreviewOpen) {
-      return PluginUI.height - (PluginUI.height / 3 - 80);
+      return PluginUI.height - (PluginUI.height / 3 - 96);
     }
 
     if (!isMediaUploaderOpen) {
