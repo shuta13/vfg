@@ -41,4 +41,6 @@ export const updatePreview = (msg: Msg) => {
 
   figma.currentPage.appendChild(preview);
   newNodes.push(preview);
+
+  figma.currentPage.selection = newNodes;
 };
