@@ -19,6 +19,15 @@ const checkExistence = (workspaceName: string) => {
 
 export const createMediaInput = (msg: Msg) => {
   if (msg.workspaceName !== '') {
+    const prevMediaRects = figma.currentPage.findAll(
+      (node) =>
+        node.type === 'RECTANGLE' &&
+        node.getPluginData('type') === MediaInputItemConstants.suffix
+    );
+    const prevMediaFileNames = prevMediaRects.map((rect) =>
+      rect.getPluginData('fileName')
+    );
+
     checkExistence(msg.workspaceName);
 
     const newNodes = [];
@@ -45,8 +54,11 @@ export const createMediaInput = (msg: Msg) => {
     });
 
     const mediaInputItems: MessageEventTarget['pluginMessage']['mediaInputItems'] = [];
+    const newFileNames = [
+      ...new Set([...msg.uploadedFileNames, ...prevMediaFileNames]),
+    ];
 
-    msg.uploadedFileNames.forEach((fileName, index) => {
+    newFileNames.forEach((fileName, index) => {
       const mediaRect = figma.createRectangle();
       mediaRect.name = `[${msg.workspaceName}] ${fileName}`;
       mediaRect.resize(

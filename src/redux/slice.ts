@@ -21,7 +21,7 @@ export type PreviewPayload = {
 };
 
 export type MediaInputPayload = {
-  mediaInputItem: InspectorValue['mediaInputItems'][number];
+  mediaInputItems: InspectorValue['mediaInputItems'];
 };
 
 const initialState: InspectorState = {
@@ -58,10 +58,17 @@ export const inspectorSlice = createSlice({
       state.value.selectedFileNameForPreview = action.payload.uploadedFileName;
     },
     setMediaInputItem: (state, action: PayloadAction<MediaInputPayload>) => {
-      state.value.mediaInputItems.push(action.payload.mediaInputItem);
+      state.value.mediaInputItems = action.payload.mediaInputItems;
     },
     resetMediaInputItems: (state) => {
       state.value.mediaInputItems = [];
+    },
+    deleteMediaInputItem: (state, action: PayloadAction<MediaInputPayload>) => {
+      state.value.mediaInputItems = state.value.mediaInputItems.filter(
+        (item) =>
+          item.uploadedFileName !==
+          action.payload.mediaInputItems[0].uploadedFileName
+      );
     },
   },
 });
@@ -74,6 +81,7 @@ export const {
   setSelectedFileNameForPreview,
   setMediaInputItem,
   resetMediaInputItems,
+  deleteMediaInputItem,
 } = inspectorSlice.actions;
 
 export const selectInspector = (state: RootState) => ({

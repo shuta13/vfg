@@ -70,9 +70,7 @@ const App: React.FC = () => {
       selectionNames?.forEach((selectionName) => {
         dispatch(setSelectedWorkspace({ workspaceName: selectionName }));
       });
-      mediaInputItems?.forEach((mediaInputItem) => {
-        dispatch(setMediaInputItem({ mediaInputItem }));
-      });
+      mediaInputItems && dispatch(setMediaInputItem({ mediaInputItems }));
       selectedFileNameForPreview &&
         dispatch(
           setSelectedFileNameForPreview({

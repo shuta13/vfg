@@ -103,6 +103,13 @@ export const focusWorkspace = (msg: Msg) => {
       node.type === 'FRAME' &&
       node.getPluginData('workspaceName') === msg.workspaceName
   );
+
+  if (!(selected.length > 0)) {
+    figma.notify(
+      'The selected workspace may have been deleted. Please restart the plugin and create new one ;)'
+    );
+  }
+
   figma.currentPage.selection = selected;
   figma.viewport.scrollAndZoomIntoView(selected);
 };

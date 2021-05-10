@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import type { MessageEventTarget } from '../../types';
 import { InspectorList } from '../InspectorList';
 import {
+  deleteMediaInputItem,
   selectInspector,
   setSelectedFileNameForPreview,
 } from '../../redux/slice';
@@ -55,6 +56,17 @@ export const Preview: React.FC<Props> = (props) => {
   };
 
   const handleOnClickDelete = (fileName: string) => {
+    dispatch(
+      deleteMediaInputItem({
+        mediaInputItems: [
+          {
+            workspaceName: inspectorValue.selectedWorkspace,
+            uploadedFileName: fileName,
+          },
+        ],
+      })
+    );
+    dispatch(setSelectedFileNameForPreview({ uploadedFileName: '' }));
     wrappedPostMessage(
       {
         pluginMessage: {
@@ -65,7 +77,6 @@ export const Preview: React.FC<Props> = (props) => {
       },
       '*'
     );
-    dispatch(setSelectedFileNameForPreview({ uploadedFileName: '' }));
   };
 
   return (
