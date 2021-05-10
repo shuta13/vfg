@@ -23,33 +23,3 @@
   background: var(--gray);
   margin-bottom: 0.5rem;
 }
-
-.MediaUploader_uploaded_list {
-  font-size: var(--font-size-small);
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-
-.MediaUploader_upload,
-.MediaUploader_upload--disabled {
-  width: 100%;
-  height: 2rem;
-  margin-top: 0.5rem;
-  background: var(--blue);
-  color: white;
-}
-
-.MediaUploader_upload--disabled {
-  background: var(--dark-gray);
-}
-
-.MediaUploader_uploaded_delete {
-  width: 1rem;
-  z-index: 10;
-}
-
-.MediaUploader_uploaded_delete:hover {
-  background: var(--dull-gray);
-}

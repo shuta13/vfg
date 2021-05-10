@@ -21,7 +21,7 @@
 .InspectorList_workspace_name:hover,
 .InspectorList_workspace_name--selected {
   background: var(--dull-gray);
-  color: var(--dark-gray);
+  color: var(--black);
 }
 
 .InspectorList_workspace_delete {
@@ -36,13 +36,13 @@
   align-items: center;
   border-radius: 50%;
   background: var(--white);
-  border: solid 1px var(--dull-gray);
+  border: solid 2px var(--dull-gray);
   color: var(--dull-gray);
   transition: transform var(--animate-fast) ease-in-out;
 }
 
 .InspectorList_workspace_delete:hover {
-  border: solid 1px var(--dark-gray);
+  border: solid 2px var(--dark-gray);
   color: var(--dark-gray);
   transform: scale(1.1);
 }

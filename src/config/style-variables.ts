@@ -1,7 +1,7 @@
 export const Color = {
   button: {
-    blue: '#73a0c4',
-    green: '#73c48b',
-    disabled: '#999999',
+    blue: '#55a0c4',
+    green: '#559e6b',
+    disabled: '#7e7e7e',
   },
 } as const;

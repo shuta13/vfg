@@ -80,6 +80,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
     );
     setUploadedFileNames([]);
     dispatch(setSelectedFileNameForPreview({ uploadedFileName: '' }));
+    setHasDuplicatedFileName(false);
   };
 
   const getInputFilesErrorText = () => {
