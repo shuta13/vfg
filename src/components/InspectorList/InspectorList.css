@@ -18,6 +18,7 @@
     color var(--animate-fast) ease-in-out;
 }
 
+.InspectorList_workspace_name:focus,
 .InspectorList_workspace_name:hover,
 .InspectorList_workspace_name--selected {
   background: var(--dull-gray);
@@ -41,6 +42,7 @@
   transition: transform var(--animate-fast) ease-in-out;
 }
 
+.InspectorList_workspace_delete:focus,
 .InspectorList_workspace_delete:hover {
   border: solid 2px var(--dark-gray);
   color: var(--dark-gray);
