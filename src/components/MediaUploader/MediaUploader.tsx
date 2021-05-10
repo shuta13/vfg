@@ -7,7 +7,14 @@ import { InspectorList } from '../InspectorList';
 import { noop, wrappedPostMessage } from '../../utils';
 import { VFGButton } from '../VFGButton';
 
-export const MediaUploader: React.FC = () => {
+type Props = {
+  isDetailsOpen: boolean;
+  // eslint-disable-next-line no-unused-vars
+  setIsDetailsOpen: (value: React.SetStateAction<boolean>) => void;
+};
+
+export const MediaUploader: React.FC<Props> = (props) => {
+  const { isDetailsOpen, setIsDetailsOpen } = props;
   const { inspectorValue } = useAppSelector(selectInspector);
 
   const {
@@ -52,18 +59,6 @@ export const MediaUploader: React.FC = () => {
     setUploadedFileNames((prevState) =>
       prevState.filter((p) => p !== fileName)
     );
-    // parent.wrappedPostMessage(
-    //   {
-    //     pluginMessage: {
-    //       type: 'remove-media-input',
-    //       workspaceName: workspaceName ?? '',
-    //       uploadedFileName: fileName,
-    //     },
-    //   },
-    //   '*'
-    // );
-    // workspaceName &&
-    // dispatch(deleteUploadedFileName({ uploadedFileName: fileName }));
   };
 
   const handleOnClickUpload = () => {
@@ -107,67 +102,74 @@ export const MediaUploader: React.FC = () => {
   };
 
   return (
-    <details open>
-      <summary className="MediaUploader_summary">
+    <details open={true}>
+      <summary
+        className="MediaUploader_summary"
+        onClick={() => setIsDetailsOpen((prevState) => !prevState)}
+      >
         <strong>Media</strong>
       </summary>
-      {inspectorValue.workspaceNames.length > 0 ? (
-        <div {...getRootProps()} className="MediaUploader_wrap">
-          <input {...getInputProps()} />
-          {isDragActive ? (
-            <p className="MediaUploader_indication">Drop files here ...</p>
+      {isDetailsOpen && (
+        <>
+          {inspectorValue.workspaceNames.length > 0 ? (
+            <div {...getRootProps()} className="MediaUploader_wrap">
+              <input {...getInputProps()} />
+              {isDragActive ? (
+                <p className="MediaUploader_indication">Drop files here ...</p>
+              ) : (
+                <>
+                  <p className="MediaUploader_indication">
+                    Drag and Drop selected files here
+                  </p>
+                  <p className="MediaUploader_indication">
+                    Or click to select files (mp4, mov)
+                  </p>
+                </>
+              )}
+            </div>
           ) : (
-            <>
+            <div className="MediaUploader_wrap">
               <p className="MediaUploader_indication">
-                Drag and Drop selected files here
+                Unable to upload media, create workspaces
               </p>
-              <p className="MediaUploader_indication">
-                Or click to select files (mp4, mov)
-              </p>
-            </>
+            </div>
           )}
-        </div>
-      ) : (
-        <div className="MediaUploader_wrap">
-          <p className="MediaUploader_indication">
-            Unable to upload media, create workspaces
-          </p>
-        </div>
-      )}
-      <div className="MediaUploader_uploaded_wrap_list">
-        {uploadedFileNames.length > 0 ? (
-          <InspectorList
-            currentNames={uploadedFileNames}
-            selectedName={''}
-            handleOnClickFocus={noop}
-            handleOnClickDelete={handleOnClickDelete}
-            workspaceName={inspectorValue.selectedWorkspace}
+          <div className="MediaUploader_uploaded_wrap_list">
+            {uploadedFileNames.length > 0 ? (
+              <InspectorList
+                currentNames={uploadedFileNames}
+                selectedName={''}
+                handleOnClickFocus={noop}
+                handleOnClickDelete={handleOnClickDelete}
+                workspaceName={inspectorValue.selectedWorkspace}
+              />
+            ) : (
+              <p className="MediaUploader_indication">No file selected</p>
+            )}
+          </div>
+          <VFGButton
+            type="normal"
+            disabled={
+              !(uploadedFileNames.length > 0) ||
+              inspectorValue.selectedWorkspace === ''
+            }
+            handleOnClick={handleOnClickUpload}
+            text="upload"
+            bgColor="blue"
           />
-        ) : (
-          <p className="MediaUploader_indication">No file selected</p>
-        )}
-      </div>
-      <VFGButton
-        type="normal"
-        disabled={
-          !(uploadedFileNames.length > 0) ||
-          inspectorValue.selectedWorkspace === ''
-        }
-        handleOnClick={handleOnClickUpload}
-        text="upload"
-        bgColor="blue"
-      />
-      {fileRejections.length > 0 &&
-        fileRejections.map((rejection, index) => (
-          <p className="MediaUploader_warning" key={index}>
-            {rejection.errors.map((error) => (
-              <React.Fragment key={error.message}>
-                {error.message}
-              </React.Fragment>
+          {fileRejections.length > 0 &&
+            fileRejections.map((rejection, index) => (
+              <p className="MediaUploader_warning" key={index}>
+                {rejection.errors.map((error) => (
+                  <React.Fragment key={error.message}>
+                    {error.message}
+                  </React.Fragment>
+                ))}
+              </p>
             ))}
-          </p>
-        ))}
-      {renderInputFilesError()}
+          {renderInputFilesError()}
+        </>
+      )}
     </details>
   );
 };

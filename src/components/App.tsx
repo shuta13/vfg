@@ -6,6 +6,8 @@ import { Preview } from './Preview';
 import type { MessageEventTarget } from '../types';
 import { useAppDispatch } from '../redux/hooks';
 import { setSelectedWorkspace, setWorkspaceName } from '../redux/slice';
+import { PluginUI, PluginUIHeader } from '../config';
+import { wrappedPostMessage } from '../utils';
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -13,6 +15,41 @@ const App: React.FC = () => {
   const [mediaInputItems, setMediaInputItems] = useState<
     NonNullable<MessageEventTarget['pluginMessage']['mediaInputItems']>
   >([]);
+
+  const [isMediaUploaderOpen, setIsMediaUploaderOpen] = useState(true);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(true);
+
+  // FIXME: help!!!
+  const getPluginUIHeight = () => {
+    if (!isPreviewOpen && !isMediaUploaderOpen) {
+      return PluginUI.height / 3 + PluginUIHeader.height + 16;
+    }
+
+    if (!isPreviewOpen) {
+      return PluginUI.height - (PluginUI.height / 3 - 80);
+    }
+
+    if (!isMediaUploaderOpen) {
+      return PluginUI.height - (PluginUI.height / 3 + 40);
+    }
+
+    return PluginUI.height;
+  };
+
+  useEffect(() => {
+    wrappedPostMessage(
+      {
+        pluginMessage: {
+          type: 'resize-plugin-ui',
+          pluginUISize: {
+            width: PluginUI.width,
+            height: getPluginUIHeight(),
+          },
+        },
+      },
+      '*'
+    );
+  }, [isMediaUploaderOpen, isPreviewOpen]);
 
   useEffect(() => {
     // initialize
@@ -36,8 +73,15 @@ const App: React.FC = () => {
     <main>
       <div className="container">
         <Inspector />
-        <MediaUploader />
-        <Preview mediaInputItems={mediaInputItems} />
+        <MediaUploader
+          isDetailsOpen={isMediaUploaderOpen}
+          setIsDetailsOpen={setIsMediaUploaderOpen}
+        />
+        <Preview
+          mediaInputItems={mediaInputItems}
+          isDetailsOpen={isPreviewOpen}
+          setIsDetailsOpen={setIsPreviewOpen}
+        />
       </div>
     </main>
   );

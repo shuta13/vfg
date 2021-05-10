@@ -4,11 +4,16 @@ export type MsgType =
   | 'focus-workspace'
   | 'create-media-input'
   | 'remove-media-input-item'
-  | 'update-preview';
+  | 'update-preview'
+  | 'resize-plugin-ui';
 
 export type Msg = {
   type: MsgType;
   workspaceName: string;
   uploadedFileNames: string[];
   uploadedFileName: string;
+  pluginUISize: {
+    width: number;
+    height: number;
+  };
 };

@@ -1,10 +1,10 @@
-const PluginUIHeader = {
+export const PluginUIHeader = {
   height: 41,
 } as const;
 
 export const PluginUI = {
   width: 320,
-  height: 768 - PluginUIHeader.height,
+  height: 776 - PluginUIHeader.height,
 } as const;
 
 export const WorkspaceConstants = {
