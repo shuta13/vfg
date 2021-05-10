@@ -6,9 +6,9 @@
   --dull-gray: #cecece;
   --dark-gray: #7e7e7e;
   --black: #333333;
-  --blue: #5ca0c4;
-  --green: #5cb175;
-  --light-blue: #81b1da;
+  --blue: #55a0c4;
+  --green: #559e6b;
+  --light-blue: #9fbcd4;
 }
 
 * {
@@ -18,7 +18,8 @@
 }
 
 *:focus {
-  outline: 3px solid var(--light-blue);
+  outline: none;
+  box-shadow: 0 0 0 4px var(--light-blue);
 }
 
 body,

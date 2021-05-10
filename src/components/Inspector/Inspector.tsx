@@ -9,6 +9,7 @@ import {
   setSelectedWorkspace,
   setSelectedFileNameForPreview,
   resetMediaInputItems,
+  setMediaInputItems,
 } from '../../redux/slice';
 import { InspectorList } from '../InspectorList';
 import { noop, wrappedPostMessage } from '../../utils';
@@ -70,6 +71,7 @@ export const Inspector: React.FC = () => {
     dispatch(deleteWorkspaceName({ workspaceName }));
     dispatch(setSelectedWorkspace({ workspaceName: '' }));
     dispatch(setSelectedFileNameForPreview({ uploadedFileName: '' }));
+    dispatch(setMediaInputItems({ mediaInputItems: [] }));
   };
 
   const handleOnClickFocus = (

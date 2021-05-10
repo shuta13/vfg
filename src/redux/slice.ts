@@ -57,7 +57,7 @@ export const inspectorSlice = createSlice({
     ) => {
       state.value.selectedFileNameForPreview = action.payload.uploadedFileName;
     },
-    setMediaInputItem: (state, action: PayloadAction<MediaInputPayload>) => {
+    setMediaInputItems: (state, action: PayloadAction<MediaInputPayload>) => {
       state.value.mediaInputItems = action.payload.mediaInputItems;
     },
     resetMediaInputItems: (state) => {
@@ -79,7 +79,7 @@ export const {
   deleteWorkspaceName,
   setSelectedWorkspace,
   setSelectedFileNameForPreview,
-  setMediaInputItem,
+  setMediaInputItems,
   resetMediaInputItems,
   deleteMediaInputItem,
 } = inspectorSlice.actions;

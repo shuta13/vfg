@@ -55,8 +55,9 @@
   margin-right: 0.5rem;
   height: 2rem;
   padding: 0.5rem;
-  width: 56rem;
-  border: solid 1px var(--black);
+  width: 64rem;
+  border: solid 2px var(--dull-gray);
+  border-radius: 0.5rem;
 }
 
 .Inspector_form_warning {
