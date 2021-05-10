@@ -21,6 +21,10 @@
   box-sizing: border-box;
   margin: 0;
   color: var(--black);
+  transition: background var(--animate-fast) ease-in-out,
+    color var(--animate-fast) ease-in-out,
+    transform var(--animate-fast) ease-in-out,
+    box-shadow var(--animate-fast) ease-in-out;
 }
 
 *:focus {

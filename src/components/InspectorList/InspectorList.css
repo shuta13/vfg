@@ -14,8 +14,6 @@
   border-radius: 0.5rem;
   border: 2px solid var(--dull-gray);
   color: var(--dull-gray);
-  transition: background var(--animate-fast) ease-in-out,
-    color var(--animate-fast) ease-in-out;
 }
 
 .InspectorList_workspace_name:focus,
@@ -39,7 +37,6 @@
   background: var(--white);
   border: solid 2px var(--dull-gray);
   color: var(--dull-gray);
-  transition: transform var(--animate-fast) ease-in-out;
 }
 
 .InspectorList_workspace_delete:focus,
