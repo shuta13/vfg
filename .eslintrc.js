@@ -3,9 +3,10 @@ module.exports = {
   env: {
     browser: true,
     node: true,
+    'jest/globals': true,
   },
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'jest'],
   extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier'],
   globals: {
     figma: 'readonly',

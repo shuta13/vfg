@@ -1,1 +1,1 @@
-export * from './create-empty-frame';
+export * from './create-skeleton-frame';
