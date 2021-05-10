@@ -1,4 +1,8 @@
-import { PreviewConstants } from '../config';
+import {
+  MediaInputConstants,
+  PreviewConstants,
+  WorkspaceConstants,
+} from '../config';
 import { Msg } from '../types';
 import { createSkeletonFrame } from './internal';
 
@@ -17,16 +21,20 @@ export const updatePreview = (msg: Msg) => {
 
   const newNodes = [];
 
+  const { x, y } = figma.currentPage.findOne(
+    (node) =>
+      node.type === 'FRAME' &&
+      node.getPluginData('type') === MediaInputConstants.suffix &&
+      node.getPluginData('workspaceName') === msg.workspaceName
+  ) ?? { x: 0, y: 0 };
+
   const preview = createSkeletonFrame({
     name: `[${msg.workspaceName}] ${PreviewConstants.suffix}`,
     type: PreviewConstants.suffix,
     size: { width: PreviewConstants.width, height: PreviewConstants.height },
     nodePosition: {
-      x:
-        figma.currentPage.findOne(
-          (node) => node.getPluginData('workspaceName') === msg.workspaceName
-        )?.x ?? 0,
-      y: 0,
+      x,
+      y: y - (MediaInputConstants.height + WorkspaceConstants.margin),
     },
     workspaceName: msg.workspaceName,
   });
