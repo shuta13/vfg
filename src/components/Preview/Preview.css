@@ -6,7 +6,7 @@
 }
 
 .Preview_wrap {
-  padding: 0.5rem;
+  padding: 1rem;
   height: 8rem;
   background: var(--gray);
   overflow: scroll;

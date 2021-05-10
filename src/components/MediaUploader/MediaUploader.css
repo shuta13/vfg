@@ -7,7 +7,7 @@
 
 .MediaUploader_wrap {
   height: 5rem;
-  padding: 0.5rem;
+  padding: 1rem;
   margin-bottom: 0.5rem;
   border: 2px solid var(--dull-gray);
 }
@@ -17,7 +17,7 @@
 }
 
 .MediaUploader_uploaded_wrap_list {
-  padding: 0.5rem;
+  padding: 1rem;
   height: 8rem;
   overflow: scroll;
   background: var(--gray);

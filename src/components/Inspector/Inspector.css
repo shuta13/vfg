@@ -1,48 +1,9 @@
 .Inspector_workspace_wrap {
   /* font-size: var(--font-size-small); */
   background: var(--gray);
-  padding: 0 0.5rem;
-  padding-top: 0.5rem;
+  padding: 1rem;
   height: 8rem;
   overflow: scroll;
-}
-
-.Inspector_workspace_li {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 0.5rem;
-}
-
-.Inspector_indication {
-  color: var(--dark-gray);
-  font-size: var(--font-size-small);
-}
-
-.Inspector_workspace_name,
-.Inspector_workspace_name--selected {
-  width: 100%;
-  text-align: left;
-  margin-right: 0.5rem;
-  padding: 0.5rem;
-  min-height: 2rem;
-}
-
-.Inspector_workspace_name:hover {
-  background: var(--dull-gray);
-}
-
-.Inspector_workspace_name--selected {
-  background: var(--dull-gray);
-}
-
-.Inspector_workspace_delete {
-  width: 1.5rem;
-  font-size: var(--font-size-medium);
-}
-
-.Inspector_workspace_delete:hover {
-  background: var(--dull-gray);
 }
 
 .Inspector_form {

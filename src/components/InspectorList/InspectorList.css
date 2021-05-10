@@ -1,8 +1,7 @@
 .InspectorList_workspace_list {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
   padding-bottom: 0.5rem;
+  position: relative;
 }
 
 .InspectorList_workspace_name,
@@ -12,21 +11,38 @@
   margin-right: 0.5rem;
   padding: 0.5rem;
   min-height: 2rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--dull-gray);
+  color: var(--dull-gray);
+  transition: background var(--animate-fast) ease-in-out,
+    color var(--animate-fast) ease-in-out;
 }
 
-.InspectorList_workspace_name:hover {
-  background: var(--dull-gray);
-}
-
+.InspectorList_workspace_name:hover,
 .InspectorList_workspace_name--selected {
   background: var(--dull-gray);
+  color: var(--dark-gray);
 }
 
 .InspectorList_workspace_delete {
-  width: 1.5rem;
-  font-size: var(--font-size-medium);
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  font-size: var(--font-size-small);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: var(--white);
+  border: solid 1px var(--dull-gray);
+  color: var(--dull-gray);
+  transition: transform var(--animate-fast) ease-in-out;
 }
 
 .InspectorList_workspace_delete:hover {
-  background: var(--dull-gray);
+  border: solid 1px var(--dark-gray);
+  color: var(--dark-gray);
+  transform: scale(1.1);
 }
