@@ -158,7 +158,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
             text="upload"
             bgColor="blue"
           />
-          {fileRejections.length > 0 &&
+          {fileRejections.length > 0 ? (
             fileRejections.map((rejection, index) =>
               rejection.errors.map((error) => (
                 <MessageIndicator
@@ -167,11 +167,13 @@ export const MediaUploader: React.FC<Props> = (props) => {
                   key={index}
                 />
               ))
-            )}
-          <MessageIndicator
-            text={getInputFilesErrorText()}
-            level={hasDuplicatedFileName ? 'warn' : 'info'}
-          />
+            )
+          ) : (
+            <MessageIndicator
+              text={getInputFilesErrorText()}
+              level={hasDuplicatedFileName ? 'warn' : 'info'}
+            />
+          )}
         </>
       )}
     </details>
