@@ -1,0 +1,12 @@
+.MessageIndicator_wrap {
+  font-size: var(--font-size-small);
+  min-height: 1.5rem;
+}
+
+.MessageIndicator_text--info {
+  color: var(--dark-gray);
+}
+
+.MessageIndicator_text--warn {
+  color: var(--warn);
+}

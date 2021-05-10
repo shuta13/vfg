@@ -7,8 +7,9 @@
   --dark-gray: #7e7e7e;
   --black: #333333;
   --blue: #55a0c4;
-  --green: #559e6b;
   --light-blue: #9fbcd4;
+  --green: #559e6b;
+  --warn: #aa4a4a;
 }
 
 * {
@@ -28,6 +29,7 @@ html {
   font-family: sans-serif;
   font-size: 16px;
   line-height: 1.5;
+  letter-spacing: 0.025rem;
 }
 
 .container {

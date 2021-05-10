@@ -16,12 +16,6 @@
   height: 100%;
 }
 
-.MediaUploader_indication,
-.MediaUploader_indication--uploading {
-  font-size: var(--font-size-small);
-  color: var(--dark-gray);
-}
-
 .MediaUploader_uploaded_wrap_list {
   padding: 0.5rem;
   height: 8rem;
@@ -49,11 +43,6 @@
 
 .MediaUploader_upload--disabled {
   background: var(--dark-gray);
-}
-
-.MediaUploader_warning {
-  font-size: var(--font-size-small);
-  height: 1.5rem;
 }
 
 .MediaUploader_uploaded_delete {

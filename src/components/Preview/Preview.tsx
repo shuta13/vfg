@@ -10,6 +10,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { wrappedPostMessage } from '../../utils';
 import { PluginUI } from '../../config';
+import { MessageIndicator } from '../MessageIndicator';
 
 type Props = {
   mediaInputItems: NonNullable<
@@ -110,17 +111,19 @@ export const Preview: React.FC<Props> = (props) => {
                 handleOnClickDelete={handleOnClickDelete}
               />
             ) : (
-              <p className="Preview_indication">No media</p>
+              <MessageIndicator text="No media" level="info" />
             )}
           </div>
           {inspectorValue.selectedWorkspace ? (
-            <p className="Preview_warning">
-              Select media you want to show in Preview
-            </p>
+            <MessageIndicator
+              text="Select media you want to show in Preview"
+              level="info"
+            />
           ) : (
-            <p className="Preview_warning">
-              Choose workspace in Workspace Inspector
-            </p>
+            <MessageIndicator
+              text="Choose workspace in Workspace Inspector"
+              level="info"
+            />
           )}
         </>
       )}

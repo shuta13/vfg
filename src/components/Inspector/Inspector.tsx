@@ -14,6 +14,7 @@ import {
 import { InspectorList } from '../InspectorList';
 import { noop, wrappedPostMessage } from '../../utils';
 import { VFGButton } from '../VFGButton';
+import { MessageIndicator } from '../MessageIndicator';
 
 type Workspace = {
   name: string;
@@ -97,14 +98,14 @@ export const Inspector: React.FC = () => {
     );
   };
 
-  const renderFormError = () => {
+  const getFormErrorText = () => {
     if (errors.name) {
-      return <>Required workspace name</>;
+      return 'Required workspace name';
     }
     if (isDuplicated && !errors.name) {
-      return <>This name is duplicated</>;
+      return 'This name is duplicated';
     }
-    return <>Enter workspace name</>;
+    return 'Enter workspace name';
   };
 
   return (
@@ -138,7 +139,10 @@ export const Inspector: React.FC = () => {
           handleOnClick={noop}
         />
       </form>
-      <p className="Inspector_form_warning">{renderFormError()}</p>
+      <MessageIndicator
+        text={getFormErrorText()}
+        level={errors.name || isDuplicated ? 'warn' : 'info'}
+      />
     </section>
   );
 };

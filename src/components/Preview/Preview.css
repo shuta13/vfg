@@ -11,12 +11,3 @@
   background: var(--gray);
   overflow: scroll;
 }
-
-.Preview_indication {
-  color: var(--dark-gray);
-  font-size: var(--font-size-small);
-}
-
-.Preview_warning {
-  font-size: var(--font-size-small);
-}

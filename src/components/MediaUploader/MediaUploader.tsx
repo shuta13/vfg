@@ -9,6 +9,7 @@ import {
 import { InspectorList } from '../InspectorList';
 import { noop, wrappedPostMessage } from '../../utils';
 import { VFGButton } from '../VFGButton';
+import { MessageIndicator } from '../MessageIndicator';
 
 type Props = {
   isDetailsOpen: boolean;
@@ -81,30 +82,20 @@ export const MediaUploader: React.FC<Props> = (props) => {
     dispatch(setSelectedFileNameForPreview({ uploadedFileName: '' }));
   };
 
-  const renderInputFilesError = () => {
+  const getInputFilesErrorText = () => {
     if (hasDuplicatedFileName) {
-      return (
-        <p className="MediaUploader_warning">Uploaded files have duplicated</p>
-      );
+      return 'Uploaded files have duplicated';
     }
 
     if (!(inspectorValue.workspaceNames.length > 0)) {
-      return (
-        <p className="MediaUploader_warning">
-          Create a workspace and select files
-        </p>
-      );
+      return 'Create a workspace and select files';
     }
 
     if (inspectorValue.selectedWorkspace === '') {
-      return (
-        <p className="MediaUploader_warning">
-          Choose workspace in Workspace Inspector
-        </p>
-      );
+      return 'Choose workspace in Workspace Inspector';
     }
 
-    return <p className="MediaUploader_warning">Select files</p>;
+    return 'Select files, or upload';
   };
 
   return (
@@ -121,23 +112,26 @@ export const MediaUploader: React.FC<Props> = (props) => {
             <div {...getRootProps()} className="MediaUploader_wrap">
               <input {...getInputProps()} />
               {isDragActive ? (
-                <p className="MediaUploader_indication">Drop files here ...</p>
+                <MessageIndicator text="Drop files here ..." level="info" />
               ) : (
                 <>
-                  <p className="MediaUploader_indication">
-                    Drag and Drop selected files here
-                  </p>
-                  <p className="MediaUploader_indication">
-                    Or click to select files (mp4, mov)
-                  </p>
+                  <MessageIndicator
+                    text="Drag and Drop selected files here"
+                    level="info"
+                  />
+                  <MessageIndicator
+                    text="Or click to select files (mp4, mov)"
+                    level="info"
+                  />
                 </>
               )}
             </div>
           ) : (
             <div className="MediaUploader_wrap">
-              <p className="MediaUploader_indication">
-                Unable to upload media, create workspaces
-              </p>
+              <MessageIndicator
+                text="Unable to upload media, create workspaces"
+                level="warn"
+              />
             </div>
           )}
           <div className="MediaUploader_uploaded_wrap_list">
@@ -150,7 +144,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
                 workspaceName={inspectorValue.selectedWorkspace}
               />
             ) : (
-              <p className="MediaUploader_indication">No file selected</p>
+              <MessageIndicator text="No file selected" level="info" />
             )}
           </div>
           <VFGButton
@@ -164,16 +158,19 @@ export const MediaUploader: React.FC<Props> = (props) => {
             bgColor="blue"
           />
           {fileRejections.length > 0 &&
-            fileRejections.map((rejection, index) => (
-              <p className="MediaUploader_warning" key={index}>
-                {rejection.errors.map((error) => (
-                  <React.Fragment key={error.message}>
-                    {error.message}
-                  </React.Fragment>
-                ))}
-              </p>
-            ))}
-          {renderInputFilesError()}
+            fileRejections.map((rejection, index) =>
+              rejection.errors.map((error) => (
+                <MessageIndicator
+                  text={error.message}
+                  level="warn"
+                  key={index}
+                />
+              ))
+            )}
+          <MessageIndicator
+            text={getInputFilesErrorText()}
+            level={hasDuplicatedFileName ? 'warn' : 'info'}
+          />
         </>
       )}
     </details>
