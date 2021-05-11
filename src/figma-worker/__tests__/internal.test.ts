@@ -1,4 +1,4 @@
-import { MediaInputConstants } from '../../config';
+import { MediaInputConstants, PreviewConstants } from '../../config';
 import { createSkeletonFrame } from '../internal';
 
 describe('internal', () => {
@@ -7,15 +7,29 @@ describe('internal', () => {
       [
         'media input',
         {
-          name: 'foo',
+          name: 'media-input',
           type: MediaInputConstants.suffix,
           size: { width: 100, height: 100 },
           nodePosition: { x: 0, y: 0 },
-          workspaceName: 'foo',
+          workspaceName: 'media-input',
         },
         {
           type: MediaInputConstants.suffix,
-          workspaceName: 'foo',
+          workspaceName: 'media-input',
+        },
+      ],
+      [
+        'preview',
+        {
+          name: 'preview',
+          type: PreviewConstants.suffix,
+          size: { width: 100, height: 100 },
+          nodePosition: { x: 0, y: 0 },
+          workspaceName: 'preview',
+        },
+        {
+          type: PreviewConstants.suffix,
+          workspaceName: 'preview',
         },
       ],
     ])('can create %s', (_, input, expected) => {

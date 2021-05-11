@@ -20,9 +20,9 @@ export const initialize = () => {
     ),
   ];
 
-  figma.ui.postMessage(({
+  figma.ui.postMessage({
     workspaceNames,
     selectionNames,
     // mediaInputItems,
-  } as unknown) as MessageEventTarget);
+  } as unknown as MessageEventTarget);
 };
