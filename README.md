@@ -1,13 +1,13 @@
 # vfg
 
-## development
+## Development
 
-### Setup
+### Scripts
 
 ### Notes
 
 - When editing the Inspector function, **delete all frames** in the figma before checking the behavior.
 
-## LICENSE
+## License
 
 [MIT](LICENSE)

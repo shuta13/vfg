@@ -16,7 +16,7 @@
   color: var(--dull-gray);
 }
 
-.InspectorList_workspace_name:focus,
+.InspectorList_workspace_name:focus-visible,
 .InspectorList_workspace_name:hover,
 .InspectorList_workspace_name--selected {
   background: var(--dull-gray);
@@ -39,7 +39,7 @@
   color: var(--dull-gray);
 }
 
-.InspectorList_workspace_delete:focus,
+.InspectorList_workspace_delete:focus-visible,
 .InspectorList_workspace_delete:hover {
   border: solid 2px var(--dark-gray);
   color: var(--dark-gray);

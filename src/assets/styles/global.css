@@ -27,7 +27,7 @@
     box-shadow var(--animate-fast) ease-in-out;
 }
 
-*:focus {
+*:focus-visible {
   outline: none;
   box-shadow: 0 0 0 4px var(--light-blue);
 }

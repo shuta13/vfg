@@ -89,7 +89,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
     }
 
     if (!(inspectorValue.workspaceNames.length > 0)) {
-      return 'Create a workspace and select files';
+      return 'Create workspaces and select files';
     }
 
     if (inspectorValue.selectedWorkspace === '') {
@@ -145,7 +145,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
                 workspaceName={inspectorValue.selectedWorkspace}
               />
             ) : (
-              <MessageIndicator text="No file selected" level="info" />
+              <MessageIndicator text="No files selected" level="info" />
             )}
           </div>
           <VFGButton
