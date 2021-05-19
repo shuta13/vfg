@@ -23,16 +23,11 @@ module.exports = (_, argv) => ({
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-          },
-        ],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(png|jpg|gif|webp|svg|zip)$/,
-        loader: 'url-loader',
+        type: 'asset/resource',
       },
     ],
   },
@@ -43,6 +38,7 @@ module.exports = (_, argv) => ({
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
+      inject: 'body',
     }),
     new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/ui/]),
   ],
