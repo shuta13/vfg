@@ -1,5 +1,6 @@
 import './InspectorList.css';
 import React from 'react';
+import { noop } from '../../utils';
 
 type Props = {
   currentNames: string[];
@@ -28,11 +29,15 @@ export const InspectorList: React.FC<Props> = (props) => {
         <li key={currentName} className="InspectorList_workspace_list">
           <button
             className={
-              currentName === selectedName
+              currentName === selectedName || selectedName === 'all'
                 ? 'InspectorList_workspace_name--selected'
                 : 'InspectorList_workspace_name'
             }
-            onClick={() => handleOnClickFocus(currentName, selectedName)}
+            onClick={
+              selectedName === 'all'
+                ? noop
+                : () => handleOnClickFocus(currentName, selectedName)
+            }
           >
             {currentName}
           </button>

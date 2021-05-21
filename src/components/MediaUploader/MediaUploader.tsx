@@ -169,7 +169,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
             {uploadedFileNames.length > 0 ? (
               <InspectorList
                 currentNames={uploadedFileNames}
-                selectedName={''}
+                selectedName={'all'}
                 handleOnClickFocus={noop}
                 handleOnClickDelete={handleOnClickDelete}
                 workspaceName={inspectorValue.selectedWorkspace}
