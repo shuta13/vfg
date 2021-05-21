@@ -45,13 +45,13 @@ export const MediaUploader: React.FC<Props> = (props) => {
 
   const [hasDuplicatedFileName, setHasDuplicatedFileName] = useState(false);
   const [uploadedFileNames, setUploadedFileNames] = useState<string[]>([]);
-  const [gifUrl, setGifUrl] = useState('');
+  const [gifUrl, setGifUrl] = useState<string[]>([]);
 
-  const getUploadedFileData = async (file: File) => {
-    console.log('::Start uploaded vide encoding::');
-    const fileUrl = await mediaConverter(file);
-    setGifUrl(fileUrl);
-    console.log('::End uploaded vide encoding::');
+  const getUploadedFileData = async (files: File[]) => {
+    console.log('::Start uploaded video encoding::');
+    const fileUrls = await mediaConverter(files);
+    setGifUrl(fileUrls);
+    console.log('::End uploaded video encoding::');
   };
 
   useEffect(() => {
@@ -76,10 +76,11 @@ export const MediaUploader: React.FC<Props> = (props) => {
     );
   };
 
-  const handleOnClickUpload = () => {
-    acceptedFiles.forEach((file) => {
-      getUploadedFileData(file);
-    });
+  const handleOnClickUpload = async () => {
+    // const selectedFiles = acceptedFiles.filter(
+    //   (acceptedFile) => !uploadedFileNames.includes(acceptedFile.name)
+    // );
+    getUploadedFileData(acceptedFiles);
     wrappedPostMessage(
       {
         pluginMessage: {
@@ -186,7 +187,8 @@ export const MediaUploader: React.FC<Props> = (props) => {
               level={hasDuplicatedFileName ? 'warn' : 'info'}
             />
           )}
-          {gifUrl !== '' && <img src={gifUrl} width={240} />}
+          {gifUrl.length > 0 &&
+            gifUrl.map((url) => <img key={url} src={url} width={240} />)}
         </>
       )}
     </details>
