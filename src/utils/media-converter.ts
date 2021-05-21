@@ -6,7 +6,6 @@ const convertVideoToGif = async (file: File) => {
     await ffmpeg.load();
   }
   const fileName = file.name.split('.')[0];
-  console.log(fileName);
   ffmpeg.FS('writeFile', `${file.name}`, await fetchFile(file));
   await ffmpeg.run(
     '-i',

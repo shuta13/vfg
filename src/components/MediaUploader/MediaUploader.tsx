@@ -45,14 +45,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
 
   const [hasDuplicatedFileName, setHasDuplicatedFileName] = useState(false);
   const [uploadedFileNames, setUploadedFileNames] = useState<string[]>([]);
-  const [gifUrl, setGifUrl] = useState<string[]>([]);
-
-  const getUploadedFileData = async (files: File[]) => {
-    console.log('::Start uploaded video encoding::');
-    const fileUrls = await mediaConverter(files);
-    setGifUrl(fileUrls);
-    console.log('::End uploaded video encoding::');
-  };
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
 
   useEffect(() => {
     if (acceptedFiles.length > 0) {
@@ -64,6 +57,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
             ...prevState,
             acceptedFile.name,
           ]);
+          setUploadedFiles((prevState) => [...prevState, acceptedFile]);
           setHasDuplicatedFileName(false);
         }
       });
@@ -77,10 +71,10 @@ export const MediaUploader: React.FC<Props> = (props) => {
   };
 
   const handleOnClickUpload = async () => {
-    // const selectedFiles = acceptedFiles.filter(
-    //   (acceptedFile) => !uploadedFileNames.includes(acceptedFile.name)
-    // );
-    getUploadedFileData(acceptedFiles);
+    console.log('::Start uploaded video encoding::');
+    const fileUrls = await mediaConverter(uploadedFiles);
+    console.log(fileUrls);
+    console.log('::End uploaded video encoding::');
     wrappedPostMessage(
       {
         pluginMessage: {
@@ -92,6 +86,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
       '*'
     );
     setUploadedFileNames([]);
+    setUploadedFiles([]);
     dispatch(setSelectedFileNameForPreview({ uploadedFileName: '' }));
     setHasDuplicatedFileName(false);
   };
@@ -187,8 +182,6 @@ export const MediaUploader: React.FC<Props> = (props) => {
               level={hasDuplicatedFileName ? 'warn' : 'info'}
             />
           )}
-          {gifUrl.length > 0 &&
-            gifUrl.map((url) => <img key={url} src={url} width={240} />)}
         </>
       )}
     </details>
