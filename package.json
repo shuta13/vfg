@@ -20,7 +20,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-dropzone": "^11.3.2",
-    "react-hook-form": "^7.6.2",
+    "react-hook-form": "^7.6.4",
     "react-redux": "^7.2.4"
   },
   "devDependencies": {
@@ -32,7 +32,7 @@
     "@types/react-redux": "^7.1.16",
     "@typescript-eslint/eslint-plugin": "^4.24.0",
     "@typescript-eslint/parser": "^4.24.0",
-    "css-loader": "^5.2.4",
+    "css-loader": "^5.2.5",
     "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^24.3.6",
@@ -45,7 +45,7 @@
     "scaffdog": "^1.0.1",
     "style-loader": "^2.0.0",
     "ts-jest": "^26.5.6",
-    "ts-loader": "^8.3.0",
+    "ts-loader": "^9.2.1",
     "typescript": "^4.2.4",
     "webpack": "^5.37.1",
     "webpack-cli": "^4.7.0"
