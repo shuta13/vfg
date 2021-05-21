@@ -10,6 +10,7 @@ import { InspectorList } from '../InspectorList';
 import { noop, wrappedPostMessage } from '../../utils';
 import { VFGButton } from '../VFGButton';
 import { MessageIndicator } from '../MessageIndicator';
+import { mediaConverter } from '../../utils/media-converter';
 
 type Props = {
   isDetailsOpen: boolean;
@@ -44,6 +45,14 @@ export const MediaUploader: React.FC<Props> = (props) => {
 
   const [hasDuplicatedFileName, setHasDuplicatedFileName] = useState(false);
   const [uploadedFileNames, setUploadedFileNames] = useState<string[]>([]);
+  const [gifUrl, setGifUrl] = useState('');
+
+  const getUploadedFileData = async (file: File) => {
+    console.log('::Start uploaded vide encoding::');
+    const fileUrl = await mediaConverter(file);
+    setGifUrl(fileUrl);
+    console.log('::End uploaded vide encoding::');
+  };
 
   useEffect(() => {
     if (acceptedFiles.length > 0) {
@@ -68,6 +77,9 @@ export const MediaUploader: React.FC<Props> = (props) => {
   };
 
   const handleOnClickUpload = () => {
+    acceptedFiles.forEach((file) => {
+      getUploadedFileData(file);
+    });
     wrappedPostMessage(
       {
         pluginMessage: {
@@ -174,6 +186,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
               level={hasDuplicatedFileName ? 'warn' : 'info'}
             />
           )}
+          {gifUrl !== '' && <img src={gifUrl} width={240} />}
         </>
       )}
     </details>
