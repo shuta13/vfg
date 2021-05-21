@@ -46,6 +46,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
   const [hasDuplicatedFileName, setHasDuplicatedFileName] = useState(false);
   const [uploadedFileNames, setUploadedFileNames] = useState<string[]>([]);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     if (acceptedFiles.length > 0) {
@@ -71,10 +72,12 @@ export const MediaUploader: React.FC<Props> = (props) => {
   };
 
   const handleOnClickUpload = async () => {
-    console.log('::Start uploaded video encoding::');
+    // console.log('::Start uploaded video encoding::');
+    setIsUploading(true);
     const fileUrls = await mediaConverter(uploadedFiles);
     console.log(fileUrls);
-    console.log('::End uploaded video encoding::');
+    setIsUploading(false);
+    // console.log('::End uploaded video encoding::');
     wrappedPostMessage(
       {
         pluginMessage: {
@@ -107,6 +110,44 @@ export const MediaUploader: React.FC<Props> = (props) => {
     return 'Select files, or upload';
   };
 
+  const renderDropArea = () => {
+    if (inspectorValue.workspaceNames.length > 0 && !isUploading) {
+      return (
+        <div {...getRootProps()} className="MediaUploader_wrap">
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <MessageIndicator text="Drop files here ..." level="info" />
+          ) : (
+            <>
+              <MessageIndicator
+                text="Drag and Drop selected files here"
+                level="info"
+              />
+              <MessageIndicator
+                text="Or click to select files (mp4, mov)"
+                level="info"
+              />
+            </>
+          )}
+        </div>
+      );
+    } else if (isUploading) {
+      return (
+        <div className="MediaUploader_wrap">
+          <MessageIndicator text="Uploading..." level="info" />
+        </div>
+      );
+    }
+    return (
+      <div className="MediaUploader_wrap">
+        <MessageIndicator
+          text="Unable to upload media, create workspaces"
+          level="warn"
+        />
+      </div>
+    );
+  };
+
   return (
     <details open={true}>
       <summary
@@ -117,33 +158,14 @@ export const MediaUploader: React.FC<Props> = (props) => {
       </summary>
       {isDetailsOpen && (
         <>
-          {inspectorValue.workspaceNames.length > 0 ? (
-            <div {...getRootProps()} className="MediaUploader_wrap">
-              <input {...getInputProps()} />
-              {isDragActive ? (
-                <MessageIndicator text="Drop files here ..." level="info" />
-              ) : (
-                <>
-                  <MessageIndicator
-                    text="Drag and Drop selected files here"
-                    level="info"
-                  />
-                  <MessageIndicator
-                    text="Or click to select files (mp4, mov)"
-                    level="info"
-                  />
-                </>
-              )}
-            </div>
-          ) : (
-            <div className="MediaUploader_wrap">
-              <MessageIndicator
-                text="Unable to upload media, create workspaces"
-                level="warn"
-              />
-            </div>
-          )}
-          <div className="MediaUploader_uploaded_wrap_list">
+          {renderDropArea()}
+          <div
+            className={
+              isUploading
+                ? 'MediaUploader_uploaded_wrap_list--uploading'
+                : 'MediaUploader_uploaded_wrap_list'
+            }
+          >
             {uploadedFileNames.length > 0 ? (
               <InspectorList
                 currentNames={uploadedFileNames}
@@ -160,7 +182,8 @@ export const MediaUploader: React.FC<Props> = (props) => {
             type="normal"
             disabled={
               !(uploadedFileNames.length > 0) ||
-              inspectorValue.selectedWorkspace === ''
+              inspectorValue.selectedWorkspace === '' ||
+              isUploading
             }
             handleOnClick={handleOnClickUpload}
             text="upload"
