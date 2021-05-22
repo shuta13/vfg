@@ -8,8 +8,8 @@ export const PluginUI = {
 } as const;
 
 export const WorkspaceConstants = {
-  width: 320,
-  height: 720,
+  width: 1600,
+  height: 3600,
   margin: 16,
 } as const;
 

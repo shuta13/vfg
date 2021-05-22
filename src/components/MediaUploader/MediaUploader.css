@@ -28,3 +28,35 @@
 .MediaUploader_uploaded_wrap_list--uploading {
   pointer-events: none;
 }
+
+.spinner {
+  display: block;
+  position: relative;
+  z-index: 1031;
+}
+
+.spinner_icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+
+  border: solid 2px transparent;
+  border-top-color: var(--dull-gray);
+  border-left-color: var(--dull-gray);
+  border-radius: 50%;
+
+  /* -webkit-animation: nprogress-spinner 400ms linear infinite; */
+  animation: spinner 400ms linear infinite;
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

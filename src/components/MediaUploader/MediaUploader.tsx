@@ -135,6 +135,9 @@ export const MediaUploader: React.FC<Props> = (props) => {
     } else if (onProcess) {
       return (
         <div className="MediaUploader_wrap">
+          <div className="spinner">
+            <span className="spinner_icon" />
+          </div>
           <MessageIndicator text="Uploading..." level="info" />
         </div>
       );
