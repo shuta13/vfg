@@ -19,15 +19,15 @@ export const PreviewConstants = {
   height: WorkspaceConstants.height / 4,
 } as const;
 
-export const MediaInputConstants = {
-  suffix: 'MediaInput',
+export const InventoryConstants = {
+  suffix: 'Inventory',
   width: WorkspaceConstants.width,
   height: WorkspaceConstants.height / 4,
   maxInnerNumber: 4,
 } as const;
 
-export const MediaInputItemConstants = {
-  suffix: 'MediaInputItem',
-  width: MediaInputConstants.width / MediaInputConstants.maxInnerNumber,
-  height: MediaInputConstants.height / MediaInputConstants.maxInnerNumber,
+export const InventoryItemConstants = {
+  suffix: 'InventoryItem',
+  width: InventoryConstants.width / InventoryConstants.maxInnerNumber,
+  height: InventoryConstants.height / InventoryConstants.maxInnerNumber,
 };

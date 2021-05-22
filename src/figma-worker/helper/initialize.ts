@@ -1,4 +1,4 @@
-// import { MediaInputItemConstants } from '../../config';
+// import { InventoryItemConstants } from '../../config';
 import type { MessageEventTarget } from '../../types';
 
 export const initialize = () => {

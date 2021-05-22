@@ -3,7 +3,7 @@
 import { PluginUI } from '../config';
 import type { Msg } from '../types';
 import { initialize } from './helper';
-import { createMediaInput, removeMediaInputItem } from './media-input';
+import { createInventory, removeInventoryItem } from './media-input';
 import { removePreview, updatePreview } from './preview';
 import { resizePluginUI } from './resize-plugin-ui';
 import { createWorkspace, focusWorkspace, removeWorkspace } from './workspace';
@@ -25,10 +25,10 @@ figma.ui.onmessage = (msg: Msg) => {
       focusWorkspace(msg);
       break;
     case 'create-media-input':
-      createMediaInput(msg);
+      createInventory(msg);
       break;
     case 'remove-media-input-item':
-      removeMediaInputItem(msg);
+      removeInventoryItem(msg);
       break;
     case 'update-preview':
       updatePreview(msg);

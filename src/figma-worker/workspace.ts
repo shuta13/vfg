@@ -1,7 +1,7 @@
 import { MessageEventTarget, Msg } from '../types';
 import {
-  MediaInputConstants,
-  MediaInputItemConstants,
+  InventoryConstants,
+  InventoryItemConstants,
   PreviewConstants,
   WorkspaceConstants,
 } from '../config';
@@ -34,11 +34,11 @@ export const createWorkspace = (msg: Msg) => {
 
   // create empty media input
   const mediaInput = createSkeletonFrame({
-    name: `[${msg.workspaceName}] ${MediaInputConstants.suffix}`,
-    type: MediaInputConstants.suffix,
+    name: `[${msg.workspaceName}] ${InventoryConstants.suffix}`,
+    type: InventoryConstants.suffix,
     size: {
-      width: MediaInputConstants.width,
-      height: MediaInputConstants.height,
+      width: InventoryConstants.width,
+      height: InventoryConstants.height,
     },
     nodePosition: {
       x:
@@ -71,9 +71,10 @@ export const removeWorkspace = (msg: Msg) => {
 
 export const focusWorkspace = (msg: Msg) => {
   const mediaInputFrameNodes = figma.root.findAll(
-    (node) => node.getPluginData('type') === MediaInputItemConstants.suffix
+    (node) => node.getPluginData('type') === InventoryItemConstants.suffix
   );
-  const mediaInputItems: MessageEventTarget['pluginMessage']['mediaInputItems'] = [];
+  const mediaInputItems: MessageEventTarget['pluginMessage']['mediaInputItems'] =
+    [];
   mediaInputFrameNodes.forEach((node) => {
     if (node.getPluginData('workspaceName') === msg.workspaceName) {
       mediaInputItems.push({

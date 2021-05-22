@@ -1,4 +1,4 @@
-import { MediaInputConstants, PreviewConstants } from '../../config';
+import { InventoryConstants, PreviewConstants } from '../../config';
 import { createSkeletonFrame } from '../internal';
 
 describe('internal', () => {
@@ -8,13 +8,13 @@ describe('internal', () => {
         'media input',
         {
           name: 'media-input',
-          type: MediaInputConstants.suffix,
+          type: InventoryConstants.suffix,
           size: { width: 100, height: 100 },
           nodePosition: { x: 0, y: 0 },
           workspaceName: 'media-input',
         },
         {
-          type: MediaInputConstants.suffix,
+          type: InventoryConstants.suffix,
           workspaceName: 'media-input',
         },
       ],

@@ -17,7 +17,7 @@ export type Msg = {
   workspaceName: string;
   uploadedFileNames: string[];
   uploadedFileName: string;
-  currentMediaInputItemLength: number;
+  currentInventoryItemLength: number;
   uploadedMediaData: {
     name: string;
     fileData: Uint8Array;

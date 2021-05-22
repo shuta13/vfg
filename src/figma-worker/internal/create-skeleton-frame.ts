@@ -1,8 +1,8 @@
-import { MediaInputConstants, PreviewConstants } from '../../config';
+import { InventoryConstants, PreviewConstants } from '../../config';
 
 type Args = {
   name: string;
-  type: typeof PreviewConstants.suffix | typeof MediaInputConstants.suffix;
+  type: typeof PreviewConstants.suffix | typeof InventoryConstants.suffix;
   size: { width: number; height: number };
   nodePosition: { x: number; y: number };
   workspaceName: string;

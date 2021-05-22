@@ -1,6 +1,6 @@
 import {
-  MediaInputConstants,
-  MediaInputItemConstants,
+  InventoryConstants,
+  InventoryItemConstants,
   PreviewConstants,
   WorkspaceConstants,
 } from '../config';
@@ -11,18 +11,18 @@ const checkExistence = (workspaceName: string) => {
   const mediaInputFrame = figma.currentPage.findOne(
     (node) =>
       node.type === 'FRAME' &&
-      node.getPluginData('type') === MediaInputConstants.suffix &&
+      node.getPluginData('type') === InventoryConstants.suffix &&
       node.getPluginData('workspaceName') === workspaceName
   );
   mediaInputFrame?.remove();
 };
 
-export const createMediaInput = async (msg: Msg) => {
+export const createInventory = async (msg: Msg) => {
   if (msg.workspaceName !== '') {
     const prevMediaRects = figma.currentPage.findAll(
       (node) =>
         node.type === 'RECTANGLE' &&
-        node.getPluginData('type') === MediaInputItemConstants.suffix
+        node.getPluginData('type') === InventoryItemConstants.suffix
     );
     const prevMediaData = prevMediaRects.map((rect) => ({
       name: rect.getPluginData('fileName'),
@@ -41,11 +41,11 @@ export const createMediaInput = async (msg: Msg) => {
     ) ?? { x: 0, y: 0 };
 
     const mediaInput = createSkeletonFrame({
-      name: `[${msg.workspaceName}] ${MediaInputConstants.suffix}`,
-      type: MediaInputConstants.suffix,
+      name: `[${msg.workspaceName}] ${InventoryConstants.suffix}`,
+      type: InventoryConstants.suffix,
       size: {
-        width: MediaInputConstants.width,
-        height: MediaInputConstants.height,
+        width: InventoryConstants.width,
+        height: InventoryConstants.height,
       },
       nodePosition: {
         x,
@@ -71,15 +71,15 @@ export const createMediaInput = async (msg: Msg) => {
       const mediaRect = figma.createRectangle();
       mediaRect.name = `[${msg.workspaceName}] ${data.name}`;
       mediaRect.resize(
-        MediaInputItemConstants.width,
-        MediaInputItemConstants.height
+        InventoryItemConstants.width,
+        InventoryItemConstants.height
       );
       mediaRect.x =
-        MediaInputItemConstants.width *
-        (index % MediaInputConstants.maxInnerNumber);
+        InventoryItemConstants.width *
+        (index % InventoryConstants.maxInnerNumber);
       mediaRect.y =
-        MediaInputItemConstants.height *
-        Math.floor(index / MediaInputConstants.maxInnerNumber);
+        InventoryItemConstants.height *
+        Math.floor(index / InventoryConstants.maxInnerNumber);
       mediaRect.fills = [
         {
           type: 'IMAGE',
@@ -87,7 +87,7 @@ export const createMediaInput = async (msg: Msg) => {
           imageHash: image.hash,
         },
       ];
-      mediaRect.setPluginData('type', MediaInputItemConstants.suffix);
+      mediaRect.setPluginData('type', InventoryItemConstants.suffix);
       mediaRect.setPluginData('workspaceName', msg.workspaceName);
       mediaRect.setPluginData('fileName', data.name);
       mediaRect.setPluginData('imageHash', image.hash);
@@ -112,7 +112,7 @@ export const createMediaInput = async (msg: Msg) => {
   }
 };
 
-export const removeMediaInputItem = (msg: Msg) => {
+export const removeInventoryItem = (msg: Msg) => {
   if (msg.workspaceName === '') {
     figma.notify(
       'Select the workspace where you want to remove the media input in Workspace Inspector'
@@ -123,13 +123,13 @@ export const removeMediaInputItem = (msg: Msg) => {
         (node) =>
           node.type === 'RECTANGLE' &&
           node.getPluginData('workspaceName') === msg.workspaceName &&
-          node.getPluginData('type') === MediaInputItemConstants.suffix &&
+          node.getPluginData('type') === InventoryItemConstants.suffix &&
           node.getPluginData('fileName') === msg.uploadedFileName
       )
       ?.remove();
 
     const mediaInputFrameNodes = figma.root.findAll(
-      (node) => node.getPluginData('type') === MediaInputItemConstants.suffix
+      (node) => node.getPluginData('type') === InventoryItemConstants.suffix
     );
     const mediaInputItems: MessageEventTarget['pluginMessage']['mediaInputItems'] =
       [];

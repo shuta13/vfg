@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import {
   setSelectedWorkspace,
   setWorkspaceName,
-  setMediaInputItems,
+  setInventoryItems,
   selectInspector,
   setSelectedFileNameForPreview,
 } from '../redux/slice';
@@ -91,7 +91,7 @@ const App: React.FC = () => {
       selectionNames?.forEach((selectionName) => {
         dispatch(setSelectedWorkspace({ workspaceName: selectionName }));
       });
-      mediaInputItems && dispatch(setMediaInputItems({ mediaInputItems }));
+      mediaInputItems && dispatch(setInventoryItems({ mediaInputItems }));
       selectedFileNameForPreview &&
         dispatch(
           setSelectedFileNameForPreview({
