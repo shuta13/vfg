@@ -14,7 +14,7 @@ import {
 } from '../redux/slice';
 import { PluginUI, PluginUIHeader } from '../config';
 import { wrappedPostMessage } from '../utils';
-import { mediaEncoder } from '../utils/media-converter';
+import { mediaProcesser } from '../utils/media-converter';
 import { PromiseType } from '../types/util-types';
 
 const App: React.FC = () => {
@@ -25,8 +25,8 @@ const App: React.FC = () => {
   const [isMediaUploaderOpen, setIsMediaUploaderOpen] = useState(true);
   const [isPreviewOpen, setIsPreviewOpen] = useState(true);
   const [onProcess, setOnProcess] = useState(false);
-  const [encodedFileData, setEncodedFileData] = useState<
-    PromiseType<ReturnType<typeof mediaEncoder>>[]
+  const [processedMediaData, setProcessedMediaData] = useState<
+    PromiseType<ReturnType<typeof mediaProcesser>>[]
   >([]);
 
   // FIXME: help!!!
@@ -62,20 +62,23 @@ const App: React.FC = () => {
   }, [isMediaUploaderOpen, isPreviewOpen]);
 
   useEffect(() => {
-    if (encodedFileData.length > 0 && inspectorValue.selectedWorkspace !== '') {
+    if (
+      processedMediaData.length > 0 &&
+      inspectorValue.selectedWorkspace !== ''
+    ) {
       wrappedPostMessage(
         {
           pluginMessage: {
             type: 'create-media-input',
             workspaceName: inspectorValue.selectedWorkspace,
-            uploadedMediaData: encodedFileData,
+            uploadedMediaData: processedMediaData,
           },
         },
         '*'
       );
     }
     setOnProcess(false);
-  }, [encodedFileData, inspectorValue.selectedWorkspace]);
+  }, [processedMediaData, inspectorValue.selectedWorkspace]);
 
   useEffect(() => {
     onmessage = (event: MessageEvent<MessageEventTarget>) => {
@@ -100,13 +103,13 @@ const App: React.FC = () => {
             uploadedFileName: selectedFileNameForPreview,
           })
         );
-      // encode gif
+      // process (decode, encode) gif
       if (uploadedMediaData) {
         (async () => {
           const mediaData = await Promise.all(
-            uploadedMediaData.map((data) => mediaEncoder(data))
+            uploadedMediaData.map((data) => mediaProcesser(data))
           );
-          setEncodedFileData(mediaData);
+          setProcessedMediaData(mediaData);
         })();
       }
     };

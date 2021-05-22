@@ -26,7 +26,6 @@ export const sendFileData = (msg: Msg) => {
 };
 
 export const createMediaInput = async (msg: Msg) => {
-  console.log(msg);
   if (msg.workspaceName !== '') {
     // const prevMediaRects = figma.currentPage.findAll(
     //   (node) =>
