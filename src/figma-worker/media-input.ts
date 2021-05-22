@@ -17,14 +17,6 @@ const checkExistence = (workspaceName: string) => {
   mediaInputFrame?.remove();
 };
 
-// Send window.onmessage to receive data
-export const sendFileData = (msg: Msg) => {
-  const { uploadedMediaData } = msg;
-  figma.ui.postMessage({
-    uploadedMediaData,
-  });
-};
-
 export const createMediaInput = async (msg: Msg) => {
   if (msg.workspaceName !== '') {
     // const prevMediaRects = figma.currentPage.findAll(
@@ -99,31 +91,6 @@ export const createMediaInput = async (msg: Msg) => {
         uploadedFileName: data.name,
       });
     });
-
-    // newFileNames.forEach((fileName, index) => {
-    //   const mediaRect = figma.createRectangle();
-    //   mediaRect.name = `[${msg.workspaceName}] ${fileName}`;
-    //   mediaRect.resize(
-    //     MediaInputItemConstants.width,
-    //     MediaInputItemConstants.height
-    //   );
-    //   mediaRect.x =
-    //     MediaInputItemConstants.width *
-    //     (index % MediaInputConstants.maxInnerNumber);
-    //   mediaRect.y =
-    //     MediaInputItemConstants.height *
-    //     Math.floor(index / MediaInputConstants.maxInnerNumber);
-    //   // mediaRect.fills = [{ type: 'IMAGE', scaleMode: 'FILL', imageHash: '' }];
-    //   mediaRect.setPluginData('type', MediaInputItemConstants.suffix);
-    //   mediaRect.setPluginData('workspaceName', msg.workspaceName);
-    //   mediaRect.setPluginData('fileName', fileName);
-    //   mediaInput.appendChild(mediaRect);
-
-    //   mediaInputItems.push({
-    //     workspaceName: msg.workspaceName,
-    //     uploadedFileName: fileName,
-    //   });
-    // });
 
     figma.currentPage.appendChild(mediaInput);
     newNodes.push(mediaInput);

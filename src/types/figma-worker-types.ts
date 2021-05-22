@@ -6,8 +6,7 @@ export type MsgType =
   | 'remove-media-input-item'
   | 'update-preview'
   | 'resize-plugin-ui'
-  | 'remove-preview'
-  | 'send-file-data';
+  | 'remove-preview';
 
 export type Msg = {
   type: MsgType;

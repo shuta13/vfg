@@ -7,10 +7,11 @@ import {
   setSelectedFileNameForPreview,
 } from '../../redux/slice';
 import { InspectorList } from '../InspectorList';
-import { noop, wrappedPostMessage } from '../../utils';
+import { noop } from '../../utils';
 import { VFGButton } from '../VFGButton';
 import { MessageIndicator } from '../MessageIndicator';
 import { mediaConverter } from '../../utils/media-converter';
+import { MessageEventTarget } from '../../types';
 
 type Props = {
   isDetailsOpen: boolean;
@@ -18,11 +19,22 @@ type Props = {
   /* eslint-disable no-unused-vars */
   setIsDetailsOpen: (value: React.SetStateAction<boolean>) => void;
   setOnProcess: (value: React.SetStateAction<boolean>) => void;
+  setMediaData: (
+    value: React.SetStateAction<
+      MessageEventTarget['pluginMessage']['uploadedMediaData']
+    >
+  ) => void;
   /* eslint-enable no-unused-vars */
 };
 
 export const MediaUploader: React.FC<Props> = (props) => {
-  const { isDetailsOpen, onProcess, setIsDetailsOpen, setOnProcess } = props;
+  const {
+    isDetailsOpen,
+    onProcess,
+    setIsDetailsOpen,
+    setOnProcess,
+    setMediaData,
+  } = props;
   const { inspectorValue } = useAppSelector(selectInspector);
 
   const dispatch = useAppDispatch();
@@ -76,16 +88,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
   const handleOnClickUpload = async () => {
     setOnProcess(true);
     const uploadedMediaData = await mediaConverter(uploadedFiles);
-    wrappedPostMessage(
-      {
-        pluginMessage: {
-          type: 'send-file-data',
-          workspaceName: inspectorValue.selectedWorkspace,
-          uploadedMediaData,
-        },
-      },
-      '*'
-    );
+    setMediaData(uploadedMediaData);
     setUploadedFileNames([]);
     setUploadedFiles([]);
     dispatch(setSelectedFileNameForPreview({ uploadedFileName: '' }));

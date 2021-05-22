@@ -19,10 +19,6 @@
   "dependencies": {
     "@ffmpeg/core": "^0.10.0",
     "@ffmpeg/ffmpeg": "^0.10.0",
-    "gif.js": "^0.2.0",
-    "gifler": "github:themadcreator/gifler#v0.3.0",
-    "gifuct-js": "^2.1.1",
-    "omggif": "^1.0.10",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-dropzone": "^11.3.2",
@@ -32,9 +28,7 @@
   "devDependencies": {
     "@figma/plugin-typings": "^1.23.0",
     "@reduxjs/toolkit": "^1.5.1",
-    "@types/gif.js": "^0.2.0",
     "@types/jest": "^26.0.23",
-    "@types/omggif": "^1.0.1",
     "@types/react": "^17.0.6",
     "@types/react-dom": "^17.0.5",
     "@types/react-redux": "^7.1.16",

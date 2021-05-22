@@ -3,11 +3,7 @@
 import { PluginUI } from '../config';
 import type { Msg } from '../types';
 import { initialize } from './helper';
-import {
-  createMediaInput,
-  removeMediaInputItem,
-  sendFileData,
-} from './media-input';
+import { createMediaInput, removeMediaInputItem } from './media-input';
 import { removePreview, updatePreview } from './preview';
 import { resizePluginUI } from './resize-plugin-ui';
 import { createWorkspace, focusWorkspace, removeWorkspace } from './workspace';
@@ -42,9 +38,6 @@ figma.ui.onmessage = (msg: Msg) => {
       break;
     case 'remove-preview':
       removePreview(msg);
-      break;
-    case 'send-file-data':
-      sendFileData(msg);
       break;
     default:
       break;
