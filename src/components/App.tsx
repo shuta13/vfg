@@ -14,6 +14,8 @@ import {
 } from '../redux/slice';
 import { PluginUI, PluginUIHeader } from '../config';
 import { wrappedPostMessage } from '../utils';
+import { mediaEncoder } from '../utils/media-converter';
+import { PromiseType } from '../types/util-types';
 
 const App: React.FC = () => {
   const { inspectorValue } = useAppSelector(selectInspector);
@@ -22,6 +24,10 @@ const App: React.FC = () => {
 
   const [isMediaUploaderOpen, setIsMediaUploaderOpen] = useState(true);
   const [isPreviewOpen, setIsPreviewOpen] = useState(true);
+  const [onProcess, setOnProcess] = useState(false);
+  const [encodedFileData, setEncodedFileData] = useState<
+    PromiseType<ReturnType<typeof mediaEncoder>>[]
+  >([]);
 
   // FIXME: help!!!
   const getPluginUIHeight = () => {
@@ -56,14 +62,31 @@ const App: React.FC = () => {
   }, [isMediaUploaderOpen, isPreviewOpen]);
 
   useEffect(() => {
-    // initialize
+    if (encodedFileData.length > 0 && inspectorValue.selectedWorkspace !== '') {
+      wrappedPostMessage(
+        {
+          pluginMessage: {
+            type: 'create-media-input',
+            workspaceName: inspectorValue.selectedWorkspace,
+            uploadedMediaData: encodedFileData,
+          },
+        },
+        '*'
+      );
+    }
+    setOnProcess(false);
+  }, [encodedFileData, inspectorValue.selectedWorkspace]);
+
+  useEffect(() => {
     onmessage = (event: MessageEvent<MessageEventTarget>) => {
       const {
         workspaceNames,
         selectionNames,
         mediaInputItems,
         selectedFileNameForPreview,
+        uploadedMediaData,
       } = event.data.pluginMessage;
+      // initialize
       workspaceNames?.forEach((workspaceName) => {
         dispatch(setWorkspaceName({ workspaceName }));
       });
@@ -77,6 +100,15 @@ const App: React.FC = () => {
             uploadedFileName: selectedFileNameForPreview,
           })
         );
+      // encode gif
+      if (uploadedMediaData) {
+        (async () => {
+          const mediaData = await Promise.all(
+            uploadedMediaData.map((data) => mediaEncoder(data))
+          );
+          setEncodedFileData(mediaData);
+        })();
+      }
     };
   }, []);
 
@@ -86,7 +118,9 @@ const App: React.FC = () => {
         <Inspector />
         <MediaUploader
           isDetailsOpen={isMediaUploaderOpen}
+          onProcess={onProcess}
           setIsDetailsOpen={setIsMediaUploaderOpen}
+          setOnProcess={setOnProcess}
         />
         <Preview
           mediaInputItems={inspectorValue.mediaInputItems}

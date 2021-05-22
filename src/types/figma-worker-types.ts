@@ -6,7 +6,8 @@ export type MsgType =
   | 'remove-media-input-item'
   | 'update-preview'
   | 'resize-plugin-ui'
-  | 'remove-preview';
+  | 'remove-preview'
+  | 'send-file-data';
 
 export type Msg = {
   type: MsgType;
@@ -18,4 +19,8 @@ export type Msg = {
   uploadedFileNames: string[];
   uploadedFileName: string;
   currentMediaInputItemLength: number;
+  uploadedMediaData: {
+    name: string;
+    fileData: Uint8Array;
+  }[];
 };

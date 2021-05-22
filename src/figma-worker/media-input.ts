@@ -17,16 +17,25 @@ const checkExistence = (workspaceName: string) => {
   mediaInputFrame?.remove();
 };
 
-export const createMediaInput = (msg: Msg) => {
+// Send window.onmessage to receive data
+export const sendFileData = (msg: Msg) => {
+  const { uploadedMediaData } = msg;
+  figma.ui.postMessage({
+    uploadedMediaData,
+  });
+};
+
+export const createMediaInput = async (msg: Msg) => {
+  console.log(msg);
   if (msg.workspaceName !== '') {
-    const prevMediaRects = figma.currentPage.findAll(
-      (node) =>
-        node.type === 'RECTANGLE' &&
-        node.getPluginData('type') === MediaInputItemConstants.suffix
-    );
-    const prevMediaFileNames = prevMediaRects.map((rect) =>
-      rect.getPluginData('fileName')
-    );
+    // const prevMediaRects = figma.currentPage.findAll(
+    //   (node) =>
+    //     node.type === 'RECTANGLE' &&
+    //     node.getPluginData('type') === MediaInputItemConstants.suffix
+    // );
+    // const prevMediaFileNames = prevMediaRects.map((rect) =>
+    //   rect.getPluginData('fileName')
+    // );
 
     checkExistence(msg.workspaceName);
 
@@ -53,14 +62,17 @@ export const createMediaInput = (msg: Msg) => {
       workspaceName: msg.workspaceName,
     });
 
-    const mediaInputItems: MessageEventTarget['pluginMessage']['mediaInputItems'] = [];
-    const newFileNames = [
-      ...new Set([...msg.uploadedFileNames, ...prevMediaFileNames]),
-    ];
+    const mediaInputItems: MessageEventTarget['pluginMessage']['mediaInputItems'] =
+      [];
+    // const newFileNames = [
+    //   ...new Set([...msg.uploadedFileNames, ...prevMediaFileNames]),
+    // ];
 
-    newFileNames.forEach((fileName, index) => {
+    msg.uploadedMediaData.forEach((data, index) => {
+      const image = figma.createImage(data.fileData);
+
       const mediaRect = figma.createRectangle();
-      mediaRect.name = `[${msg.workspaceName}] ${fileName}`;
+      mediaRect.name = `[${msg.workspaceName}] ${data.name}`;
       mediaRect.resize(
         MediaInputItemConstants.width,
         MediaInputItemConstants.height
@@ -71,17 +83,48 @@ export const createMediaInput = (msg: Msg) => {
       mediaRect.y =
         MediaInputItemConstants.height *
         Math.floor(index / MediaInputConstants.maxInnerNumber);
-      // mediaRect.fills = [{ type: 'IMAGE', scaleMode: 'FILL', imageHash: '' }];
+      mediaRect.fills = [
+        {
+          type: 'IMAGE',
+          scaleMode: 'FILL',
+          imageHash: image.hash,
+        },
+      ];
       mediaRect.setPluginData('type', MediaInputItemConstants.suffix);
       mediaRect.setPluginData('workspaceName', msg.workspaceName);
-      mediaRect.setPluginData('fileName', fileName);
+      mediaRect.setPluginData('fileName', data.name);
       mediaInput.appendChild(mediaRect);
 
       mediaInputItems.push({
         workspaceName: msg.workspaceName,
-        uploadedFileName: fileName,
+        uploadedFileName: data.name,
       });
     });
+
+    // newFileNames.forEach((fileName, index) => {
+    //   const mediaRect = figma.createRectangle();
+    //   mediaRect.name = `[${msg.workspaceName}] ${fileName}`;
+    //   mediaRect.resize(
+    //     MediaInputItemConstants.width,
+    //     MediaInputItemConstants.height
+    //   );
+    //   mediaRect.x =
+    //     MediaInputItemConstants.width *
+    //     (index % MediaInputConstants.maxInnerNumber);
+    //   mediaRect.y =
+    //     MediaInputItemConstants.height *
+    //     Math.floor(index / MediaInputConstants.maxInnerNumber);
+    //   // mediaRect.fills = [{ type: 'IMAGE', scaleMode: 'FILL', imageHash: '' }];
+    //   mediaRect.setPluginData('type', MediaInputItemConstants.suffix);
+    //   mediaRect.setPluginData('workspaceName', msg.workspaceName);
+    //   mediaRect.setPluginData('fileName', fileName);
+    //   mediaInput.appendChild(mediaRect);
+
+    //   mediaInputItems.push({
+    //     workspaceName: msg.workspaceName,
+    //     uploadedFileName: fileName,
+    //   });
+    // });
 
     figma.currentPage.appendChild(mediaInput);
     newNodes.push(mediaInput);
@@ -115,7 +158,8 @@ export const removeMediaInputItem = (msg: Msg) => {
     const mediaInputFrameNodes = figma.root.findAll(
       (node) => node.getPluginData('type') === MediaInputItemConstants.suffix
     );
-    const mediaInputItems: MessageEventTarget['pluginMessage']['mediaInputItems'] = [];
+    const mediaInputItems: MessageEventTarget['pluginMessage']['mediaInputItems'] =
+      [];
     mediaInputFrameNodes.forEach((node) => {
       if (node.getPluginData('workspaceName') === msg.workspaceName) {
         mediaInputItems.push({

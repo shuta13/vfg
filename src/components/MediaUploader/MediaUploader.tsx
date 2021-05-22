@@ -14,12 +14,15 @@ import { mediaConverter } from '../../utils/media-converter';
 
 type Props = {
   isDetailsOpen: boolean;
-  // eslint-disable-next-line no-unused-vars
+  onProcess: boolean;
+  /* eslint-disable no-unused-vars */
   setIsDetailsOpen: (value: React.SetStateAction<boolean>) => void;
+  setOnProcess: (value: React.SetStateAction<boolean>) => void;
+  /* eslint-enable no-unused-vars */
 };
 
 export const MediaUploader: React.FC<Props> = (props) => {
-  const { isDetailsOpen, setIsDetailsOpen } = props;
+  const { isDetailsOpen, onProcess, setIsDetailsOpen, setOnProcess } = props;
   const { inspectorValue } = useAppSelector(selectInspector);
 
   const dispatch = useAppDispatch();
@@ -46,7 +49,6 @@ export const MediaUploader: React.FC<Props> = (props) => {
   const [hasDuplicatedFileName, setHasDuplicatedFileName] = useState(false);
   const [uploadedFileNames, setUploadedFileNames] = useState<string[]>([]);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     if (acceptedFiles.length > 0) {
@@ -72,18 +74,14 @@ export const MediaUploader: React.FC<Props> = (props) => {
   };
 
   const handleOnClickUpload = async () => {
-    // console.log('::Start uploaded video encoding::');
-    setIsUploading(true);
-    const fileUrls = await mediaConverter(uploadedFiles);
-    console.log(fileUrls);
-    setIsUploading(false);
-    // console.log('::End uploaded video encoding::');
+    setOnProcess(true);
+    const uploadedMediaData = await mediaConverter(uploadedFiles);
     wrappedPostMessage(
       {
         pluginMessage: {
-          type: 'create-media-input',
+          type: 'send-file-data',
           workspaceName: inspectorValue.selectedWorkspace,
-          uploadedFileNames: uploadedFileNames,
+          uploadedMediaData,
         },
       },
       '*'
@@ -111,7 +109,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
   };
 
   const renderDropArea = () => {
-    if (inspectorValue.workspaceNames.length > 0 && !isUploading) {
+    if (inspectorValue.workspaceNames.length > 0 && !onProcess) {
       return (
         <div {...getRootProps()} className="MediaUploader_wrap">
           <input {...getInputProps()} />
@@ -131,7 +129,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
           )}
         </div>
       );
-    } else if (isUploading) {
+    } else if (onProcess) {
       return (
         <div className="MediaUploader_wrap">
           <MessageIndicator text="Uploading..." level="info" />
@@ -161,7 +159,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
           {renderDropArea()}
           <div
             className={
-              isUploading
+              onProcess
                 ? 'MediaUploader_uploaded_wrap_list--uploading'
                 : 'MediaUploader_uploaded_wrap_list'
             }
@@ -183,7 +181,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
             disabled={
               !(uploadedFileNames.length > 0) ||
               inspectorValue.selectedWorkspace === '' ||
-              isUploading
+              onProcess
             }
             handleOnClick={handleOnClickUpload}
             text="upload"

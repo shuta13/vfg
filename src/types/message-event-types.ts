@@ -10,6 +10,10 @@ export type MessageEventTarget = {
     }[];
     uploadedFileName?: string;
     selectedFileNameForPreview?: string;
+    uploadedMediaData: {
+      name: string;
+      fileData: Uint8Array;
+    }[];
   };
 };
 
