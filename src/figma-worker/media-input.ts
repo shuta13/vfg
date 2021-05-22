@@ -19,14 +19,15 @@ const checkExistence = (workspaceName: string) => {
 
 export const createMediaInput = async (msg: Msg) => {
   if (msg.workspaceName !== '') {
-    // const prevMediaRects = figma.currentPage.findAll(
-    //   (node) =>
-    //     node.type === 'RECTANGLE' &&
-    //     node.getPluginData('type') === MediaInputItemConstants.suffix
-    // );
-    // const prevMediaFileNames = prevMediaRects.map((rect) =>
-    //   rect.getPluginData('fileName')
-    // );
+    const prevMediaRects = figma.currentPage.findAll(
+      (node) =>
+        node.type === 'RECTANGLE' &&
+        node.getPluginData('type') === MediaInputItemConstants.suffix
+    );
+    const prevMediaData = prevMediaRects.map((rect) => ({
+      name: rect.getPluginData('fileName'),
+      imageHash: rect.getPluginData('imageHash'),
+    }));
 
     checkExistence(msg.workspaceName);
 
@@ -55,12 +56,17 @@ export const createMediaInput = async (msg: Msg) => {
 
     const mediaInputItems: MessageEventTarget['pluginMessage']['mediaInputItems'] =
       [];
-    // const newFileNames = [
-    //   ...new Set([...msg.uploadedFileNames, ...prevMediaFileNames]),
-    // ];
 
-    msg.uploadedMediaData.forEach((data, index) => {
-      const image = figma.createImage(data.fileData);
+    // sourced: https://stackoverflow.com/questions/63616406/how-to-merge-two-array-of-objects-based-on-same-key-and-value-in-javascript
+    const newMediaData = msg.uploadedMediaData.map((uploaded) => ({
+      ...uploaded,
+      ...prevMediaData.find((prev) => uploaded.name === prev.name),
+    }));
+
+    newMediaData.forEach((data, index) => {
+      const image = data.imageHash
+        ? { hash: data.imageHash }
+        : figma.createImage(data.fileData);
 
       const mediaRect = figma.createRectangle();
       mediaRect.name = `[${msg.workspaceName}] ${data.name}`;
@@ -84,6 +90,7 @@ export const createMediaInput = async (msg: Msg) => {
       mediaRect.setPluginData('type', MediaInputItemConstants.suffix);
       mediaRect.setPluginData('workspaceName', msg.workspaceName);
       mediaRect.setPluginData('fileName', data.name);
+      mediaRect.setPluginData('imageHash', image.hash);
       mediaInput.appendChild(mediaRect);
 
       mediaInputItems.push({
