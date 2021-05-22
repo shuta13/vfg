@@ -65,22 +65,8 @@ export const updatePreview = async (msg: Msg) => {
     cloned.resize(PreviewConstants.width, PreviewConstants.height);
     cloned.x = 0;
     cloned.y = 0;
+    cloned.setPluginData('type', PreviewConstants.suffix);
     preview.appendChild(cloned);
-
-    // const previewRect = figma.createRectangle();
-    // previewRect.name = `[${msg.workspaceName}] ${msg.uploadedFileName}`;
-    // previewRect.resize(PreviewConstants.width, PreviewConstants.height);
-    // previewRect.fills = [
-    //   {
-    //     type: 'IMAGE',
-    //     scaleMode: 'FILL',
-    //     imageHash: image.hash,
-    //   },
-    // ];
-    // previewRect.setPluginData('type', PreviewConstants.suffix);
-    // previewRect.setPluginData('workspaceName', msg.workspaceName);
-    // previewRect.setPluginData('fileName', msg.uploadedFileName);
-    // preview.appendChild(selectedItem);
 
     newNodes.push(preview);
     figma.currentPage.appendChild(preview);
