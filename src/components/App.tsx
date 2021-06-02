@@ -72,7 +72,6 @@ const App: React.FC = () => {
         '*'
       );
     }
-    setOnProcess(false);
   }, [mediaData, inspectorValue.selectedWorkspace]);
 
   useEffect(() => {
@@ -91,7 +90,10 @@ const App: React.FC = () => {
       selectionNames?.forEach((selectionName) => {
         dispatch(setSelectedWorkspace({ workspaceName: selectionName }));
       });
-      mediaInputItems && dispatch(setInventoryItems({ mediaInputItems }));
+      if (mediaInputItems) {
+        dispatch(setInventoryItems({ mediaInputItems }));
+        setOnProcess(false);
+      }
       selectedFileNameForPreview &&
         dispatch(
           setSelectedFileNameForPreview({
