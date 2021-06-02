@@ -6,7 +6,7 @@ module.exports = {
     'jest/globals': true,
   },
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'jest'],
+  plugins: ['@typescript-eslint', 'jest', 'react-hooks'],
   extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier'],
   globals: {
     figma: 'readonly',
@@ -19,5 +19,7 @@ module.exports = {
   },
   rules: {
     'react/prop-types': 0,
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
   },
 };

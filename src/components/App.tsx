@@ -15,6 +15,27 @@ import {
 import { PluginUI, PluginUIHeader } from '../config';
 import { wrappedPostMessage } from '../utils';
 
+// FIXME: help!!!
+const getPluginUIHeight = (args: {
+  isPreviewOpen: boolean;
+  isMediaUploaderOpen: boolean;
+}) => {
+  const { isPreviewOpen, isMediaUploaderOpen } = args;
+  if (!isPreviewOpen && !isMediaUploaderOpen) {
+    return PluginUI.height / 3 + PluginUIHeader.height + 16;
+  }
+
+  if (!isPreviewOpen) {
+    return PluginUI.height - (PluginUI.height / 3 - 96);
+  }
+
+  if (!isMediaUploaderOpen) {
+    return PluginUI.height - (PluginUI.height / 3 + 40);
+  }
+
+  return PluginUI.height;
+};
+
 const App: React.FC = () => {
   const { inspectorValue } = useAppSelector(selectInspector);
 
@@ -27,23 +48,6 @@ const App: React.FC = () => {
     MessageEventTarget['pluginMessage']['uploadedMediaData']
   >([]);
 
-  // FIXME: help!!!
-  const getPluginUIHeight = () => {
-    if (!isPreviewOpen && !isMediaUploaderOpen) {
-      return PluginUI.height / 3 + PluginUIHeader.height + 16;
-    }
-
-    if (!isPreviewOpen) {
-      return PluginUI.height - (PluginUI.height / 3 - 96);
-    }
-
-    if (!isMediaUploaderOpen) {
-      return PluginUI.height - (PluginUI.height / 3 + 40);
-    }
-
-    return PluginUI.height;
-  };
-
   useEffect(() => {
     wrappedPostMessage(
       {
@@ -51,7 +55,7 @@ const App: React.FC = () => {
           type: 'resize-plugin-ui',
           pluginUISize: {
             width: PluginUI.width,
-            height: getPluginUIHeight(),
+            height: getPluginUIHeight({ isPreviewOpen, isMediaUploaderOpen }),
           },
         },
       },
@@ -102,7 +106,7 @@ const App: React.FC = () => {
         );
       uploadedMediaData && setMediaData(uploadedMediaData);
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <main>

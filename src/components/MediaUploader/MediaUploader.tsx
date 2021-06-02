@@ -77,6 +77,7 @@ export const MediaUploader: React.FC<Props> = (props) => {
         }
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [acceptedFiles]);
 
   const handleOnClickDelete = (fileName: string) => {
